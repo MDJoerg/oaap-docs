@@ -9,12 +9,13 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
   Debian zum laufenden Portal
 - [Eine App aus dem Store installieren und aktuell halten](app-aus-dem-store.md)
   — Ein-Klick-Installation, Konfiguration, Updates (auch wrapped Apps)
+- [Nach Produktiv übernehmen — und notfalls zurück](produktivsetzung.md)
+  — dieselben Bytes gehen live (RFC-0020), Rückschritt inklusive
 
 ## Geplant
 
 - App-Projekt mit einer KI: Vorhaben im Studio, Briefing, Deploy-Hook,
-  Paket-Weg (RFC-0019)
-- Nach Produktiv übernehmen und zurückrollen (RFC-0020)
+  Paket-Weg (RFC-0019) — inkl. der Windows-Falle `git archive`/autocrlf
 - Einen externen Server anbinden (headless, Fernwartung)
 - Die Flotte im Blick: FleetView und Flotten-Schlüssel (RFC-0021)
 - Backup einrichten und einen Umzug durchspielen
