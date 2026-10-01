@@ -98,7 +98,9 @@ Docker-Netz erreichbar.
 > **Wichtig für eine VM mit öffentlicher Adresse:** OAAP richtet **keine
 > Host-Firewall** ein, und Docker veröffentlicht Ports an `ufw` vorbei.
 > Die LAN-Ports `:80` und `:8100–8199` sprechen **Klartext-HTTP mit
-> Login**. Auf einer Internet-VM gehört davor eine Firewall des Hosters
+> Login**. Seit 0.1.161 schließt `sudo oaap node add-profile gateway-only`
+> die Reihe `8100–8199` nach außen (Bindung an Loopback); `80`/`443`
+> bleiben, eine Firewall ersetzt das nicht. Auf einer Internet-VM gehört davor eine Firewall des Hosters
 > oder Regeln in der `DOCKER-USER`-Kette, die aus dem Internet nur `443`,
 > `80` (ACME, Umleitung) und SSH durchlassen. Siehe §12.
 
