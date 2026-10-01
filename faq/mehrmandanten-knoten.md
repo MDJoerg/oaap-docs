@@ -352,6 +352,11 @@ Rolle.
 ### F16 – `oaap app config/address/restart` meldet „no instance named …" für eine Instanz in einem Kunden-Mandanten. Warum?
 *Stichwörter: Instanzschlüssel, Mandantenkürzel, app list, no instance named*
 
+**Seit 0.1.167** nimmt die CLI auch `<kürzel>/<name>`, `<name> --tenant <kürzel>`
+und den Portalnamen, wenn ihn nur eine Instanz trägt
+(`sudo oaap app restart shared/forgejo`). Die folgende Antwort gilt für ältere
+Knoten und erklärt, woher der Schlüssel kommt.
+
 **Kurzantwort:** Die CLI kennt Instanzen unter ihrem **knotenweiten
 Schlüssel**: `<mandantenkürzel>-<name>`. Nur im Standard-Mandanten ist der
 Schlüssel gleich dem Namen. Die Instanz `forgejo` im Mandanten `shared`
@@ -426,6 +431,10 @@ ein Ausblenden je Mandant sinnvoll (Ideenspeicher I-17).
 
 ### F20 – Nach `oaap app promote` heißt die Produktivinstanz `<mandant>-<mandant>-<name>`. Was ist passiert?
 *Stichwörter: promote, --to, Instanzname, Schlüssel, Doppelpräfix, rename*
+
+**Seit 0.1.167** bricht `promote --to <kürzel>-<name>` ab, nennt den Schlüssel, der
+entstünde, und die richtige Schreibweise (`--keep-name` erlaubt es bewusst);
+die Reparatur unten brauchen Sie nur noch für Altfälle.
 
 **Kurzantwort:** `promote` mischt zwei Schreibweisen. Der **Teststand** (erstes
 Argument) ist der knotenweite **Schlüssel** (`<mandant>-<name>-test`), `--to`

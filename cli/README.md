@@ -1,6 +1,6 @@
 # OAAP CLI-Referenz
 
-> Geprüft gegen Referenz **0.1.42** (2026-08-23).
+> Geprüft gegen Referenz **0.1.42** (2026-08-23); der Abschnitt „Instanzen ansprechen“ gegen **0.1.167** (2026-10-01).
 
 Das Kommando `oaap` liegt auf jedem Knoten unter `/usr/local/bin/oaap`.
 Grundsätze:
@@ -221,14 +221,36 @@ sudo oaap app artifact list bdt-hub
 sudo oaap app artifact rollback bdt-hub
 ```
 
-### `sudo oaap app promote <teststand> [--to <produktiv>] [--confirm]`
+### Instanzen ansprechen (seit 0.1.167)
+
+Jedes Kommando, das eine Instanz nimmt (`config`, `address`, `restart`,
+`logs`, `rename`, `remove`, `visibility`, `diagnose`, `endpoint`, `tile`,
+`resources`, `throttle`, `artifact`, `promote`, `rehearse`, `rehearsal`),
+versteht vier Schreibweisen für dieselbe Instanz:
+
+```sh
+sudo oaap app restart sgl-hvp               # der Schlüssel (wie immer)
+sudo oaap app restart sgl/hvp               # <kürzel>/<name>
+sudo oaap app restart hvp --tenant sgl      # Name im Mandanten
+sudo oaap app restart hvp                   # der Name aus dem Portal — nur wenn ihn genau eine Instanz trägt
+```
+
+Tragen zwei Mandanten denselben Namen, rät die Plattform nicht, sondern
+nennt beide Schlüssel. Ältere Aufrufe mit dem Schlüssel gelten unverändert.
+`purge` nimmt weiter den Namen einer schon entfernten Instanz; `access`,
+`grant` und `token` bleiben bei ihrer bisherigen Schreibweise.
+
+### `sudo oaap app promote <teststand> [--to <produktiv>] [--confirm] [--keep-name]` [--to <produktiv>] [--confirm]`
 
 Übernahme nach Produktiv (RFC-0020): installiert **dasselbe Paket**
 (gleiche Prüfsumme) des Teststands auf die Produktiv-Instanz — bestehend
 oder neu. Nur höhere Versionen; erweitert das Paket den Rahmen der
 Produktiv-Instanz (neue öffentliche Route, neuer Speicher, neuer Port),
 bricht der erste Versuch ab und **nennt jeden Grund** — erst dann
-bestätigt man mit `--confirm`. Die Produktiv-Instanz behält Daten,
+bestätigt man mit `--confirm`. `--to` ist der **Name im Mandanten**; beginnt er
+mit dem Kürzel des Mandanten (`--to sgl-hvp`), bricht der Aufruf ab und nennt
+den Schlüssel, der entstünde — `--keep-name`, wenn das wirklich der Name sein soll.
+Die Produktiv-Instanz behält Daten,
 Konfiguration, Adressen und Gruppen.
 
 ```sh
