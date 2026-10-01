@@ -469,3 +469,48 @@ Konto über (Anbieter, Kennung `sub`), nicht über den Namen.
   bleibt bestehen und meldet beim nächsten Anbieter-Login ohne Passwort wieder
   an. Zum vollständigen Abmelden zusätzlich im Konto-Portal des Anbieters
   abmelden (siehe Ideenspeicher I-20).
+
+### F22 – Brauche ich für jede App eine Test-Instanz? Ich habe versehentlich eine angelegt.
+*Stichwörter: Test-Kanal, Produktiv-Kanal, install, --channel, remove --purge, Test-Instanz*
+
+**Kurzantwort:** Nein. Der Kanal `test` ist freiwillig. Neue Instanzen sind
+standardmäßig **produktiv**; eine Test-Instanz lohnt sich nur, wenn eine neue
+Version vor der Übernahme ausprobiert werden soll (`oaap app promote`, dieselben
+Bytes gehen live). Für Anwendungen ohne Risiko (kleine Werkzeuge, noch keine
+Daten) installiert man gleich produktiv:
+
+```bash
+sudo oaap app install <paket.zip> --name <name> --channel production --tenant <mandant>
+```
+
+Eine versehentlich angelegte, noch leere Test-Instanz entfernt man und
+installiert neu (spart den Umweg über Umbenennen und Kanalwechsel):
+
+```bash
+sudo oaap app remove <mandant>-<name>-test --purge     # löscht die Instanz samt Daten
+```
+
+`--purge` löscht die Daten der Instanz unwiderruflich; nur bei leeren oder
+entbehrlichen Instanzen verwenden. Spätere Aktualisierungen einer
+Produktivinstanz sind Neuinstallationen derselben Instanz mit einer **höheren
+Version** (dieselbe Version wird abgelehnt); Daten bleiben erhalten.
+
+### F23 – Der Mandantenverwalter kann sich anmelden, aber eine App sagt „verweigert". Warum?
+*Stichwörter: tenant_admin, admin, Rollen, Apps, Routen, 403*
+
+**Kurzantwort:** `tenant_admin` (und `server_admin`) sind **Plattformrollen**:
+Sie regeln Benutzer, Rollen und Instanzen eines Mandanten. Eine App fragt sie nie ab (RFC-0008).
+Apps schützen ihre Bereiche mit **App-Rollen**: `admin`, `keyuser`, `user`,
+`guest`, `partner`, `support` und `public` (kein Konto nötig). Wer eine App
+verwalten soll, braucht dort die passende App-Rolle **zusätzlich**.
+
+Vorgehen:
+
+1. In der Manifestdatei der App (`routes:`) steht, welche Rolle einen Pfad
+   freischaltet (z. B. `/admin` → `admin`).
+2. Ein `tenant_admin` vergibt die Rolle im Portal unter Benutzer → Rollen.
+3. Der Benutzer meldet sich **neu** an; Rollen gelten pro Sitzung.
+
+Der Erstanmelder erhält über den Anbieter nur das, was die Richtlinie des
+Mandanten vorgibt (`tenant_admin`, `server_admin` und `support` werden nie
+automatisch vergeben).
