@@ -11,6 +11,8 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
   — Ein-Klick-Installation, Konfiguration, Updates (auch wrapped Apps)
 - [Nach Produktiv übernehmen — und notfalls zurück](produktivsetzung.md)
   — dieselben Bytes gehen live (RFC-0020), Rückschritt inklusive
+- [Einen Kunden-Mandanten übergeben — Checkliste](mandant-an-kunden-uebergeben.md)
+  — Prüfung, Sicherungsstand, Zugänge der KI, Übergabegespräch
 
 ## Geplant
 
