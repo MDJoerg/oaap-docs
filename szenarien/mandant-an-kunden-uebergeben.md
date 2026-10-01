@@ -44,12 +44,30 @@ sudo oaap idp export <auth> --tenant <kürzel> --out /root/<kürzel>-realm.json
 ```
 
 - [ ] Letzter Lauf des Knotens `ok`, mit Zeitpunkt und Größe notiert.
-- [ ] Mandantenarchiv liegt vor. Es beweist **Existenz**, ist nicht direkt
-      zurückspielbar (Mandanten-Restore ist ungebaut) und enthält den Realm nicht.
+      **Achtung:** `oaap backup status` zeigt nur, ob jeder Mandant **im
+      Knotenarchiv enthalten** ist (Liste je Mandant mit Zahl der Instanzen),
+      nicht den letzten Lauf. Den Lauf prüft man am Verzeichnis:
+      `sudo ls -l /var/backups/oaap | tail -4` — neuestes Archiv mit Zeitstempel
+      der letzten Nacht, daneben die Datei `.sha256` und `status.json`. Fehlt die
+      Prüfsumme oder ist das Archiv älter als ein Tag, ist der Lauf nicht in
+      Ordnung.
+- [ ] Mandantenarchiv liegt vor. `backup create --tenant … --to <Ordner>` legt den
+      Zielordner selbst an (Modus 0600 für die Datei); er muss nicht vorher
+      existieren. Nur die Apps dieses Mandanten stehen dabei kurz (Sekunden).
+      Die Ausgabe nennt Zahl der Instanzen und Benutzer — mit dem Realm-Export
+      vergleichen (gleiche Zahl Personen). Das Archiv beweist **Existenz**, ist
+      nicht direkt zurückspielbar (Mandanten-Restore ist ungebaut) und enthält den
+      Realm nicht.
 - [ ] Realm-Export liegt vor. **Die Datei ist ein Geheimnis** (Client-Secret und
       Passwort-Hashes aller Mitglieder). Sie liegt mit Modus 0600 bei `root`,
       außerhalb der Plattformdaten und nie in einem Repository oder Brief. Sie
-      gehört an einen Ort, den der Betreiber für Geheimnisse nutzt.
+      gehört an einen Ort, den der Betreiber für Geheimnisse nutzt. Der Befehl
+      nennt am Ende die Zahl der Personen, gezählt in der
+      Datei **und** beim Anbieter; beide Zahlen müssen stimmen. Danach Rechte
+      prüfen (`sudo ls -l <Datei>`: `-rw-------`, `root root`). Die Datei liegt
+      auf demselben Knoten wie das Original und schützt daher nicht vor dem
+      Verlust des Knotens: an den Geheimnisort des Betreibers kopieren und vom
+      Knoten entfernen (siehe auch Ideenspeicher I-23).
 - [ ] Ist die Auslagerung durch einen Dienstleister eingerichtet, ist die
       Quittung der letzten Abholung zu sehen (Gesundheitsseite des Portals).
 
