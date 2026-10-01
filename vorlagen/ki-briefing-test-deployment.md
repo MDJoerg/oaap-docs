@@ -85,9 +85,22 @@ curl -sS -X PUT "$UPLOAD_URL" \
   -H "Authorization: Bearer $UPLOAD_TOKEN" -H "Content-Type: application/zip" \
   --data-binary @"$ZIP"
 
-# 3. STATUS: bis der Stand läuft (oder fehlgeschlagen ist)
-curl -sS "$HOOK_URL/status" -H "Authorization: Bearer $TOKEN"
+# 3. STATUS: bis der Stand läuft (oder fehlgeschlagen ist). Die Kennung
+#    (`deployment`) steht in der Antwort auf das Hochladen, wenn es nicht sofort fertig war.
+curl -sS "$HOOK_URL/status?deployment=$DEPLOYMENT" -H "Authorization: Bearer $TOKEN"
+# state: queued | running | done  (bei done zeigt `ok`, ob es geklappt hat)
 ```
+
+**Abkürzung:** Das beiliegende Skript `oaap-deploy.py` (nur Python-Standardbibliothek)
+macht alle drei Phasen, liest das Manifest direkt aus der ZIP und gibt das Token nie aus:
+
+```sh
+export OAAP_DEPLOY_TOKEN=...      # nur in dieser Sitzung, nie in eine Datei
+python3 oaap-deploy.py <HOOK_URL> paket.zip
+```
+
+Ausgang 0 = Stand läuft, 2 = vom Knoten abgelehnt (Grund steht in der Ausgabe),
+3 = fehlgeschlagen oder keine Antwort.
 
 Hinweise zum Handwerkszeug:
 
@@ -104,7 +117,7 @@ Hinweise zum Handwerkszeug:
 | Antwort | Bedeutung | Was Du tust |
 |---|---|---|
 | `200` mit `upload_token` | angenommen | hochladen (Phase 2), innerhalb von 15 Minuten |
-| `202` oder keine Antwort beim Hochladen/Status | **läuft noch**, ist keine Ablehnung | `GET <HOOK_URL>/status` fragen, **nicht blind wiederholen** (gleiche Version wird abgelehnt) |
+| `202` oder keine Antwort beim Hochladen/Status | **läuft noch**, ist keine Ablehnung | `GET <HOOK_URL>/status?deployment=<Kennung>` fragen, **nicht blind wiederholen** (gleiche Version wird abgelehnt) |
 | `401` / `403` / `404` | Token falsch, widerrufen oder nicht für diese Instanz (ob die Instanz existiert, verrät der Knoten nicht) | **Stopp.** Nicht erneut probieren, Auftraggeber informieren |
 | `422` mit `refused` und `message` | Ablehnung mit Grund | Grund lesen, **den Fehler beheben**, Version erhöhen, neu anmelden |
 | `429` | zu viele Anfragen | `Retry-After` abwarten |
