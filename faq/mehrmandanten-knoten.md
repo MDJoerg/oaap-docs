@@ -514,3 +514,32 @@ Vorgehen:
 Der Erstanmelder erhält über den Anbieter nur das, was die Richtlinie des
 Mandanten vorgibt (`tenant_admin`, `server_admin` und `support` werden nie
 automatisch vergeben).
+
+### F24 – Kann die KI eines Kunden neue Versionen ausrollen, ohne dass der Knoten das Profil `dev` hat?
+*Stichwörter: dev, Knotenprofil, Deploy-Token, Deploy-Hook, Anlege-Erlaubnis, Test-Instanz, Paket-Weg*
+
+**Kurzantwort:** Ja. Das Profil `dev` erlaubt dem **Portal**, Instanzen aus
+beliebigen Quellen anzulegen; auf einem Knoten mit Kundendaten ist das bewusst
+aus. Die Aktualisierung einer **bestehenden Test-Instanz** braucht `dev` nicht:
+
+| Vorgang | `dev` nötig? |
+|---|---|
+| Instanz im Portal anlegen (Test) und Anlege-Erlaubnis für die erste Instanz | ja |
+| Erste Test-Instanz per Kommandozeile durch den Betreiber installieren | nein |
+| Deploy-Token für eine bestehende Test-Instanz erzeugen | nein |
+| Neue Version per Deploy-Hook einspielen (ankündigen, hochladen) | nein |
+| Test-Instanz produktiv setzen (`promote`) | nein |
+
+Ablauf ohne `dev`:
+
+```bash
+sudo oaap app install <paket.zip> --name <name>-test --channel test --tenant <mandant>
+sudo oaap app token create <mandant>-<name>-test      # einmal angezeigt, dem Briefing getrennt beilegen
+```
+
+Danach liefert die KI über den Hook neue Stände (Briefing:
+`oaap-docs/vorlagen/ki-briefing-test-deployment.md`). **Deploy-Tokens gibt es nur
+für Test-Instanzen**; der Weg nach Produktion bleibt ein Mensch
+(`oaap app promote`), und es geht genau das getestete Paket live. Was den
+Rahmen erweitert (öffentliche Route, neuer Speicher, neuer Port), hält der
+Knoten zurück, bis ein Administrator das Manifest bestätigt.
