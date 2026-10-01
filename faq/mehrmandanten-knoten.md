@@ -448,3 +448,24 @@ sudo oaap app rename <falscher-schlüssel> <name> --grace-days 0 --yes
 
 Konfiguration der Testinstanz wandert bei der Übernahme nicht in die
 Produktivinstanz; sie muss dort gesetzt werden.
+
+### F21 – Wie hängen Passwörter im Portal und im Anmeldedienst (Keycloak) zusammen?
+*Stichwörter: Passwort, Keycloak, OIDC, Abmelden, Konto-Portal, lokales Konto*
+
+**Kurzantwort:** Es gibt **keine Synchronisation**. Wer über den Anmeldedienst
+(Anbieter) angemeldet wird, hat auf dem Knoten **nie ein eigenes Passwort**;
+das Passwort liegt ausschließlich beim Anbieter. Die Plattform verknüpft das
+Konto über (Anbieter, Kennung `sub`), nicht über den Namen.
+
+- **Passwort ändern / vergessen:** beim Anbieter, im Konto-Portal des Realms
+  (`<auth-adresse>/realms/<realm>/account`) oder durch den Mandantenverwalter
+  in der Benutzerverwaltung des Realms. Die Passwortseite des Portals gilt nur
+  für **lokale** Konten.
+- **Lokale Anmeldung eines Anbieter-Kontos:** nicht möglich, solange niemand
+  lokal ein Passwort gesetzt hat.
+- **Profil (Name, E-Mail):** wird beim Anmelden aus den Angaben des Anbieters
+  übernommen; Änderungen macht man beim Anbieter.
+- **Abmelden:** meldet derzeit nur beim Portal ab. Die Sitzung beim Anbieter
+  bleibt bestehen und meldet beim nächsten Anbieter-Login ohne Passwort wieder
+  an. Zum vollständigen Abmelden zusätzlich im Konto-Portal des Anbieters
+  abmelden (siehe Ideenspeicher I-20).
