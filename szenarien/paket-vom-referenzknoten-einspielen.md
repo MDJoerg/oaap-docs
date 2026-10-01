@@ -55,9 +55,14 @@ Gesundheit und Adresse prüfen (`https://<instanz>-test.<mandant>.<knoten>/`),
 dann übernehmen:
 
 ```sh
-sudo oaap app promote <mandant>-<instanz>-test --to <mandant>-<instanz>
-sudo oaap app promote <mandant>-<instanz>-test --to <mandant>-<instanz> --confirm   # wenn der erste Versuch Gründe nennt
+sudo oaap app promote <mandant>-<instanz>-test --to <instanz>
+sudo oaap app promote <mandant>-<instanz>-test --to <instanz> --confirm   # wenn der erste Versuch Gründe nennt
 ```
+
+**Falle:** Das erste Argument ist der **Schlüssel** (`<mandant>-<instanz>-test`),
+`--to` ist der **Name im Mandanten** (`<instanz>`). Wer `--to` als Schlüssel
+schreibt, erzeugt einen Doppelpräfix (`<mandant>-<mandant>-<instanz>`); Reparatur:
+`sudo oaap app rename <falscher-schlüssel> <instanz> --grace-days 0 --yes` (FAQ F20).
 
 Die Übernahme installiert **dasselbe Paket** (gleiche Prüfsumme) in die
 Produktivinstanz. Sie kann nur höhere Versionen und nennt jeden Grund,
