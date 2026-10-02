@@ -552,3 +552,73 @@ für Test-Instanzen**; der Weg nach Produktion bleibt ein Mensch
 (`oaap app promote`), und es geht genau das getestete Paket live. Was den
 Rahmen erweitert (öffentliche Route, neuer Speicher, neuer Port), hält der
 Knoten zurück, bis ein Administrator das Manifest bestätigt.
+
+### F25 – Eine Test-Instanz im Portal produktiv setzen: Worauf ist zu achten?
+*Stichwörter: promote, Übernehmen, Portal, Schlüssel, Update, Version, Prüfsumme*
+
+**Kurzantwort:** Der Portalweg (Instanzseite der Test-Instanz → Übernehmen) setzt
+den Namen der Produktivinstanz selbst: aus `<name>-test` wird `<name>`, der
+Schlüssel lautet `<mandant>-<name>`. Die Doppelpräfix-Falle (F20) betrifft nur
+die Kommandozeile mit `--to`. Es geht genau das getestete Paket live.
+
+Prüfung danach:
+
+```bash
+sudo oaap app list | grep <mandant>-<name>
+sudo oaap app artifact list <mandant>-<name>-test
+sudo oaap app artifact list <mandant>-<name>
+```
+
+Erwartet: Test- und Produktivinstanz zeigen dieselbe Version und dieselbe
+Prüfsumme im Dateinamen des laufenden Pakets (`<version>-<sha12>.zip <- running`).
+Ein späteres Update ist dieselbe Übernahme mit einer **höheren Version**; das
+alte Paket bleibt in der Liste der Produktivinstanz stehen. Ob Einstellungen
+der Test-Instanz (z. B. Schalter, die nur dort gelten sollen) mit in die
+Produktion gehen, ist nicht geprüft: nach der Übernahme
+`sudo oaap app config list <mandant>-<name>` ansehen (F26).
+
+### F26 – Was ist bei einer öffentlich erreichbaren Anwendung vor dem Livegang zu prüfen?
+*Stichwörter: public, öffentliche Route, Suchmaschine, noindex, Titel, Test, Anzeigename, Livegang*
+
+**Kurzantwort:** Eine Route mit der Rolle `public` ist ohne Anmeldung für jeden
+erreichbar. Eine Test-Instanz trägt häufig Einstellungen, die für Produktion
+falsch sind. Vor dem Livegang einer öffentlichen Anwendung:
+
+| Prüfpunkt | Wie |
+|---|---|
+| Welche Pfade sind `public`? Bewusst? | Manifest (`routes:`), Instanzseite im Portal |
+| Suchmaschinen-Sperre (falls die Anwendung einen Schalter hat) | `sudo oaap app config list <mandant>-<name>`: In der Test-Instanz **an**, in Produktion **je nach Absicht**. Zeigt eine Seite unter der echten Domain des Kunden, soll sie meist **aus** sein, sonst taucht sie in Suchmaschinen nicht auf. Umgekehrt gilt: eine Test-Instanz bleibt gesperrt. |
+| Titel und Anzeigename ohne „Test" | Der Titel kommt aus dem Manifest der Anwendung und geht mit dem Paket in Produktion. Steht dort „Test", muss die nächste Version das ändern. |
+| Adressen | Die dynamisch erzeugte Plattform-Adresse bleibt gültig; eine eigene Domain des Kunden kommt als Alias dazu (F27). |
+| Kontaktangaben und Pflichtseiten | Impressum, Datenschutz, Kontakt sind Inhalt der Anwendung; die Plattform prüft sie nicht. |
+
+Eine Suchmaschinen-Sperre ist **keine Zugriffskontrolle**: Wer die Adresse
+kennt, sieht die Seite. Was nicht öffentlich sein darf, gehört hinter eine
+Rolle.
+
+### F27 – Wie bekommt eine Anwendung die Domain des Kunden (z. B. `www.verein.example`)?
+*Stichwörter: Alias, Subdomain, eigene Domain, DNS, Umleitung, Instanz-Name*
+
+**Kurzantwort:** Am Beispiel einer Anwendung geprüft: Die Subdomain des Kunden
+wird als weiterer Name in der **Instanz** eingetragen (Aliasse, RFC-0018) und
+im DNS des Kunden auf den Knoten gerichtet. Danach antwortet die Instanz unter
+beiden Namen; die erzeugte Plattform-Adresse bleibt bestehen. Eine reine
+HTTP-Umleitung beim Domain-Anbieter des Kunden ist ein anderer Weg und legt
+kein Zertifikat auf dem Knoten an.
+
+Reihenfolge:
+
+1. Zuerst mit einer **Subdomain** der Kundendomain testen, nicht mit der
+   Hauptdomain; die Hauptdomain erst nach dem Test umstellen.
+2. Name in der Instanz eintragen
+   (`sudo oaap app address set <mandant>-<name> <hostname>`, Befehl siehe
+   `cli/README.md`), danach im DNS des Kunden den Eintrag setzen, der auf
+   den Knoten zeigt. Das Zertifikat kommt automatisch.
+3. Im Browser prüfen: gültiges Zertifikat (der Knoten holt es beim ersten
+   Aufruf, das dauert einige Sekunden) und die richtige Anwendung.
+4. Die Test-Instanz bleibt unter ihrer Plattform-Adresse; sie bekommt keine
+   Kundendomain.
+
+Ungeprüft: ob die Übernahme (`promote`) einer neuen Version die eingetragenen
+Namen der Produktivinstanz behält. Nach jeder Übernahme `sudo oaap app address
+show <mandant>-<name>` ansehen.

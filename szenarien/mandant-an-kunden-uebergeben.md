@@ -31,10 +31,18 @@
 - [ ] **Öffentliche Routen bewusst:** Welche Anwendungen haben eine Route
       `public`? Sie sind ohne Anmeldung erreichbar. Testinstanzen mit
       Suchmaschinen-Sperre betreiben, falls die Anwendung das kann.
+- [ ] **Öffentliche Anwendung vor dem Livegang:** Suchmaschinen-Sperre der
+      **Produktivinstanz** nach Absicht gesetzt (`oaap app config list …`),
+      Titel ohne „Test", Adresse des Kunden getestet (FAQ F26, F27).
 
 ## B. Sicherung vor der Übergabe (Betreiber)
 
 Ziel: ein Stand „so wurde übergeben", den man später vergleichen kann.
+Für den Gesamtprozess gilt als Tor: **Sicherung sichergestellt und getestet**
+(Lauf `ok`, Mandantenarchiv vorhanden, Rückholweg einmal durchgespielt oder
+bewusst als offen benannt). Wie die Auslagerung im Einzelnen aussieht, wird
+getrennt geklärt und hält die Übergabe nicht auf. Kommen nach dem Stand noch
+Instanzen dazu, den Stand für den Mandanten neu ziehen.
 
 ```sh
 sudo oaap backup status                                      # nächtlicher Lauf zuletzt "ok"?
@@ -79,6 +87,9 @@ sudo oaap idp export <auth> --tenant <kürzel> --out /root/<kürzel>-realm.json
       **einmal** angezeigt, dem Kunden **getrennt** vom Briefing übergeben
       (anderer Kanal als das Briefing, nie im Repository des Kunden). Notiert:
       Datum, Empfänger, Instanz.
+- [ ] **Zugangsdaten für die KI** (Konfigurationsdatei mit Geheimnissen) als
+      passwortgeschütztes Archiv übergeben, das Passwort auf einem **anderen**
+      Weg; das Briefing nennt es nicht.
 - [ ] **Briefing** (`oaap-docs/vorlagen/ki-briefing-test-deployment.md`) und
       optional `oaap-deploy.py` mitgegeben, zusammen mit der Hook-Adresse und
       der Adresse zum Ausprobieren.
@@ -105,6 +116,7 @@ sudo oaap idp export <auth> --tenant <kürzel> --out /root/<kürzel>-realm.json
 |---|---|
 | Mitglieder anlegen, Passwort zurücksetzen, sperren | Konsole des Anmeldedienstes (Realm des Mandanten) oder später die Mitglieder-App |
 | Rollen vergeben (`user`, `keyuser`, `admin`, `partner`) | Portal → Benutzer |
+| Fachliche Rollen aus Gruppen des Anmeldedienstes | noch nicht vorgesehen (Ideenspeicher I-29) |
 | Eine Test-Instanz produktiv setzen | Portal → Instanzseite → Übernehmen |
 | Konfiguration der Anwendungen ändern | Portal → Instanz → Konfiguration |
 
@@ -126,6 +138,10 @@ sudo oaap idp export <auth> --tenant <kürzel> --out /root/<kürzel>-realm.json
 - **Mitglieder löschen** im Anmeldedienst lässt ihren Satz im Portal stehen
   (I-18). Besser **sperren**.
 - Der Reiter „Zwilling" ist für `user` sichtbar (FAQ F19).
+- **Mitglieder anlegen** macht anfangs der Betreiber für wenige Personen. Wie
+  der Verwalter es später selbst tut (eigenes Realm-Konto mit eng gefassten
+  Rechten, Absprung aus der Mandantenverwaltung), ist offen (Ideenspeicher
+  I-28). Im Übergabegespräch ehrlich sagen, welcher Weg gilt.
 
 ## E. Nach der Übergabe (Betreiber, erste Woche)
 
