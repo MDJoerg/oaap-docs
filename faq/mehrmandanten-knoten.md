@@ -622,3 +622,28 @@ Reihenfolge:
 Ungeprüft: ob die Übernahme (`promote`) einer neuen Version die eingetragenen
 Namen der Produktivinstanz behält. Nach jeder Übernahme `sudo oaap app address
 show <mandant>-<name>` ansehen.
+
+### F28 – Wie ändert der Mandantenverwalter das Gesicht seines Mandanten (Titel, Farben, Logo)?
+
+*Stichwörter: Gesicht, Mandant, Titel, Farbe, Logo, Vorschau, tenant_admin*
+
+**Kurzantwort:** Im Portal unter **Mandant → „Das Gesicht ändern“**. Der Mandantenverwalter ändert dort nur den **eigenen** Mandanten; den Mandanten braucht er nicht zu nennen. Titel und Logo sind öffentlich (sie stehen auf der Anmeldeseite), der Klarname nicht.
+
+- **Farben:** neben dem Hex-Feld steht ein Farbwähler; beide bleiben im Gleichstand. „Zurücksetzen“ leert die Farbe (es gilt wieder die der Plattform). Ohne JavaScript bleibt das Hex-Feld, der Farbwähler erscheint dann gar nicht.
+- **Vorschau:** zeigt Kopfzeile, Schaltfläche und Textzeile mit dem, was gerade im Formular steht, **ohne zu speichern**. Gerechnet wird auf dem Server mit derselben Rechnung wie auf der Seite selbst: eine zu helle Hauptfarbe dreht die Schrift der Kopfzeile auf dunkel, Text auf Weiß wird abgedunkelt. Ein gewähltes, noch nicht gespeichertes Logo erscheint lokal im Browser, ohne Upload.
+- **Logo:** PNG, JPEG, WebP oder GIF, höchstens 512 KB, **kein SVG**.
+- Eine Änderung steht im Mandantenprotokoll dieses Mandanten. Auch eine **Ablehnung** steht dort (vor 0.1.182 landete sie beim Standard-Mandanten, den ein Verwalter nicht sieht).
+
+Der Betreiber (`server_admin`) kann einen Mandanten benennen; er sieht die Seite nie im Gesicht eines Kunden, damit er sie nicht mit der eines Kunden verwechselt.
+
+### F29 – Eine Instanz-Adresse öffnen, der Mandant hat einen eigenen Anmeldedienst (Keycloak): Was soll passieren?
+
+*Stichwörter: Anmeldung, Instanz-Adresse, Anmeldedienst, IdP, Weiterleitung, Plattform-Benutzer*
+
+**Kurzantwort:** Wer ohne Sitzung eine Instanz-Adresse öffnet und dessen Mandant einen eigenen Anmeldedienst hat, wird **gleich zum Anmeldedienst** geschickt — nicht auf die Plattform-Anmeldeseite. Danach kommt er an die Instanz-Adresse zurück, mit dem Ziel, das er geöffnet hatte. Die Anmeldeseite der Plattform (für Plattform-Benutzer) erscheint nur **am Ort des Mandanten** (`<mandant>.<knoten>`) und an der Wurzel des Knotens.
+
+- Der Anmeldedienst kennt nur die Rückkehr-Adresse des Mandanten-Ortes. Deshalb startet die Anmeldung dort; die Sitzung gilt anschließend unter der ganzen externen Domain, also auch an der Instanz.
+- Zurückgeschickt wird nur an Adressen unter der externen Domain des Knotens; eine fremde Adresse im Parameter wird ignoriert.
+- Hat der Mandant **keinen** Anmeldedienst, bleibt es bei der Plattform-Anmeldeseite.
+- Ein Betreiber, der sich mit seinem Plattform-Konto anmelden will, geht an die Wurzel des Knotens (oder an den Mandanten-Ort); die Sitzung gilt dort wie an jeder Instanz.
+
