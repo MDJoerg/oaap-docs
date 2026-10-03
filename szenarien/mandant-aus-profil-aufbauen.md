@@ -1,8 +1,8 @@
 # Einen Mandanten aus einem Profil aufbauen
 
 > Geprüft gegen Referenz **0.1.183** (2026-10-03; die Seiten in Abschnitt 6
-> gegen 0.1.184 im Test, nicht im Browser; Abschnitt 7 gegen 0.1.186 nur in
-> Tests, nicht an einem Knoten), auf `oaap-test`:
+> gegen 0.1.184 im Test, nicht im Browser; Abschnitt 7 und 8 gegen 0.1.187 nur
+> in Tests, nicht an einem Knoten), auf `oaap-test`:
 > Mandant, Richtlinie, Gesicht, App aus einem Paket, Wartepunkt,
 > Fortsetzen nach einem hart beendeten Lauf, Rückbau, Portal-Aktion am
 > echten Auftragsspeicher. **Noch nicht an einem echten Knoten gemessen:**
@@ -25,8 +25,9 @@ nach einem Abbruch fortsetzbar.
 
 ## 1. Das Profil
 
-Ein Profil ist eine kleine JSON-Datei in `/var/lib/oaap/profiles/`
-(Eigentümer `root`; im Portal lässt sie sich nicht hochladen). Sie nennt
+Ein Profil ist eine kleine JSON-Datei in `/var/lib/oaap/profiles/`. Man
+legt sie auf dem Knoten ab **oder lädt sie im Portal hoch** (Abschnitt 8).
+Sie nennt
 **Parameter** (Werte, die beim Start gefragt werden) und eine geordnete Liste
 von **Schritten**.
 
@@ -72,7 +73,7 @@ Argument wird es **ganz abgelehnt, bevor etwas läuft**.
 | `idp.provision` | Realm und Client im Anmeldedienst anlegen (`oaap idp provision`) | der Mandant einen Anbieter eingetragen hat |
 | `tenant.policy` | `oaap tenant policy` | die Richtlinie wie gewünscht gespeichert ist |
 | `tenant.face` | `oaap tenant face` (Titel, Farben) | die gespeicherten Werte stimmen |
-| `app.install` | `oaap app install <Quelle> --tenant … --name …` | die Instanz im Mandanten existiert |
+| `app.install` | `oaap app install …` — mit `source` (Pfad oder Adresse) **oder** `app` (ID aus einer Katalogquelle) | die Instanz im Mandanten existiert |
 | `manual` | nichts — **ein Mensch** | die Lesung `done_when` stimmt (siehe 3.) |
 | `backup.check` | nichts | der Mandant im Knotenarchiv enthalten ist (nicht ausgenommen) |
 
@@ -83,6 +84,23 @@ schon, weil der Befehl ohne Fehler zurückkam.
 nach seiner Art geprüft wurde (`label` mit den Kürzel-Regeln, `color` als
 `#rrggbb`, `text` mit Längengrenze und ohne Steuerzeichen). Nichts davon wird
 je als Befehl gedeutet.
+
+**Apps wählbar machen.** Ein Parameter der Art `bool` ist beim Start ein Haken
+(`"mit_web": {"kind": "bool", "default": true, "label": "Mit Webseite"}`).
+Ein Schritt mit `"when": "mit_web"` läuft **nur, wenn der Haken gesetzt ist**;
+sonst steht er im Verlauf als „übersprungen“ und braucht auch keinen seiner
+Parameter. So steuert ein Profil, welche Apps ein Mandant bekommt:
+
+```json
+{"id": "web", "type": "app.install", "app": "webseite",
+ "name": "{label}-webseite", "when": "mit_web"}
+```
+
+`app` ist die ID einer App aus einer **eingerichteten Katalogquelle**
+(Portal → Katalog). Der Knoten löst sie selbst auf, so wie der Ein-Klick-
+Einbau des Katalogs. Eine Quelle, die eine Bestätigung verlangt („ungeprüft“),
+bedient ein Profil **nie**: dort ist niemand, der bestätigt; der Schritt
+scheitert mit diesem Grund, und die App wird auf der Katalogseite eingebaut.
 
 ## 2. Aufbau starten
 
@@ -243,6 +261,29 @@ der Link bleibt dort also nicht stehen; in der Verlaufsliste des Browsers des
 Interessenten steht er schon. Nach der ersten Benutzung ist er wertlos; einen
 noch offenen, den jemand verloren hat, widerrufst du unter **Einladungen**.
 
+## 8. Profile im Portal hochladen, herunterladen, löschen
+
+Portal → **Aufbau** (Referenz 0.1.187, nur `server_admin` am Knoten selbst):
+
+- **Vorlage herunterladen:** ein Beispielprofil mit Erklärung aller Parameterarten,
+  Schrittarten, `bool` und `when`. Es ist der bequemste Anfang: herunterladen,
+  anpassen, wieder hochladen. Die App `webseite` darin durch eine ID aus deinem
+  Katalog ersetzen.
+- **Profil hochladen:** eine JSON-Datei (höchstens 64 KB). Der Knoten prüft sie
+  **ganz, bevor er etwas ablegt**: gültiges JSON, Format, Schrittarten und
+  Argumente, und für Hochgeladenes zusätzlich: **kein `source`, `path` oder
+  `ref`** (ein Pfad, den jemand in eine Seite einträgt, ist kein
+  Katalogeintrag) und jede genannte `app` muss in einer Katalogquelle stehen.
+  Lässt sich kein Katalog lesen, lehnt er ab, statt ungeprüft abzulegen. Ein
+  Profil, das du **auf dem Knoten selbst** ablegst, darf weiter `source` nennen.
+- **Gleiche `id` ersetzt** das Profil. Ein Aufbau, der schon läuft, arbeitet mit
+  der Datei weiter, mit der er begonnen hat (er hat ihren Prüfwert gemerkt).
+- **Herunterladen** je Profil gibt die Datei so, wie der Knoten sie hält.
+- **Löschen** geht nicht, solange ein unfertiger Aufbau das Profil nutzt.
+
+Jede Änderung steht im Mandantenprotokoll des Standard-Mandanten als
+`tenant.profile.put` / `tenant.profile.delete`.
+
 ## Protokoll
 
 Jeder Schritt steht im **Mandantenprotokoll** (`oaap tenant log <kürzel>`)
@@ -263,5 +304,8 @@ seinem Namen getan wurde. Zeilen: `tenant.build.step`, `tenant.build.done`,
 - [ ] eine Einladung erzeugt einen Link, der nur einmal angezeigt wird
 - [ ] der Link öffnet das Formular ohne Anmeldung; derselbe Link nach dem Absenden zeigt „gilt nicht (mehr)“
 - [ ] ein Antrag erscheint unter Anträge, die Freigabe startet einen Aufbau
+- [ ] die Vorlage lässt sich herunterladen, ändern und wieder hochladen
+- [ ] ein Profil mit `source` oder einer unbekannten `app` wird beim Hochladen abgelehnt, mit Grund
+- [ ] ohne Haken ist der App-Schritt „übersprungen“, mit Haken wird die App eingebaut
 - [ ] danach die Prüfliste aus [Kunden-Mandanten einrichten](kunden-mandant-anlegen.md)
       und [Mandant übergeben](mandant-an-kunden-uebergeben.md) durchgehen
