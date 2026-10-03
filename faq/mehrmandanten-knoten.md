@@ -657,6 +657,7 @@ Der Betreiber (`server_admin`) kann einen Mandanten benennen; er sieht die Seite
 - **Rückbau** nur auf Wunsch (`rollback <id> --yes`) und **nur, was dieser Aufbau angelegt hat**. Die Daten einer entfernten Instanz bleiben (und halten den Mandanten fest), außer man sagt `--purge-instances`; ein **Realm und seine Personen bleiben immer**; ein Mandant mit Inhalt wird nie entfernt.
 - **Der erste Verwalter** bleibt ein Schritt für einen Menschen (OAAP legt nie eine Person im Anmeldedienst des Kunden an); der Aufbau hält dort an (`WAITING`).
 - **Portal und API:** nur ein angemeldeter `server_admin`, nie ein Schlüssel (Maschinenkonten bekommen diese Rolle nicht). Im Portal gibt es ab Referenz 0.1.184 den Menüpunkt **Aufbau** (Assistent: Formular aus dem Profil, Verlauf, Weiter prüfen, Fortsetzen, Zurückbauen).
-- **Noch nicht an einem echten Knoten gemessen:** die Schritte für den Realm und die Außenadresse.
+- **Ein Interessent, der den Mandanten selbst beantragt:** du gibst ihm einen **Einladungslink** (einmal benutzbar, mit Ablauf, an ein Profil gebunden); er füllt ein Formular aus, daraus wird ein **Antrag**, den du im Portal freigibst oder ablehnst (ab Referenz 0.1.186). Das Formular baut nichts, und OAAP schreibt ihm keine E-Mail.
+- **Noch nicht an einem echten Knoten gemessen:** die Schritte für den Realm und die Außenadresse, und der Weg des Einladungslinks durch das echte Gateway.
 
 Schritt für Schritt: [Einen Mandanten aus einem Profil aufbauen](../szenarien/mandant-aus-profil-aufbauen.md). Spezifikation: RFC-0055.

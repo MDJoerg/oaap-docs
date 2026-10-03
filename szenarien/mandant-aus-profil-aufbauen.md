@@ -1,7 +1,8 @@
 # Einen Mandanten aus einem Profil aufbauen
 
 > Geprüft gegen Referenz **0.1.183** (2026-10-03; die Seiten in Abschnitt 6
-> gegen 0.1.184 im Test, nicht im Browser), auf `oaap-test`:
+> gegen 0.1.184 im Test, nicht im Browser; Abschnitt 7 gegen 0.1.186 nur in
+> Tests, nicht an einem Knoten), auf `oaap-test`:
 > Mandant, Richtlinie, Gesicht, App aus einem Paket, Wartepunkt,
 > Fortsetzen nach einem hart beendeten Lauf, Rückbau, Portal-Aktion am
 > echten Auftragsspeicher. **Noch nicht an einem echten Knoten gemessen:**
@@ -204,13 +205,52 @@ bereit: `/api/v1/operator/tenant-profiles`, `…/tenant-builds`,
   jede Schaltfläche stellt dieselbe Anfrage wie die API. Noch nicht an einem
   laufenden Portal im Browser gesehen.
 
+## 7. Einen Interessenten einladen (Einladungslink und Antrag)
+
+Wer einen Mandanten **beantragen** soll, bekommt von dir einen **Einladungslink**
+und füllt ein Formular aus. Daraus entsteht ein **Antrag**; gebaut wird erst,
+wenn du ihn freigibst (Referenz 0.1.186, RFC-0055 Stufe 4).
+
+1. Portal → **Aufbau** → **Einladungen und Anträge** → **Neue Einladung**:
+   Profil wählen, eine Notiz nur für dich („Handballverein Nord“), Gültigkeit in
+   Tagen (1 bis 60, vorgegeben 14). Die Antwort zeigt den **Link ein einziges
+   Mal**. Der Knoten speichert nur einen Prüfwert davon; später kann man den
+   Link nicht noch einmal ansehen, nur eine neue Einladung ausstellen.
+2. Den Link **nur an diese eine Person** geben, in einem Kanal, den ihr beide
+   lest. Er ist einmal benutzbar, läuft ab und lässt sich unter **Einladungen**
+   mit **Widerrufen** sofort ungültig machen.
+3. Der Interessent öffnet den Link (ohne Anmeldung) und gibt **alle Parameter
+   des Profils** an (Kürzel, Name, Farbe …) und **eine E-Mail-Adresse**. Das
+   Kürzel wird Teil der Internetadressen und ist **öffentlich**; die Seite sagt
+   es ihm. Danach ist der Link verbraucht.
+4. Der Antrag steht bei dir unter **Anträge** mit seinen Angaben und der Adresse.
+   **Freigeben und aufbauen** startet den Aufbau wie unter „Aufbau starten“,
+   **mit deiner Anmeldung**; **Ablehnen** (mit Grund, wenn du willst) löscht die
+   Adresse sofort. Geht die Freigabe nicht (das Kürzel ist inzwischen vergeben,
+   das Profil fehlt), bleibt der Antrag offen und die Meldung sagt warum.
+5. Den ersten Verwalter richtest du wie sonst im Wartepunkt ein (Abschnitt 3);
+   die Adresse des Antrags steht dafür weiter in der Liste.
+
+Was **nicht** geschieht: der Interessent bekommt **keine E-Mail** von OAAP, und
+er erfährt auf der Seite nicht, ob sein Kürzel schon vergeben ist — das sagt
+dir die Meldung bei der Freigabe, und du antwortest ihm. Entschiedene Anträge
+verschwinden nach 30 Tagen (mit der Adresse darin); eine Einladung, die nicht
+mehr offen ist, nach 7 Tagen.
+
+**Gut zu wissen:** der Link hat die Form `…/anfrage?t=<Zeichenfolge>`. Das
+Zugriffsprotokoll des Gateways schneidet bei jeder Anfrage alles ab dem `?` ab,
+der Link bleibt dort also nicht stehen; in der Verlaufsliste des Browsers des
+Interessenten steht er schon. Nach der ersten Benutzung ist er wertlos; einen
+noch offenen, den jemand verloren hat, widerrufst du unter **Einladungen**.
+
 ## Protokoll
 
 Jeder Schritt steht im **Mandantenprotokoll** (`oaap tenant log <kürzel>`)
 und im Protokoll des Standard-Mandanten; ein Kunde sieht dort, was in
 seinem Namen getan wurde. Zeilen: `tenant.build.step`, `tenant.build.done`,
 `tenant.build.rollback`; abgelehnte Anfragen des Portals als
-`tenant.build.denied`.
+`tenant.build.denied`; abgelehnte Aufträge zu Einladungen und Anträgen als
+`tenant.request.denied`.
 
 ## Prüfliste
 
@@ -220,5 +260,8 @@ seinem Namen getan wurde. Zeilen: `tenant.build.step`, `tenant.build.done`,
 - [ ] nach dem Verwalter: `continue` endet in `DONE`
 - [ ] `oaap tenant log <kürzel>` zeigt die Schritte
 - [ ] `oaap backup status` zeigt den Mandanten „in the node backup“
+- [ ] eine Einladung erzeugt einen Link, der nur einmal angezeigt wird
+- [ ] der Link öffnet das Formular ohne Anmeldung; derselbe Link nach dem Absenden zeigt „gilt nicht (mehr)“
+- [ ] ein Antrag erscheint unter Anträge, die Freigabe startet einen Aufbau
 - [ ] danach die Prüfliste aus [Kunden-Mandanten einrichten](kunden-mandant-anlegen.md)
       und [Mandant übergeben](mandant-an-kunden-uebergeben.md) durchgehen
