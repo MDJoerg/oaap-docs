@@ -13,6 +13,9 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
   — dieselben Bytes gehen live (RFC-0020), Rückschritt inklusive
 - [Einen Kunden-Mandanten übergeben — Checkliste](mandant-an-kunden-uebergeben.md)
   — Prüfung, Sicherungsstand, Zugänge der KI, Übergabegespräch
+- [Einen Mandanten aus einem Profil aufbauen](mandant-aus-profil-aufbauen.md)
+  — die Schritte von „Kunden-Mandanten einrichten“ in einem Aufruf, mit
+  Verlauf, Fortsetzen und Rückbau (RFC-0055)
 
 ## Geplant
 

@@ -647,3 +647,16 @@ Der Betreiber (`server_admin`) kann einen Mandanten benennen; er sieht die Seite
 - Hat der Mandant **keinen** Anmeldedienst, bleibt es bei der Plattform-Anmeldeseite.
 - Ein Betreiber, der sich mit seinem Plattform-Konto anmelden will, geht an die Wurzel des Knotens (oder an den Mandanten-Ort); die Sitzung gilt dort wie an jeder Instanz.
 
+### F30 – Kann ein Mandant automatisch aufgebaut werden, und was passiert bei einem Abbruch?
+
+*Stichwörter: Mandant, Profil, Aufbau, tenant build, Rückbau, Fortsetzen, Wartepunkt, server_admin*
+
+**Kurzantwort:** Ja, seit Referenz **0.1.183** mit einem **Profil** (einer JSON-Datei in `/var/lib/oaap/profiles/`) und `sudo oaap tenant build start <profil> --param label=<kürzel> --param title="…"`. Die Schritte von F1 bis F29 (Mandant, Richtlinie, Gesicht, App aus einem Paket, Realm, Adresse) laufen in einem Aufruf; ein Schritt gilt als erledigt, wenn seine **Prüfung** es bestätigt.
+
+- **Abbruch:** der Aufbau wird **fortgesetzt**, nicht wiederholt: `sudo oaap tenant build continue <id>`. Gemessen auch nach einem hart beendeten Prozess.
+- **Rückbau** nur auf Wunsch (`rollback <id> --yes`) und **nur, was dieser Aufbau angelegt hat**. Die Daten einer entfernten Instanz bleiben (und halten den Mandanten fest), außer man sagt `--purge-instances`; ein **Realm und seine Personen bleiben immer**; ein Mandant mit Inhalt wird nie entfernt.
+- **Der erste Verwalter** bleibt ein Schritt für einen Menschen (OAAP legt nie eine Person im Anmeldedienst des Kunden an); der Aufbau hält dort an (`WAITING`).
+- **Portal und API:** nur ein angemeldeter `server_admin`, nie ein Schlüssel (Maschinenkonten bekommen diese Rolle nicht). Im Portal gibt es ab Referenz 0.1.184 den Menüpunkt **Aufbau** (Assistent: Formular aus dem Profil, Verlauf, Weiter prüfen, Fortsetzen, Zurückbauen).
+- **Noch nicht an einem echten Knoten gemessen:** die Schritte für den Realm und die Außenadresse.
+
+Schritt für Schritt: [Einen Mandanten aus einem Profil aufbauen](../szenarien/mandant-aus-profil-aufbauen.md). Spezifikation: RFC-0055.

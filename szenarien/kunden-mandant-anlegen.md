@@ -7,6 +7,13 @@
 > Voraussetzung: Der Anmeldedienst läuft und der Konnektor ist eingerichtet
 > (`oaap idp check <auth>` ist sauber).
 
+> **Seit Referenz 0.1.183** führt ein **Profil** die Schritte 1 bis 3 (und mehr)
+> in einem Aufruf aus, mit Verlauf, Fortsetzen und Rückbau:
+> [Einen Mandanten aus einem Profil aufbauen](mandant-aus-profil-aufbauen.md).
+> Der erste Verwalter (Schritt 4) bleibt auch dort ein Schritt für einen
+> Menschen. Die Handarbeit unten bleibt gültig und ist der Weg für einen
+> Sonderfall.
+
 Ergebnis: ein Mandant mit eigener Adresse `<kürzel>.<knoten>`, eigenem Realm,
 Anmeldung über das Vereins-/Kundenkonto, einem ersten Verwalter und einer
 Verwaltungsmöglichkeit für seine Mitglieder.
