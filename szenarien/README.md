@@ -16,6 +16,9 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
 - [Einen Mandanten aus einem Profil aufbauen](mandant-aus-profil-aufbauen.md)
   — die Schritte von „Kunden-Mandanten einrichten“ in einem Aufruf, mit
   Verlauf, Fortsetzen und Rückbau (RFC-0055)
+- [Pakete auf einem Mehrmandanten-Knoten bereitstellen](paketkatalog-pakete-bereitstellen.md)
+  — der Paketkatalog: ZIP hochladen, Version freigeben, Mandanten installieren
+  im Store, direkt oder mit Test-Instanz (RFC-0050)
 
 ## Geplant
 
