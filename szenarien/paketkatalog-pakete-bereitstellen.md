@@ -51,8 +51,20 @@ entscheidet der Administrator je App:
 - **Mit einer Test-Instanz** (`<app>-test`) — für eine Webseite: erst ausprobieren, dann
   „nach Produktiv übernehmen" (RFC-0020).
 
-Später bietet der Store **Aktualisieren auf v…**, sobald der Betreiber eine höhere Version freigibt.
-Für Test-Instanzen gilt weiter der Weg über die Übernahme bzw. den Deploy-Hook.
+## 3a. Aktualisieren (ab 0.1.195)
+
+Die Store-Seite der App listet **Deine Instanzen dieser App** — mit Name, Kanal und Version. Jede
+Instanz hat ihren eigenen Knopf **Auf v… aktualisieren**; er trifft genau diese Instanz, auch wenn sie
+anders heißt als die App oder die App mehrfach installiert ist.
+
+- **Gibt es zur Produktiv-Instanz eine Test-Instanz** (gleiche App, gleicher Mandant), hat die
+  Produktiv-Instanz keinen Knopf: erst die Test-Instanz aktualisieren, ausprobieren, dann auf deren
+  Seite **Nach Produktiv übernehmen** und die bestehende Produktiv-Instanz als Ziel wählen. Eine
+  Test-Instanz kann so nacheinander mehrere Produktiv-Instanzen versorgen.
+- **Ohne Test-Instanz** wird die Produktiv-Instanz direkt aktualisiert (nur auf eine höhere Version;
+  weitet das Paket die Hülle, verweigert der Knoten und sagt es).
+- **Weitere Instanz anlegen** ist ein eigener Schritt mit eigenem Namen; ein vergebener Name wird
+  abgelehnt, nie als „Aktualisieren“ gelesen.
 
 ## 4. Was der Knoten vor jeder Installation selbst prüft
 
