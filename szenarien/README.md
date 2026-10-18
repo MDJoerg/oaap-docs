@@ -19,6 +19,9 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
 - [Pakete auf einem Mehrmandanten-Knoten bereitstellen](paketkatalog-pakete-bereitstellen.md)
   — der Paketkatalog: ZIP hochladen, Version freigeben, Mandanten installieren
   im Store, direkt oder mit Test-Instanz (RFC-0050)
+- [Fachliche Rollen einrichten — aus den Vorlagen einer App](fachliche-rollen-einrichten.md)
+  — Rollen, Berechtigungspakete, Abbildungen und die Gruppen im Anmeldedienst
+  mit einem Befehl, mit Probelauf (oaap.core.authorization 0.4)
 - [Vorgänge im Mandanten — melden, klären, übergeben](vorgaenge-im-mandanten.md)
   — Feedback-Knopf, Bereiche und Rechte, Übergabe an einen anderen Mandanten,
   Löschfrist (RFC-0061)

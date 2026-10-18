@@ -93,8 +93,12 @@ Parameter. So steuert ein Profil, welche Apps ein Mandant bekommt:
 
 ```json
 {"id": "web", "type": "app.install", "app": "webseite",
- "name": "{label}-webseite", "when": "mit_web"}
+ "name": "webseite", "when": "mit_web"}
 ```
+
+**Der Mandantenname wird dem Instanznamen immer vorangestellt** (hier entsteht
+`<kürzel>-webseite`); ihn noch einmal in `name` zu schreiben ergäbe
+`<kürzel>-<kürzel>-webseite` (gemessen 2026-10-18).
 
 `app` ist die ID einer App aus einer **eingerichteten Katalogquelle**
 (Portal → Katalog). Der Knoten löst sie selbst auf, so wie der Ein-Klick-
