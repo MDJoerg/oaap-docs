@@ -59,6 +59,9 @@ Wichtige Schalter:
 - `--only trainer,editor` / `--skip sponsor` — Vorlagen wählen.
 - `--group-for trainer=Verein/Trainer` — den Gruppenpfad selbst nennen. Das geht vor
   dem Vorschlag der App und gibt auch Vorlagen ohne Vorschlag einen Pfad.
+- `--name-for sponsor="Sponsor (Verein)"` — den Namen der Rolle und des Pakets selbst
+  wählen, statt des Titels aus der Vorlage (der Ausweg bei einem belegten Namen, siehe
+  Abschnitt 5).
 - `--no-groups` — keine Gruppen im Anmeldedienst anlegen; die Abbildungen werden
   trotzdem geschrieben (dann muss die Gruppe existieren, bevor sie etwas gibt).
 - `--accept-version` — nötig, solange der Konnektor die Fassung des
@@ -85,8 +88,9 @@ weiter; der Lauf endet mit Fehler, und ein Wiederholen macht nur den Rest.
 
 - **`[conflict]` bei einem Namen wie „Sponsor“:** Ein Rollenname gilt im Mandanten
   nur einmal, auch über Apps hinweg, und ausgeblendete Namen bleiben vergeben.
-  Heute hilft nur, die andere Rolle in einem anderen Namen zu führen; einen
-  eigenen Namen für die neue kann man **noch nicht** wählen.
+  Der Ausweg: `--name-for <schlüssel>="anderer Name"`. Rolle **und** Paket tragen dann
+  diesen Namen. Eine Rolle, die es schon gibt, wird dadurch nicht umbenannt; der Plan
+  sagt dann „--name-for not used“.
 - **Die App hat gar keinen Vorschlag:** Der Probelauf zeigt „no group path known“ mit
   dem passenden `--group-for`.
 - **Pfad im Anmeldedienst umbenannt:** Die Abbildung gilt nach Pfad. Wer eine Gruppe
@@ -100,8 +104,9 @@ weiter; der Lauf endet mit Fehler, und ein Wiederholen macht nur den Rest.
 {"id": "rollen", "type": "authz.setup", "app": "hib"}
 ```
 
-Mit den Argumenten `only`, `skip` (Komma-getrennte Schlüssel) und `groups`
-(`schluessel=Pfad,schluessel=Pfad`). Der Schritt gilt als erledigt, wenn der Plan
+Mit den Argumenten `only`, `skip` (Komma-getrennte Schlüssel), `groups`
+(`schluessel=Pfad,schluessel=Pfad`) und `names` (`schluessel=Name,schluessel=Name`; ein
+Name enthält kein Komma). Der Schritt gilt als erledigt, wenn der Plan
 nichts mehr zu tun findet — nicht schon, weil der Befehl ohne Fehler zurückkam.
 Ein belegter Name hält den Aufbau an (`conflict`), statt ihn zu überspringen. Er
 steht **nach** dem Schritt, der die App installiert.

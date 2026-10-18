@@ -19,6 +19,8 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
 - [Pakete auf einem Mehrmandanten-Knoten bereitstellen](paketkatalog-pakete-bereitstellen.md)
   — der Paketkatalog: ZIP hochladen, Version freigeben, Mandanten installieren
   im Store, direkt oder mit Test-Instanz (RFC-0050)
+- [Neuer Vereinsmandant mit fachlichen Rollen — Checkliste](neuer-vereinsmandant-checkliste.md)
+  — Reihenfolge, Stolperer und Fehlersuche für den ersten echten Verein
 - [Fachliche Rollen einrichten — aus den Vorlagen einer App](fachliche-rollen-einrichten.md)
   — Rollen, Berechtigungspakete, Abbildungen und die Gruppen im Anmeldedienst
   mit einem Befehl, mit Probelauf (oaap.core.authorization 0.4)
