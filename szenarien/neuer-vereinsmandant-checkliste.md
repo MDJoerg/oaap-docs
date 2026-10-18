@@ -101,8 +101,10 @@ sudo oaap authz declarations --tenant <mandant>       # die Vorlagen der App mü
 ```
 
 - **Neue Rolle an einer Route** (z. B. `partner` auf `/`) wird gegen das verglichen, was die
-  Instanz schon hatte. Die **allererste** Installation hat nichts zum Vergleichen und fragt
-  **nicht** — schau dir die `routes` im Manifest also selbst an, bevor du installierst.
+  Instanz schon hatte. Die **allererste** Installation hat nichts zum Vergleichen und hält
+  **nichts an**, **meldet** aber (ab 0.1.206) am Ende der Ausgabe `NOTE: first installation …`
+  mit den Rollen jenseits von `user` und den Routen ohne Anmeldung, und schreibt es ins Protokoll
+  des Mandanten. Lies diese Zeilen — dort steht `/ (partner)`, wenn das Manifest es verlangt.
   Jede **spätere** Fassung, die eine Rolle dazunimmt, hält der Deploy-Hook an, bis du im
   Portal bestätigst; der Befehl `oaap app install` verlangt es bei einer Produktiv-Instanz
   mit `--confirm` und zeigt es bei einer Test-Instanz nur als `NOTE:`.
