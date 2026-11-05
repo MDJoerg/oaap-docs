@@ -97,6 +97,39 @@ nur die Sicherheitsquelle der Distribution wird automatisch eingespielt
 draußen). Ein Neustart-Fenster ist eine Entscheidung **je Knoten**,
 sinnvoll nach dem Backup.
 
+### `sudo oaap node care reboot at … | cancel` · `protect` · `release` — Neustart-Plan und Schutz
+
+Seit 0.1.221 (RFC-0069, `oaap.core.updates` 2.7) startet nicht mehr die
+Distribution den Knoten neu, sondern die Plattform selbst — mit **Plan**:
+Wartet ein neuer Kernel und ist ein Fenster gesetzt, rechnet der
+Minutenlauf einen Termin aus (das Fenster am ersten Tag **mindestens
+24 Stunden** nach der Ankündigung), schreibt ihn in jedes Mandanten-Log,
+zeigt ihn in `oaap status`, im Portal (Band für **jeden** Angemeldeten) und
+im Flottenstatus, misst am Termin noch einmal und startet dann neu.
+Danach schließt die erste Messung den Plan mit „läuft 6.12.115“.
+
+**Dringlichkeit** kommt aus Messwerten, nicht von Hand: **kritisch**, wenn
+der wartende Kernel aus der Security-Quelle stammt **und** der Knoten
+exponiert ist (externer Name oder MPTCP an); sonst **Pflege**.
+
+```sh
+sudo oaap node care protect joerg-desk --reason "Schulung bis Mittwoch"   # 7 Tage, höchstens --until +30 Tage
+sudo oaap node care protect joerg-desk --reason "…" --until 2026-11-12
+sudo oaap node care release joerg-desk
+sudo oaap node care reboot at "2026-11-08 04:15" --reason "glibc-Update"  # Plan von Hand, Uhr des Knotens
+sudo oaap node care reboot at now --reason "…" [--critical]               # sofort (kürzer als 24 h = Dein ausdrücklicher Akt)
+sudo oaap node care reboot cancel                                        # gespeicherten Plan zurücknehmen
+```
+
+Ein **Schutz** je Instanz hält einen **Pflege**-Neustart bis zum Tag nach
+seinem Ende — mit Begründung (ohne wird abgelehnt) und Ablauf. Einen
+**kritischen** Neustart hält er nicht; er wird dann als „überstimmt“
+gezeigt, und der Eintrag `reboot.override` steht im Log. Ein Plan von
+Hand (glibc-Fall) geht durch dieselben Regeln und ist der Weg, den
+Mechanismus auf einem Testknoten zu messen, bevor ein Kernel kommt.
+Die Datei `52oaap-care` sagt seitdem immer `Automatic-Reboot "false"`;
+das Fenster steht dort als `OAAP::Care::Reboot-Window`.
+
 ### `sudo oaap uninstall [--purge] [--yes]`
 
 Entfernt die Plattform vom Knoten. Ohne `--purge` bleiben die Daten
