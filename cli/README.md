@@ -26,7 +26,9 @@ Adressen](#konfiguration--adressen) · [Deployment](#deployment-test--produktiv)
 ### `oaap status`
 
 Gesundheit des Knotens ohne Portal: Version, Profile, Kerndienste,
-Apps, Plattenplatz. Endet mit `HEALTHY` oder `DEGRADED` (Exit-Code 1).
+Apps, **Pflegestand** (seit 0.1.220: Neustart nötig?, automatische
+Updates, Gateway-Listener — jede Zeile mit ihrer Empfehlung),
+Plattenplatz. Endet mit `HEALTHY` oder `DEGRADED` (Exit-Code 1).
 
 ```sh
 oaap status
@@ -69,6 +71,31 @@ oaap node show
 sudo oaap node add-profile dev
 sudo oaap node remove-profile dev
 ```
+
+### `oaap node care` · `sudo oaap node care auto-updates on` · `sudo oaap node care reboot-window <HH:MM|off>`
+
+Der **Pflegestand** des Knotens (seit 0.1.220, `oaap.core.updates` 2.6):
+Läuft der neueste installierte Kernel, oder wartet ein Neustart? Sind
+automatische Sicherheitsupdates an (Programm **und** Schalter **und**
+Zeitgeber — das Paket allein setzt den Schalter nicht)? Handeln die
+Gateway-Listener Multipath TCP aus (sollen sie nicht)? Dieselben drei
+Zeilen stehen in `oaap status`, im Portal (Band für `server_admin`,
+Seite „Gesundheit“) und im Flottenstatus — alle lesen **eine** Messung,
+die der Minutenlauf alle zehn Minuten erneuert.
+
+```sh
+oaap node care                              # Anzeige (mit sudo: frisch gemessen)
+sudo oaap node care auto-updates on         # Sicherheitsupdates einschalten, Schalter schreibt OAAP
+sudo oaap node care reboot-window 04:15     # Knoten startet um 04:15 selbst neu, wenn ein neuer Kernel wartet
+sudo oaap node care reboot-window off       # ab Werk: kein Fenster, Neustart von Hand
+```
+
+Die Einstellungen landen in `/etc/apt/apt.conf.d/52oaap-care`; die
+Dateien der Distribution bleiben unberührt. Quellen ändert OAAP nie —
+nur die Sicherheitsquelle der Distribution wird automatisch eingespielt
+(auf einem Raspberry Pi bleibt die Kernelquelle der Stiftung bewusst
+draußen). Ein Neustart-Fenster ist eine Entscheidung **je Knoten**,
+sinnvoll nach dem Backup.
 
 ### `sudo oaap uninstall [--purge] [--yes]`
 
