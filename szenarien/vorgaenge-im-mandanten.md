@@ -82,7 +82,27 @@ Erklärt eine App im Manifest `cases: {submit: true}` (Manifest 0.9), bekommt si
 die Plattform erneuert ihn 30 Tage vor Ablauf selbst (mit Neustart des
 Containers). Einzelheiten: [README der App](https://github.com/MDJoerg/oaap-apps/tree/main/apps/vorgaenge).
 
-## 6. Löschfrist
+## 6. Der Knoten meldet seinen Neustart (seit Plattform 0.1.222, App 0.3.0)
+
+Plant der Knoten einen Neustart (RFC-0069: ein Kernel wartet und der
+Betreiber hat ein Fenster gesetzt, oder der Betreiber plant von Hand), legt
+die Plattform im Eingang **jedes** Mandanten mit einem Posteingang einen
+Vorgang an: „Neustart des Knotens *name*: 2026-11-08 04:15 CET (Pflege)“,
+gemeldet vom „Knoten *name*“, Art „Intern“. Er sagt wann, wie dringend
+(Pflege oder kritisch), warum in Worten und welche Schutze ihn halten oder
+überstimmt sind. Jede Änderung kommt als Kommentar des Knotens dazu
+(„Verschoben auf …: gehalten durch joerg-desk bis 2026-11-13“, „Der Knoten
+startet jetzt neu“); nach dem Neustart schließt der Knoten den Vorgang
+selbst („Neustart erfolgt …; der Knoten läuft wieder“), eine Absage schließt
+ihn mit der Absage.
+
+Zu tun ist nichts. Wer eine Instanz vor einem Pflege-Neustart schützen
+will, sagt es dem Betreiber (`sudo oaap node care protect <instanz>
+--reason "…"`, siehe [CLI](../cli/README.md)); der Vorgang zeigt danach die
+Verschiebung. Der Vorgang trägt keine Kernel-Version; die steht beim
+Betreiber in `oaap status`.
+
+## 7. Löschfrist
 
 12 Monate nach Schließen oder Ablehnen entfernt die App die meldende Person aus
 dem Vorgang; der Vorgang bleibt. Einstellbar je Mandant:
@@ -98,6 +118,7 @@ dem Vorgang; der Vorgang bleibt. Einstellbar je Mandant:
 | Status `übergeben` nicht wählbar | richtig so: nur eine freigegebene Übergabe setzt ihn |
 | Übergabe bleibt im Ausgang | Partner nicht erreichbar oder Schlüssel falsch; die App wiederholt höchstens stündlich |
 | Keine Mail bei neuem Vorgang | gibt es noch nicht; der Posteingang ist die Übersicht |
+| Der Knoten plant einen Neustart, aber kein Vorgang im Eingang | App älter als 0.3.0 oder Plattform älter als 0.1.222; nur ein Test-Eingang im Mandanten (ein Knoten meldet nur in Produktion); der Eingang schlief — der Vorgang kommt beim nächsten Ereignis des Plans, das Journal des Minutenlaufs sagt warum |
 
 **Noch nicht da:** Benachrichtigungen, Abstimmung über Ideen (§7), Vorlagen
 (§6), eine KI-Sitzung im Posteingang (§5.4).

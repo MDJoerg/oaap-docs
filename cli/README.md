@@ -108,6 +108,19 @@ zeigt ihn in `oaap status`, im Portal (Band für **jeden** Angemeldeten) und
 im Flottenstatus, misst am Termin noch einmal und startet dann neu.
 Danach schließt die erste Messung den Plan mit „läuft 6.12.115“.
 
+Seit 0.1.222 (RFC-0069 Stufe 2, `oaap.core.updates` 2.7.6) ist der Plan
+außerdem ein **Vorgang** in jedem Posteingang des Knotens (jede
+`vorgaenge`-Instanz ab 0.3.0, Produktionskanal, eine je Mandant): angelegt
+bei der Ankündigung im Bereich „Eingang“, gemeldet vom „Knoten *name*“,
+fortgeschrieben bei jedem Verschieben, geschlossen nach dem Neustart mit
+dem Beweis oder mit der Absage. Der Vorgang nennt keine Kernel-Version;
+die steht hier in `oaap status`. Nichts zu tun — wer den Eingang liest,
+weiß Bescheid. Den Schlüssel dafür prägt die Plattform selbst
+(`platform:<posteingang>`, nur für root lesbar unter
+`/var/lib/oaap/apps/node-case-keys.json`) und erneuert ihn 30 Tage vor
+Ablauf; antwortet ein Eingang nicht, steht das im Journal des
+Minutenlaufs (`journalctl -u oaap-instance-watch`), der Plan wartet nicht.
+
 **Dringlichkeit** kommt aus Messwerten, nicht von Hand: **kritisch**, wenn
 der wartende Kernel aus der Security-Quelle stammt **und** der Knoten
 exponiert ist (externer Name oder MPTCP an); sonst **Pflege**.
