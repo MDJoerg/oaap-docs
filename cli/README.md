@@ -121,6 +121,16 @@ weiß Bescheid. Den Schlüssel dafür prägt die Plattform selbst
 Ablauf; antwortet ein Eingang nicht, steht das im Journal des
 Minutenlaufs (`journalctl -u oaap-instance-watch`), der Plan wartet nicht.
 
+Seit 0.1.223 (RFC-0069 Stufe 3, `oaap.core.updates` 2.7.7) sagt der Knoten
+den Termin auch **jeder App**: Jede Instanz bekommt `OAAP_CARE_URL`
+(`http://oaap-gateway-1:8097/platform/care.json`, nur aus dem Knoten
+erreichbar, kein Schlüssel nötig). Die Antwort trägt Termin, Dringlichkeit,
+„gehalten“ und Zustand — keine Kernel-Version, keinen Grund. Der Desk
+(`webtop` ab 0.1.10) liest sie und meldet dem Menschen den Termin, dringend
+30 und 10 Minuten vorher. Eine schon laufende App erfährt die Adresse beim
+nächsten Neustart ihres Containers; die Datei dahinter schreibt der
+Minutenlauf, vor der ersten Messung antwortet die Tür 404 (= kein Plan).
+
 **Dringlichkeit** kommt aus Messwerten, nicht von Hand: **kritisch**, wenn
 der wartende Kernel aus der Security-Quelle stammt **und** der Knoten
 exponiert ist (externer Name oder MPTCP an); sonst **Pflege**.
