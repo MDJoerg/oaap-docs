@@ -131,6 +131,21 @@ erreichbar, kein Schlüssel nötig). Die Antwort trägt Termin, Dringlichkeit,
 nächsten Neustart ihres Containers; die Datei dahinter schreibt der
 Minutenlauf, vor der ersten Messung antwortet die Tür 404 (= kein Plan).
 
+Seit 0.1.224 (RFC-0069 Stufe 4, `oaap.core.updates` 2.7.8) ist der Plan auf
+einem Knoten mit Profil `broker` außerdem ein **Ereignis**: Jede Bewegung
+(angekündigt, verschoben, überstimmt, überfällig, startet, erledigt,
+abgesagt) liegt als gehaltene MQTT-Nachricht auf
+`oaap/<mandant>/node/<knoten>` — im Baum jedes Mandanten, der einen
+Posteingang hat. Sie trägt Termin, Dringlichkeit, Grund in Worten, Schutz,
+Zustand und den Satz des Vorgangs, keine Kernel-Version. Wer mit einem
+Schlüssel des Mandanten `oaap/<mandant>/node/#` abonniert (zum Beispiel ein
+n8n-Fluss, der eine Nachricht weiterschickt), erfährt es sofort; die letzte
+Nachricht bleibt auf dem Thema, auch `done` und `cancelled`. Der Minutenlauf
+sendet vom Host aus als `oaap.relay`; ist der Broker gerade weg — nach dem
+Neustart kommt er spät —, wartet die Nachricht in
+`/var/lib/oaap/apps/care-events-pending.json` und geht mit der nächsten
+Minute. Ohne Profil `broker` passiert nichts.
+
 **Dringlichkeit** kommt aus Messwerten, nicht von Hand: **kritisch**, wenn
 der wartende Kernel aus der Security-Quelle stammt **und** der Knoten
 exponiert ist (externer Name oder MPTCP an); sonst **Pflege**.
