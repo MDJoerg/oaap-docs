@@ -146,6 +146,16 @@ Neustart kommt er spät —, wartet die Nachricht in
 `/var/lib/oaap/apps/care-events-pending.json` und geht mit der nächsten
 Minute. Ohne Profil `broker` passiert nichts.
 
+Seit 0.1.225 (RFC-0069 Stufe 5, `oaap.core.updates` 2.7.2) braucht ein
+Schutz die Befehlszeile nicht mehr: Die Instanzseite im Portal trägt im
+Reiter „Diagnose“ die Karte **Neustart-Schutz**. Der Mandanten-Admin der
+Instanz (und der Server-Admin) schützt dort mit Begründung und Ende,
+verlängert und hebt auf — derselbe Weg, dieselbe Regel wie `oaap node care
+protect`/`release`, geprüft vom Knoten mit Rolle und Mandant aus dem
+Datensatz des Handelnden. Nach jeder Handlung rechnet der Knoten den Plan
+sofort neu; Karte, Band und Protokoll zeigen die Verschiebung im selben
+Augenblick.
+
 **Dringlichkeit** kommt aus Messwerten, nicht von Hand: **kritisch**, wenn
 der wartende Kernel aus der Security-Quelle stammt **und** der Knoten
 exponiert ist (externer Name oder MPTCP an); sonst **Pflege**.
