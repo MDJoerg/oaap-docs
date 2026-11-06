@@ -79,6 +79,13 @@ sudo rm /root/mailpw
 `smtp://<mailserver>:587` statt `smtps://` heißt STARTTLS. Unverschlüsselt gibt es nicht.
 Keycloak muss den Mailserver erreichen können.
 
+**Ab 0.1.234 im Portal:** Menü **Nachrichten → Postausgang**. Als Server-Admin am Knoten
+pflegst du dort das Postfach des Knotens und siehst, welcher Mandant womit verschickt. Der
+**Mandanten-Admin** eines Vereins kann dort ein **eigenes Postfach** eintragen, mit eigener
+Absender-Domain. Speichern meldet sich zuerst probeweise am Server an, dann wird es in den
+Realm des Vereins geschrieben. Nur Port 465 oder 587, und der Server muss im Internet stehen.
+Entfernen schaltet zurück auf das Postfach des Knotens.
+
 ## 3. Mandant mit Realm anlegen
 
 Entweder in einem Aufruf aus einem **Profil** (Verlauf, Fortsetzen, Rückbau) oder von Hand.
