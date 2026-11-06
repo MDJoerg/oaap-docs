@@ -103,9 +103,17 @@ Ohne Außennamen des Knotens scheitert `idp provision` — auf oaapx02 sollte da
 **Mit Profil:** siehe das Szenario „Mandant aus einem Profil aufbauen". Schritte
 `tenant.create`, `address.ensure`, `address.wait`, `idp.provision`, `tenant.policy`,
 `tenant.face`, `app.install`, `authz.setup`, `idp.admin_group` (Verwaltergruppe im Realm, ab 0.1.233), `manual` (erster Verwalter), `backup.check`.
-Der Schritt `app.install` nimmt nur eine **App des Katalogs** oder einen Pfad/eine Adresse; die
-Vereinsapp, die per ZIP kommt, installierst du in Schritt 4 von Hand und lässt im Profil
-nur `authz.setup` danach laufen.
+Der Schritt `app.install` nimmt nur eine **App des Katalogs** oder einen Pfad/eine Adresse.
+**Ab 0.1.233** geht auch die Vereinsapp aus dem **Paketkatalog** (ZIP hochladen und freigeben,
+App-Id `hbvp`), auch in einem im Portal hochgeladenen Profil.
+
+**Fertiges Profil:** [`profile/handballverein.json`](profile/handballverein.json): Mandant,
+Gesicht, Adresse, Realm (mit dem Postfach des Knotens, deutsch), Verwaltergruppe, Regel für die
+erste Anmeldung (`role`/`user`, keine Selbstregistrierung), `portal-test` und `portal` (hbvp),
+`vorgaenge-test` und `vorgaenge`, Haken „Rollen & Rechte“ (`rechte`, an), Rollen aus den Vorlagen,
+erster Verwalter (wartet), Sicherung. Hochladen unter Portal → **Aufbau** → „Profil hochladen“,
+dann „Aufbau starten“. Danach von Hand: Deploy-Token für `portal-test`
+(`oaap app token create <kürzel>-portal-test`) und die Partner in den Vorgängen.
 
 **Der Instanzname bekommt das Mandantenkürzel immer vorangestellt** (`name: verein` im
 Mandanten `sgl` ergibt `sgl-verein`); das Kürzel nicht noch einmal in den Namen schreiben.

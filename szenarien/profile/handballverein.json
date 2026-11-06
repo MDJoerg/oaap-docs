@@ -1,0 +1,38 @@
+{
+  "profile": "oaap.tenant-profile/1",
+  "id": "handballverein",
+  "title": "Handballverein mit Vereinsportal (Test und Produktiv), Vorgängen und Rollen",
+  "description": "Ein Vereinsmandant für die Handball-Lösung (hbvp). Legt an: Mandant mit Gesicht und Adresse, eigenen Realm im Anmeldedienst 'auth' (mit dem Postfach des Knotens, deutsch), die Verwaltergruppe im Realm, das Vereinsportal als Test- und Produktiv-Instanz, Vorgänge als Test- und Produktiv-Eingang, optional 'Rollen & Rechte' (der Haken ist die Zusage des Server-Admins) und die Rollen, Pakete und Realm-Gruppen aus den Vorlagen der Vereinsapp. Hält an, bis ein Mensch den ersten Verwalter angelegt hat. Voraussetzungen auf dem Knoten: Anbindung 'auth' (oaap idp list), Postfach (oaap mail show), die Apps 'hbvp', 'vorgaenge' und 'rollen-rechte' in einer Katalogquelle (hbvp aus dem Paketkatalog).",
+  "params": {
+    "label": {"kind": "label", "required": true, "label": "Kürzel des Vereins"},
+    "title": {"kind": "text", "required": true, "max": 60, "label": "Name des Vereins"},
+    "color": {"kind": "color", "default": null, "label": "Vereinsfarbe"},
+    "with_rights": {"kind": "bool", "default": true,
+                    "label": "Mit „Rollen & Rechte“ (der Vereinsverwalter pflegt Rollen und Zuordnungen selbst)"}
+  },
+  "steps": [
+    {"id": "tenant", "type": "tenant.create", "label": "{label}", "title": "{title}"},
+    {"id": "face", "type": "tenant.face", "title": "{title}", "color_primary": "{color}"},
+    {"id": "address", "type": "address.ensure"},
+    {"id": "address-wait", "type": "address.wait", "timeout": 180},
+    {"id": "realm", "type": "idp.provision", "connector": "auth",
+     "idp_label": "Mit dem Vereinskonto anmelden"},
+    {"id": "verwaltergruppe", "type": "idp.admin_group"},
+    {"id": "policy", "type": "tenant.policy", "first_login": "role", "default_role": "user",
+     "self_registration": "off"},
+    {"id": "portal-test", "type": "app.install", "app": "hbvp", "name": "portal-test",
+     "channel": "test"},
+    {"id": "portal", "type": "app.install", "app": "hbvp", "name": "portal",
+     "channel": "production"},
+    {"id": "vorgaenge-test", "type": "app.install", "app": "vorgaenge", "name": "vorgaenge-test",
+     "channel": "test"},
+    {"id": "vorgaenge", "type": "app.install", "app": "vorgaenge", "name": "vorgaenge",
+     "channel": "production"},
+    {"id": "rechte", "type": "app.install", "app": "rollen-rechte", "name": "rechte",
+     "when": "with_rights", "confirm_administer": "{with_rights}"},
+    {"id": "rollen", "type": "authz.setup", "app": "hbvp"},
+    {"id": "erster-verwalter", "type": "manual", "done_when": "role.tenant_admin",
+     "text": "Ersten Vereinsverwalter anlegen: im Realm des Vereins eine Person anlegen und in die Gruppe 'oaap-verwalter' stecken, sie meldet sich einmal am Vereinsort an, dann im Portal unter Benutzer die Rolle tenant_admin vergeben (danach neu anmelden). Dann 'Weiter prüfen'."},
+    {"id": "sicherung", "type": "backup.check"}
+  ]
+}
