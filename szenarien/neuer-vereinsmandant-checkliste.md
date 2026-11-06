@@ -61,6 +61,24 @@ Stolperer, die schon passiert sind:
 - `--accept-version` ist nötig, weil das Dienstkonto zu schmal ist, die Fassung selbst zu lesen.
   Die Ausgabe sagt „STATED by the operator" — das ist dein Wort, nicht eine Messung.
 
+## 2b. Postfach des Knotens (einmal je Knoten, ab 0.1.233)
+
+Ohne Postfach verschickt der Realm des Vereins **keine Mail**: kein „Passwort vergessen“,
+keine Bestätigung, keine Einladung. Einmal eintragen, dann bekommt es **jeder neue Realm**
+automatisch (Absendername = Name des Vereins, Sprache Deutsch):
+
+```sh
+sudo sh -c 'umask 077; cat > /root/mailpw'     # Passwort eintippen, Strg-D
+sudo oaap mail set --target smtps://<mailserver>:465 --from <absender@domain> \
+  --user <login> --password-file /root/mailpw
+sudo oaap mail test <deine adresse>             # kommt sie an (auch im Spam-Ordner nachsehen)?
+sudo oaap idp mail auth --all                   # bestehende Realms nachziehen
+sudo rm /root/mailpw
+```
+
+`smtp://<mailserver>:587` statt `smtps://` heißt STARTTLS. Unverschlüsselt gibt es nicht.
+Keycloak muss den Mailserver erreichen können.
+
 ## 3. Mandant mit Realm anlegen
 
 Entweder in einem Aufruf aus einem **Profil** (Verlauf, Fortsetzen, Rückbau) oder von Hand.
@@ -84,7 +102,7 @@ Ohne Außennamen des Knotens scheitert `idp provision` — auf oaapx02 sollte da
 
 **Mit Profil:** siehe das Szenario „Mandant aus einem Profil aufbauen". Schritte
 `tenant.create`, `address.ensure`, `address.wait`, `idp.provision`, `tenant.policy`,
-`tenant.face`, `app.install`, `authz.setup`, `manual` (erster Verwalter), `backup.check`.
+`tenant.face`, `app.install`, `authz.setup`, `idp.admin_group` (Verwaltergruppe im Realm, ab 0.1.233), `manual` (erster Verwalter), `backup.check`.
 Der Schritt `app.install` nimmt nur eine **App des Katalogs** oder einen Pfad/eine Adresse; die
 Vereinsapp, die per ZIP kommt, installierst du in Schritt 4 von Hand und lässt im Profil
 nur `authz.setup` danach laufen.

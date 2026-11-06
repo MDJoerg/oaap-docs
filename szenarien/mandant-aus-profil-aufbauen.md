@@ -74,6 +74,7 @@ Argument wird es **ganz abgelehnt, bevor etwas läuft**.
 | `tenant.policy` | `oaap tenant policy` | die Richtlinie wie gewünscht gespeichert ist |
 | `tenant.face` | `oaap tenant face` (Titel, Farben) | die gespeicherten Werte stimmen |
 | `app.install` | `oaap app install …` — mit `source` (Pfad oder Adresse) **oder** `app` (ID aus einer Katalogquelle) | die Instanz im Mandanten existiert |
+| `idp.admin_group` | `oaap idp admin-group <anbindung> --tenant <kürzel>` (ab 0.1.233) | die Gruppe `oaap-verwalter` steht mit ihren Rollen im Realm |
 | `manual` | nichts — **ein Mensch** | die Lesung `done_when` stimmt (siehe 3.) |
 | `backup.check` | nichts | der Mandant im Knotenarchiv enthalten ist (nicht ausgenommen) |
 
