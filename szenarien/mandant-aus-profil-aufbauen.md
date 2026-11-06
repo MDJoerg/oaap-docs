@@ -100,6 +100,23 @@ Parameter. So steuert ein Profil, welche Apps ein Mandant bekommt:
 `<kürzel>-webseite`); ihn noch einmal in `name` zu schreiben ergäbe
 `<kürzel>-<kürzel>-webseite` (gemessen 2026-10-18).
 
+**Eine App, die Rechte verwaltet** (z. B. „Rollen & Rechte“,
+`authorization.administer: true`), braucht die Zusage des Server-Admins. Im
+Profil ist das derselbe Haken wie `when`:
+
+```json
+"mit_rechte": {"kind": "bool", "default": false, "label": "Mit Rollen & Rechte"},
+...
+{"id": "rechte", "type": "app.install", "app": "rollen-rechte",
+ "name": "rechte", "when": "mit_rechte", "confirm_administer": "{mit_rechte}"}
+```
+
+Der Haken beim Start installiert die App **und** ist die Zusage; im Formular
+steht daneben, was ihr Schlüssel kann und nie kann. Ein festes `"true"` lehnt
+der Knoten ab (ein Profil sagt nie im Voraus zu). Im Antragsformular für
+Interessenten erscheint der Haken nicht; nach einer Freigabe installiert der
+Server-Admin die App bei Bedarf aus dem Katalog (gemessen 2026-11-06, ab 0.1.232).
+
 `app` ist die ID einer App aus einer **eingerichteten Katalogquelle**
 (Portal → Katalog). Der Knoten löst sie selbst auf, so wie der Ein-Klick-
 Einbau des Katalogs. Eine Quelle, die eine Bestätigung verlangt („ungeprüft“),
