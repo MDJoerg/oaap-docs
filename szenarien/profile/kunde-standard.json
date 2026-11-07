@@ -1,0 +1,39 @@
+{
+  "profile": "oaap.tenant-profile/1",
+  "id": "kunde-standard",
+  "title": "Kunde mit eigenem Anmeldedienst und Apps aus dem Store (Test und Produktiv)",
+  "description": "Neutrale Vorlage für einen Kundenmandanten. Legt an: Mandant mit Gesicht und Adresse, optional einen eigenen Realm im Anmeldedienst 'auth' samt Verwaltergruppe, die beim Start angehakten Apps aus dem Store je als Produktiv- und (optional) Test-Instanz, optional 'Rollen & Rechte' (der Haken ist die Zusage des Server-Admins). Hält an, bis ein Mensch den ersten Verwalter angelegt hat. Voraussetzungen für den Realm: Anbindung 'auth' (oaap idp list) und ein Knoten mit Außennamen. Die gewählten Apps müssen in einer Katalogquelle stehen; der Start prüft das, bevor etwas angelegt wird.",
+  "params": {
+    "label": {"kind": "label", "required": true, "label": "Kürzel des Kunden"},
+    "title": {"kind": "text", "required": true, "max": 60, "label": "Name des Kunden"},
+    "color": {"kind": "color", "default": null, "label": "Hauptfarbe"},
+    "apps": {"kind": "apps", "default": [], "max": 12,
+             "label": "Apps aus dem Store"},
+    "with_test": {"kind": "bool", "default": true,
+                  "label": "Zu jeder App auch eine Test-Instanz (<app>-test)"},
+    "with_realm": {"kind": "bool", "default": true,
+                   "label": "Mit eigenem Anmeldedienst (Realm im Keycloak 'auth'; braucht einen Knoten mit Außennamen)"},
+    "with_rights": {"kind": "bool", "default": false,
+                    "label": "Mit „Rollen & Rechte“ (der Mandanten-Admin pflegt Rollen und Zuordnungen selbst)"}
+  },
+  "steps": [
+    {"id": "tenant", "type": "tenant.create", "label": "{label}", "title": "{title}"},
+    {"id": "face", "type": "tenant.face", "title": "{title}", "color_primary": "{color}"},
+    {"id": "address", "type": "address.ensure"},
+    {"id": "address-wait", "type": "address.wait", "timeout": 180, "when": "with_realm"},
+    {"id": "realm", "type": "idp.provision", "connector": "auth",
+     "idp_label": "Mit dem Firmenkonto anmelden", "when": "with_realm"},
+    {"id": "verwaltergruppe", "type": "idp.admin_group", "when": "with_realm"},
+    {"id": "policy", "type": "tenant.policy", "first_login": "role", "default_role": "user",
+     "self_registration": "off"},
+    {"id": "test", "type": "app.install", "app": "{apps}", "name": "{app}-test",
+     "channel": "test", "when": "with_test"},
+    {"id": "prod", "type": "app.install", "app": "{apps}", "name": "{app}",
+     "channel": "production"},
+    {"id": "rechte", "type": "app.install", "app": "rollen-rechte", "name": "rechte",
+     "when": "with_rights", "confirm_administer": "{with_rights}"},
+    {"id": "erster-verwalter", "type": "manual", "done_when": "role.tenant_admin",
+     "text": "Ersten Verwalter anlegen: mit Realm dort eine Person anlegen und in die Gruppe 'oaap-verwalter' stecken, sie meldet sich einmal am Mandantenort an; ohne Realm im Portal unter Benutzer ein Konto im Mandanten anlegen. Dann im Portal die Rolle tenant_admin vergeben (danach neu anmelden) und 'Weiter prüfen'."},
+    {"id": "sicherung", "type": "backup.check"}
+  ]
+}

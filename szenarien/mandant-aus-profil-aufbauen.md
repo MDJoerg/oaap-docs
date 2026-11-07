@@ -124,6 +124,42 @@ Einbau des Katalogs. Eine Quelle, die eine Bestätigung verlangt („ungeprüft�
 bedient ein Profil **nie**: dort ist niemand, der bestätigt; der Schritt
 scheitert mit diesem Grund, und die App wird auf der Katalogseite eingebaut.
 
+**Apps erst beim Start auswählen** (ab 0.1.236, RFC-0055 §15). Statt jede App
+fest ins Profil zu schreiben, wählt der Server-Admin sie beim Start per Haken aus
+dem Katalog. Dafür ein Parameter der Art `apps` und ein `app.install`, dessen
+`app` genau dieser Parameter ist; `{app}` steht darin für die jeweilige App:
+
+```json
+"apps":      {"kind": "apps", "default": [], "label": "Apps aus dem Store"},
+"with_test": {"kind": "bool", "default": true, "label": "Auch eine Test-Instanz"},
+...
+{"id": "test", "type": "app.install", "app": "{apps}", "name": "{app}-test",
+ "channel": "test", "when": "with_test"},
+{"id": "prod", "type": "app.install", "app": "{apps}", "name": "{app}",
+ "channel": "production"}
+```
+
+Mit `n8n` und `forgejo` angehakt entstehen daraus vier Schritte (`test-n8n`,
+`test-forgejo`, `prod-n8n`, `prod-forgejo`) und die Instanzen
+`<kürzel>-n8n-test`, `<kürzel>-n8n` usw. Ohne `choices` bietet das Formular den
+ganzen Katalog des Knotens an (ohne Archiviertes); mit
+`"choices": ["n8n", "forgejo", "vaultwarden"]` nur diese. `max` begrenzt die Zahl
+(Standard 12). An der Kommandozeile: `--param apps=n8n,forgejo`.
+
+- Der Knoten prüft **vor dem ersten Schritt**, dass jede gewählte App in einer
+  Katalogquelle steht; sonst lehnt er ab und legt nichts an.
+- Scheitert die zweite App, hält der Aufbau dort an; **Fortsetzen** macht nur
+  den Rest, **Zurückbauen** entfernt die Instanzen einzeln.
+- Eine App, die Rechte verwaltet, kommt nie aus der Liste: sie bleibt ein
+  eigener Schritt mit eigenem Haken (siehe oben).
+- Im Antragsformular für Interessenten gibt es die Auswahl **nur mit
+  `choices`**; ohne gilt dort der Standard des Profils.
+
+Eine fertige Vorlage dafür: [profile/kunde-standard.json](profile/kunde-standard.json)
+(Mandant, optional eigener Realm im `auth` samt Verwaltergruppe, Apps nach
+Auswahl als Test und Produktiv, optional „Rollen & Rechte“, Wartepunkt erster
+Verwalter, Sicherung).
+
 ## 2. Aufbau starten
 
 ```sh
