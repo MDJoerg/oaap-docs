@@ -662,3 +662,87 @@ Der Betreiber (`server_admin`) kann einen Mandanten benennen; er sieht die Seite
 - **Noch nicht an einem echten Knoten gemessen:** die Schritte für den Realm und die Außenadresse, und der Weg des Einladungslinks durch das echte Gateway.
 
 Schritt für Schritt: [Einen Mandanten aus einem Profil aufbauen](../szenarien/mandant-aus-profil-aufbauen.md). Spezifikation: RFC-0055.
+
+## Zweiter Vereinsmandant aus dem Profil (Erfahrungen 0.1.246)
+
+### F31 – Muss das Postfach des Knotens vor dem Aufbau eines Mandanten stehen, und was ist mit bestehenden Realms?
+
+*Stichwörter: Postfach, SMTP, Mail, Realm, Passwort vergessen, Aufbau, idp mail*
+
+**Kurzantwort:** Ja, vorher eintragen. Der Schritt `idp.provision` gibt das Postfach des Knotens an den **neuen** Realm weiter; ohne Postfach kann dort niemand sein Passwort per Mail zurücksetzen. Bestehende Realms bekommen es **nicht** von selbst, sie zieht man einmal nach.
+
+1. Portal → **Nachrichten → Postausgang** (als `server_admin`): Server, Absender, Login, Passwort; dort auch eine Testmail schicken. Alternativ `sudo oaap mail set …` (ohne `--password-file` fragt der Befehl das Passwort verdeckt ab) und `sudo oaap mail test <adresse>`.
+2. Bestehende Realms nachziehen: `sudo oaap idp mail <anbindung> --all`. Die Ausgabe nennt je Mandant Server und Absender; Keycloak zeigt das Passwort danach maskiert.
+3. `oaap mail show` zeigt den Stand; „This node has no mailbox“ heißt: noch nichts eingetragen.
+
+**Weiterführend:** RFC-0072, F21.
+
+### F32 – Wie gebe ich einer App beim Aufbau ihre Konfiguration mit (z. B. Betriebsmodus, Kontaktadresse)?
+
+*Stichwörter: Konfiguration, config, Profil, Aufbau, Instanz, Formular, HIB_MODE*
+
+**Kurzantwort:** Heute noch nicht im Profil. Der Schritt `app.install` installiert mit den Vorgaben des Manifests; die Konfiguration setzt man **nach** dem Aufbau. Am bequemsten im Portal unter **Instanzen → <instanz> → Konfiguration**, alternativ `sudo oaap app config set <instanz> <SCHLÜSSEL> <wert>` und danach `sudo oaap app restart <instanz>`.
+
+- Erst die Test-Instanz, dann die Produktiv-Instanz; beide brauchen die Werte.
+- Hängt an der Konfiguration, wer in eine App hineinkommt (z. B. ein Betriebsmodus „alle Admins“ gegen „nur fachliche Rollen“), gleich nach dem Aufbau setzen. Solange noch niemand im neuen Mandanten eine passende Rolle hat, ist das Zeitfenster unkritisch.
+- Geheime Werte (`secret` im Manifest) zeigt das Portal danach nicht mehr im Klartext.
+- Geplant: Profilparameter als Formularfelder, die in die Konfiguration der Instanz fließen, und erzeugte Werte auf Knopfdruck (Ideenspeicher I-42).
+
+### F33 – Wann fragt die Plattform nach, wenn eine neue Version einer App den Rahmen erweitert (z. B. eine neue Route ohne Anmeldung)?
+
+*Stichwörter: Rahmenerweiterung, Hülle, envelope, öffentliche Route, Update, Store, Übernahme, Bestätigung*
+
+**Kurzantwort:** Nicht auf jedem Weg gleich. Stand 0.1.246:
+
+| Weg | Was passiert bei einer Erweiterung |
+|---|---|
+| Deploy mit Token (CI, KI des Kunden) | hält an, ein Admin bestätigt im Portal |
+| **Nach Produktiv übernehmen** (Portal) | Haken „Rahmenerweiterung“ ist Pflicht |
+| ZIP an der Kommandozeile, Produktiv | verlangt `--confirm` |
+| ZIP an der Kommandozeile, Test | nur ein Hinweis (`NOTE: …`) in der Ausgabe |
+| **Store-Update einer Test-Instanz** (Portal) | geht durch, der Hinweis wird **nicht angezeigt** |
+| Installation aus einem Verzeichnis | keine Prüfung |
+
+Praktisch heißt das: Vor einem Store-Update die Änderungen der App kennen, und die Produktiv-Instanz immer über **Nach Produktiv übernehmen** aus der Test-Instanz versorgen — dort fragt die Plattform verlässlich. Die Lücken stehen im Ideenspeicher (I-43).
+
+**Weiterführend:** RFC-0019 §3, RFC-0037, F25.
+
+### F34 – Die Keycloak-Konsole zeigt nach der Anmeldung nur „Manage realms“, Benutzer und Gruppen lassen sich nicht pflegen. Warum?
+
+*Stichwörter: Keycloak, Konsole, Admin, Manage realms, whoami, 0.1.6, Benutzer pflegen*
+
+**Kurzantwort:** Ein Fehler der Keycloak-App **0.1.6**, behoben in **0.1.7**. Seit 0.1.6 liegt die Konsole hinter der OAAP-Anmeldung; die Frage der Konsole „was darf ich?“ (`/admin/master/console/whoami`) trägt aber ein Keycloak-Token, das das Gateway als OAAP-Schlüssel las und abwies. Die Konsole lud, hielt den Verwalter aber für rechtelos.
+
+1. Portal → Store → **Keycloak (Anmeldedienst)** → die Instanz auf ≥ 0.1.7 aktualisieren (der Haken „Rahmenerweiterung“ ist hier gewollt: eine Route wird wieder ohne OAAP-Anmeldung erreichbar, Keycloak prüft das Token dort selbst).
+2. In der Konsole ab- und wieder anmelden.
+
+Prüfen von außen: `curl -sI -H "Authorization: Bearer x" https://<anmeldedienst>/admin/master/console/whoami` — antwortet `Server: gunicorn` mit „malformed key“, ist es noch 0.1.6; ein 401 ohne diesen Kopf kommt von Keycloak selbst und ist richtig.
+
+### F35 – Welche Rollen braucht der Vereinsverwalter, und kann er die Personen seines Realms selbst pflegen?
+
+*Stichwörter: tenant_admin, admin, keyuser, Vereinsverwalter, Keycloak, realm-management, manage-users, belongs to another tenant*
+
+**Kurzantwort:** `tenant_admin` verwaltet den **Mandanten** (Benutzer, Instanzen, Gesicht), ist aber **keine Rolle in einer App**. Soll der Verwalter auch eine App betreiben oder redigieren, braucht er dort zusätzlich `admin` bzw. `keyuser` — eine bewusste Entscheidung je Person. Die Personen im Realm pflegt heute **nur der Betreiber**.
+
+- In Keycloak wären für die Benutzerpflege im Realm des Mandanten die Rollen des Clients `realm-management` nötig: `manage-users`, `view-users`, `query-users`, `query-groups` — nicht `realm-admin` oder `manage-realm`.
+- Die Konsole des Realms (`/admin/<realm>/console/`) erreicht ein Vereinsverwalter aber nicht: Sie liegt hinter der OAAP-Anmeldung der Keycloak-Instanz, und die gehört dem Betreiber-Mandanten („Forbidden: this app belongs to another tenant“). Nur `server_admin` kommt über die Mandantengrenze.
+- Geplant: Personen, Gruppen und Mandantenrollen pflegt der Verwalter in OAAP (z. B. in „Rollen & Rechte“), die Plattform schreibt über die Anbindung in den Realm und setzt das Mandantenkürzel selbst (Ideenspeicher I-28).
+
+**Weiterführend:** F18, F23, RFC-0041, RFC-0045.
+
+### F36 – Unterstützt das Gesicht eines Mandanten zwei Vereinsfarben (z. B. Blau/Gelb)?
+
+*Stichwörter: Farbe, Vereinsfarben, Gesicht, Zweitfarbe, Profil*
+
+**Kurzantwort:** Ja. Das Gesicht kennt eine **Haupt-** und eine **Zweitfarbe** (F28). Das Profil `handballverein` fragt beim Aufbau bisher nur die Hauptfarbe ab; die Zweitfarbe trägt man danach im Portal unter dem Gesicht des Mandanten nach.
+
+### F37 – Wie erzeuge ich einen Schlüssel für Web-Push (VAPID) für eine App?
+
+*Stichwörter: VAPID, Push, Schlüssel, secret, Konfiguration, Fan-App*
+
+**Kurzantwort:** Ein VAPID-Schlüssel ist der private Teil eines Schlüsselpaars auf der Kurve P-256, als base64url. **Jede Instanz bekommt ihren eigenen**; wer ihn wechselt, macht alle Push-Abonnements dieser Instanz ungültig.
+
+- Mit dem Werkzeug der App, falls sie eines mitbringt (z. B. `node tools/<…>-vapid-key.mjs`), oder auf dem Knoten:
+  `openssl ecparam -name prime256v1 -genkey -noout -outform DER | tail -c +8 | head -c 32 | basenc --base64url | tr -d '=\n'; echo`
+- Den Wert direkt im Portal in das geheime Konfigurationsfeld der Instanz eintragen, nie in einen Chat, ein Ticket oder ein Repository.
+- Geplant: ein Knopf „Erzeugen“ neben solchen Feldern (Ideenspeicher I-42).
