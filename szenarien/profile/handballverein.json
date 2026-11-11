@@ -1,7 +1,7 @@
 {
   "profile": "oaap.tenant-profile/1",
   "id": "handballverein",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "title": "Handballverein mit Vereinsportal (Test und Produktiv), Vorgängen und Rollen",
   "description": "Ein Vereinsmandant für die Handball-Lösung (hbvp). Legt an: Mandant mit Gesicht und Adresse, eigenen Realm im Anmeldedienst 'auth' (mit dem Postfach des Knotens, deutsch), die Verwaltergruppe im Realm, das Vereinsportal als Test- und Produktiv-Instanz, Vorgänge als Test- und Produktiv-Eingang, optional 'Rollen & Rechte' (der Haken ist die Zusage des Server-Admins) und die Rollen, Pakete und Realm-Gruppen aus den Vorlagen der Vereinsapp. Setzt in beiden Vereinsportalen Betriebsmodus 'club', Vereinsnamen und Kontakt und erzeugt auf Wunsch je Instanz einen eigenen Push-Schlüssel (RFC-0079; nie ersetzt). Hält an, bis ein Mensch den ersten Verwalter angelegt hat. Voraussetzungen auf dem Knoten: Anbindung 'auth' (oaap idp list), Postfach (oaap mail show), die Apps 'hbvp', 'vorgaenge' und 'rollen-rechte' in einer Katalogquelle (hbvp aus dem Paketkatalog).",
   "params": {
@@ -10,9 +10,9 @@
     "color": {"kind": "color", "default": null, "label": "Vereinsfarbe"},
     "color2": {"kind": "color", "default": null, "label": "Zweite Vereinsfarbe (Akzent: Knöpfe, Hervorhebungen)"},
     "contact": {"kind": "text", "default": null, "max": 200,
-                "label": "Kontakt des Vereins (E-Mail oder Webseite, erscheint im Vereinsportal; leer = später im Portal)"},
-    "push": {"kind": "bool", "default": false,
-             "label": "Push für die Fan-App: je Instanz einen eigenen Schlüssel erzeugen (erst, wenn die Vereinsapp ihn erzeugen lässt)"},
+                "label": "Kontakt des Vereins (mailto:… oder https://…; dient auch als Absender für Push — bitte setzen, wenn Push an ist)"},
+    "push": {"kind": "bool", "default": true,
+             "label": "Push für die Fan-App: je Instanz einen eigenen Schlüssel erzeugen (Vereinsapp ab 0.0.222 im Katalog; ein vorhandener Schlüssel bleibt)"},
     "with_rights": {"kind": "bool", "default": true,
                     "label": "Mit „Rollen & Rechte“ (der Vereinsverwalter pflegt Rollen und Zuordnungen selbst)"}
   },

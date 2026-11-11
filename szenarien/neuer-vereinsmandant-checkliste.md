@@ -126,9 +126,13 @@ Vereinsapp** in beiden Instanzen selbst: `HIB_MODE` = `club` (sonst kommt jeder
 `admin`/`keyuser` ohne fachliche Rolle hinein), `HIB_OPERATOR_NAME` = Name des Vereins,
 `HIB_CONTACT` = das Feld „Kontakt“ (leer = später im Portal). Mit dem Haken „Push für die
 Fan-App“ erzeugt der Knoten je Instanz einen eigenen `HIB_FAN_VAPID_PRIVATE` (FAQ F37) und
-ersetzt einen vorhandenen nie. Der Haken ist aus, bis die Vereinsapp in ihrem Manifest
-`generate: vapid` bei diesem Schlüssel erklärt; ohne diese Zeile hält der Schritt mit „die App
-erlaubt nicht, dass der Knoten … erzeugt“ an. Von Hand bleiben: Deploy-Token für `hvp-test`
+ersetzt einen vorhandenen nie. **Ab Profil 1.2.0 ist der Haken an**; die Vereinsapp erklärt das
+ab hbvp 0.0.222 (`generate: vapid`). Liegt im Katalog des Knotens eine ältere hbvp, hält der
+Schritt mit „die App erlaubt nicht, dass der Knoten … erzeugt“ an — dann hbvp aktualisieren
+oder den Haken abwählen. `HIB_CONTACT` (mailto:…) dient zugleich als Absender für Push; ohne ihn
+nimmt die App `mailto:admin@localhost`, den manche Push-Dienste ablehnen. Gemessen am 11.11. mit
+hbvp 0.0.223: der öffentliche Schlüssel, den die App aus dem erzeugten Wert berechnet, ist genau
+der erwartete. Von Hand bleiben: Deploy-Token für `hvp-test`
 (`oaap app token create <kürzel>-hvp-test`) und die Partner in den Vorgängen.
 
 **Versionen:** Das Profil trägt eine `version`. Der Knoten hebt jede Fassung auf (Portal →
