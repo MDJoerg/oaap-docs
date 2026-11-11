@@ -30,6 +30,9 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
 - [Das nächtliche Backup auf der CLI einrichten](backup-cli-einrichten.md)
   — von Hand sichern, Timer, Zustand, Abholen auf eine zweite Maschine,
   Mandanten einzeln, Wiederherstellen
+- [Einen lokalen Dienst über die Plattform freigeben (wie ngrok)](lokalen-dienst-freigeben.md)
+  — vom Laptop mit `oaap-expose.py` ohne eigenen Knoten, oder über einen
+  inneren Knoten; Anmeldung, `--public`, beenden, Grenzen (RFC-0033)
 
 ## Geplant
 
