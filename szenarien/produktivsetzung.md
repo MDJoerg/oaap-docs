@@ -1,3 +1,9 @@
+---
+title: "Nach Produktiv übernehmen — und notfalls zurück"
+checked_against: "0.1.42"
+checked_on: 2026-08-23
+lang: de
+---
 # Nach Produktiv übernehmen — und notfalls zurück
 
 > Geprüft gegen Referenz **0.1.42** (2026-08-23). Grundlage: RFC-0020.

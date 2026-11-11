@@ -1,3 +1,9 @@
+---
+title: "Ein getestetes Paket vom Referenzknoten auf einen Mandantenknoten bringen"
+checked_against: "0.1.146"
+checked_on: 2026-09-30
+lang: de
+---
 # Ein getestetes Paket vom Referenzknoten auf einen Mandantenknoten bringen
 
 > Geprüft gegen Referenz **0.1.146** (Ziel) und **0.1.150** (Referenzknoten), 2026-09-30.

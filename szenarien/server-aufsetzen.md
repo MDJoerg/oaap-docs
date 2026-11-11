@@ -1,3 +1,9 @@
+---
+title: "Einen OAAP-Server aufsetzen"
+checked_against: "0.1.42"
+checked_on: 2026-08-23
+lang: de
+---
 # Einen OAAP-Server aufsetzen
 
 > Geprüft gegen Referenz **0.1.42** (2026-08-23).

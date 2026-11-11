@@ -1,3 +1,9 @@
+---
+title: "Fachliche Rollen einrichten — aus den Vorlagen einer App"
+checked_against: "0.1.203"
+checked_on: 2026-10-18
+lang: de
+---
 # Fachliche Rollen einrichten — aus den Vorlagen einer App
 
 > Geprüft gegen Referenz **0.1.203 + Setup** (oaap-test, 2026-10-18), mit einem

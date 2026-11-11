@@ -1,3 +1,9 @@
+---
+title: "Ein OAAP-Knoten von innen — Kurzdokumentation für Betreiber"
+checked_against: "0.1.147"
+checked_on: 2026-09-30
+lang: de
+---
 # Ein OAAP-Knoten von innen — Kurzdokumentation für Betreiber
 
 > Geprüft gegen Referenz **0.1.147** (2026-09-30), am Code von

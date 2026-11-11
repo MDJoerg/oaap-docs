@@ -1,3 +1,9 @@
+---
+title: "Einen Kunden-Mandanten an den Kunden übergeben — Checkliste"
+checked_against: "0.1.150"
+checked_on: 2026-10-01
+lang: de
+---
 # Einen Kunden-Mandanten an den Kunden übergeben — Checkliste
 
 > Geprüft gegen Referenz **0.1.150** (2026-10-01). Gilt nach

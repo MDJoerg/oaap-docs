@@ -1,3 +1,9 @@
+---
+title: "Einen Kunden-Mandanten mit eigenem Anmeldebereich einrichten"
+checked_against: "0.1.146"
+checked_on: 2026-09-30
+lang: de
+---
 # Einen Kunden-Mandanten mit eigenem Anmeldebereich einrichten
 
 > Geprüft gegen Referenz **0.1.146** (2026-09-30), Keycloak **26.7.4**,

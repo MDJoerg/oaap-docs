@@ -1,3 +1,9 @@
+---
+title: "Einen Mandanten aus einem Profil aufbauen"
+checked_against: "0.1.183"
+checked_on: 2026-10-03
+lang: de
+---
 # Einen Mandanten aus einem Profil aufbauen
 
 > Geprüft gegen Referenz **0.1.183** (2026-10-03; die Seiten in Abschnitt 6

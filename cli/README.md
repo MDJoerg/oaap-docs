@@ -1,12 +1,27 @@
+---
+title: "OAAP CLI-Referenz"
+checked_against: "0.1.42"
+checked_on: 2026-08-23
+lang: de
+---
 # OAAP CLI-Referenz
 
 > Geprüft gegen Referenz **0.1.42** (2026-08-23); der Abschnitt „Instanzen ansprechen“ gegen **0.1.167** (2026-10-01).
 
+> **Vollständig und aktuell: die [erzeugte CLI-Referenz](generated/README.md).**
+> Sie wird aus den Befehlsdefinitionen selbst erzeugt (`oaap help --markdown`,
+> seit 0.1.248) und nennt jeden Befehl mit allen Optionen und der Angabe, ob er
+> `sudo` braucht. Diese Seite hier ergänzt sie um Beispiele, Warnungen und das
+> „Warum“ — wo sich beide widersprechen, gilt die erzeugte. Auf dem Knoten
+> zeigt `oaap help` dieselbe Übersicht.
+
 Das Kommando `oaap` liegt auf jedem Knoten unter `/usr/local/bin/oaap`.
 Grundsätze:
 
-- **Fast alles braucht `sudo`** — Ausnahmen: `oaap status`,
-  `oaap version`, `oaap node show`, `oaap store list`.
+- **Fast alles braucht `sudo`** — die Ausnahmen (u. a. `oaap status`,
+  `oaap version`, `oaap help`, `oaap node show`, `oaap store list`, die
+  lesenden Aktionen von `oaap tenant` und `oaap data`) nennt die
+  [erzeugte Referenz](generated/README.md) Befehl für Befehl.
 - **Das Portal kann das meiste auch.** Die CLI ist der Rettungsweg und
   der Weg für Automatisierung; im Alltag führt der Weg über
   Portal → „Instanzen" → Instanz anklicken.

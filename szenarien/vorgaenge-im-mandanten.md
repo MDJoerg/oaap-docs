@@ -1,3 +1,9 @@
+---
+title: "Vorgänge im Mandanten — melden, klären, übergeben"
+checked_against: "0.1.202"
+checked_on: 2026-10-17
+lang: de
+---
 # Vorgänge im Mandanten — melden, klären, übergeben
 
 > Geprüft gegen Referenz **0.1.202** und App `vorgaenge` **0.2.1** (oaap-test und

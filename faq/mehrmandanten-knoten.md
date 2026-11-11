@@ -1,3 +1,9 @@
+---
+title: "FAQ: Dedizierter Mehrmandanten-Knoten"
+checked_against: "0.1.144"
+checked_on: 2026-09-30
+lang: de
+---
 # FAQ: Dedizierter Mehrmandanten-Knoten
 
 > Geprüft gegen Referenz **0.1.144** (2026-09-30). Beispiele verwenden

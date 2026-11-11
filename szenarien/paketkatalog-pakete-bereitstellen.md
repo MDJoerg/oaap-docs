@@ -1,3 +1,9 @@
+---
+title: "Pakete auf einem Mehrmandanten-Knoten bereitstellen — der Paketkatalog"
+checked_against: "0.1.192"
+checked_on: 2026-10-04
+lang: de
+---
 # Pakete auf einem Mehrmandanten-Knoten bereitstellen — der Paketkatalog
 
 > Geprüft gegen Referenz **0.1.192** (Test auf `oaap-test`, 2026-10-04); App `package-catalog` **0.1.0**.
