@@ -2,7 +2,7 @@
 id: cli/authz
 title: "oaap authz"
 audience: [server_admin]
-checked_against: "0.1.249"
+checked_against: "0.1.254"
 checked_on: 2026-11-11
 lang: en
 tags: [cli, authz]
@@ -50,4 +50,4 @@ oaap authz {declarations,roles,role-add,collections,collection-add,assignments,a
 | `--dry-run` | for setup: print the plan, change nothing |
 | `--accept-version ACCEPT_VERSION` | for setup: the provider's version, as the operator's word, when the connector cannot read it |
 
-Generated from the parser of reference 0.1.249. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.254. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

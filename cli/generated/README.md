@@ -2,7 +2,7 @@
 id: cli/generated
 title: "OAAP CLI reference (generated)"
 audience: [server_admin, support]
-checked_against: "0.1.249"
+checked_against: "0.1.254"
 checked_on: 2026-11-11
 lang: en
 tags: [cli]
@@ -11,7 +11,7 @@ tags: [cli]
 
 # OAAP CLI reference (generated)
 
-Every command of reference 0.1.249, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
+Every command of reference 0.1.254, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
 
 ## Commands of the wrapper
 
@@ -47,6 +47,7 @@ Every command of reference 0.1.249, generated from the parser by `oaap help --ma
 | [`oaap mail`](mail.md) | yes | the node's mailbox: realms send password resets with it (RFC-0072) |
 | [`oaap metrics`](metrics.md) | per action | node history of CPU, memory and disk (RFC-0051) |
 | [`oaap node`](node.md) | per action | this node: profiles (RFC-0011) and host care (oaap.core.host) |
+| [`oaap notify`](notify.md) | yes | recipient lists and notifications (RFC-0080) |
 | [`oaap store`](store.md) | per action | the app store: list apps, manage sources and catalogs |
 | [`oaap tenant`](tenant.md) | per action | accounts and tenants of this node (oaap.core.tenant) |
 | [`oaap user`](user.md) | yes | portal accounts of this node: list, add, delete, password |
@@ -58,6 +59,7 @@ Every command of reference 0.1.249, generated from the parser by `oaap help --ma
 | [`oaap app access`](app-access.md) | yes | a time-boxed access into one instance network (RFC-0044). 'wireguard' needs node profile 'remote-access' and its firewall fence is not measured on a real node yet |
 | [`oaap app address`](app-address.md) | yes | an instance's own public hostname and its aliases (RFC-0009, RFC-0018) |
 | [`oaap app artifact`](app-artifact.md) | yes | uploaded packages (RFC-0019) |
+| [`oaap app bulk`](app-bulk.md) | yes | update, promote or rebuild everything that is due, one after another, stopping at the first failure |
 | [`oaap app config`](app-config.md) | yes | list, set or unset the configuration values of an instance |
 | [`oaap app convert`](app-convert.md) | no | turn a docker-compose file into an OAAP package draft |
 | [`oaap app diagnose`](app-diagnose.md) | yes | the portal's diagnosis window, from the machine (RFC-0038 D2) |

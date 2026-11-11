@@ -2,7 +2,7 @@
 id: cli/app/install
 title: "oaap app install"
 audience: [server_admin]
-checked_against: "0.1.249"
+checked_against: "0.1.254"
 checked_on: 2026-11-11
 lang: en
 tags: [cli, app]
@@ -37,4 +37,4 @@ oaap app install package [options]
 | `--confirm-tun` | accept an app whose service declares tun: true -- that container gets /dev/net/tun and NET_ADMIN inside its own namespace (oaap.apps.runtime 2.23, RFC-0060) |
 | `--confirm-authorization` | accept a version that REMOVES something it had declared for business authorization (oaap.core.authorization 2.2) |
 
-Generated from the parser of reference 0.1.249. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.254. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

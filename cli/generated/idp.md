@@ -2,7 +2,7 @@
 id: cli/idp
 title: "oaap idp"
 audience: [server_admin]
-checked_against: "0.1.249"
+checked_against: "0.1.254"
 checked_on: 2026-11-11
 lang: en
 tags: [cli, idp]
@@ -65,4 +65,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `mail` | yes |
 | `mcp` | yes |
 
-Generated from the parser of reference 0.1.249. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.254. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
