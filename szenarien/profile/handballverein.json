@@ -7,12 +7,13 @@
     "label": {"kind": "label", "required": true, "label": "Kürzel des Vereins"},
     "title": {"kind": "text", "required": true, "max": 60, "label": "Name des Vereins"},
     "color": {"kind": "color", "default": null, "label": "Vereinsfarbe"},
+    "color2": {"kind": "color", "default": null, "label": "Zweite Vereinsfarbe (Akzent: Knöpfe, Hervorhebungen)"},
     "with_rights": {"kind": "bool", "default": true,
                     "label": "Mit „Rollen & Rechte“ (der Vereinsverwalter pflegt Rollen und Zuordnungen selbst)"}
   },
   "steps": [
     {"id": "tenant", "type": "tenant.create", "label": "{label}", "title": "{title}"},
-    {"id": "face", "type": "tenant.face", "title": "{title}", "color_primary": "{color}"},
+    {"id": "face", "type": "tenant.face", "title": "{title}", "color_primary": "{color}", "color_accent": "{color2}"},
     {"id": "address", "type": "address.ensure"},
     {"id": "address-wait", "type": "address.wait", "timeout": 180},
     {"id": "realm", "type": "idp.provision", "connector": "auth",
