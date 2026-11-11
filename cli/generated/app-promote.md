@@ -2,7 +2,7 @@
 id: cli/app/promote
 title: "oaap app promote"
 audience: [server_admin]
-checked_against: "0.1.248"
+checked_against: "0.1.249"
 checked_on: 2026-11-11
 lang: en
 tags: [cli, app]
@@ -33,4 +33,4 @@ oaap app promote [--to TO] [--confirm]
 | `--tenant INSTANCE_TENANT` | tenant label: read the instance as a NAME inside this tenant (also: <tenant>/<name>) |
 | `--keep-name` | --to really starts with the tenant's label |
 
-Generated from the parser of reference 0.1.248. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.249. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

@@ -27,6 +27,9 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
 - [Vorgänge im Mandanten — melden, klären, übergeben](vorgaenge-im-mandanten.md)
   — Feedback-Knopf, Bereiche und Rechte, Übergabe an einen anderen Mandanten,
   Löschfrist (RFC-0061)
+- [Das nächtliche Backup auf der CLI einrichten](backup-cli-einrichten.md)
+  — von Hand sichern, Timer, Zustand, Abholen auf eine zweite Maschine,
+  Mandanten einzeln, Wiederherstellen
 
 ## Geplant
 
@@ -34,6 +37,6 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
   Paket-Weg (RFC-0019) — inkl. der Windows-Falle `git archive`/autocrlf
 - Einen externen Server anbinden (headless, Fernwartung)
 - Die Flotte im Blick: FleetView und Flotten-Schlüssel (RFC-0021)
-- Backup einrichten und einen Umzug durchspielen
+- Einen Umzug durchspielen (Wiederherstellen auf einer frischen Maschine)
 - Internet-Zugang: externer Name, Edge-Knoten, DynDNS und
   DNS-Stolperfallen

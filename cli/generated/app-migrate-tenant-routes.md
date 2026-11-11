@@ -2,7 +2,7 @@
 id: cli/app/migrate-tenant-routes
 title: "oaap app migrate-tenant-routes"
 audience: [server_admin]
-checked_against: "0.1.248"
+checked_against: "0.1.249"
 checked_on: 2026-11-11
 lang: en
 tags: [cli, app, internal]
@@ -23,4 +23,4 @@ Internal: called by the platform itself (update, install, the portal or a timer)
 oaap app migrate-tenant-routes
 ```
 
-Generated from the parser of reference 0.1.248. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.249. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
