@@ -751,4 +751,7 @@ Prüfen von außen: `curl -sI -H "Authorization: Bearer x" https://<anmeldediens
 - Mit dem Werkzeug der App, falls sie eines mitbringt (z. B. `node tools/<…>-vapid-key.mjs`), oder auf dem Knoten:
   `openssl ecparam -name prime256v1 -genkey -noout -outform DER | tail -c +8 | head -c 32 | basenc --base64url | tr -d '=\n'; echo`
 - Den Wert direkt im Portal in das geheime Konfigurationsfeld der Instanz eintragen, nie in einen Chat, ein Ticket oder ein Repository.
-- Geplant: ein Knopf „Erzeugen“ neben solchen Feldern (Ideenspeicher I-42).
+- **Ab 0.1.251 (RFC-0079):** Erklärt die App im Manifest `generate: vapid` bei diesem
+  Schlüssel, zeigt das Portal unter **Instanzen → Konfiguration** den Knopf
+  „Push-Schlüssel (VAPID) erzeugen“, und ein Aufbauprofil kann ihn mit
+  `"generate": true` je Instanz erzeugen lassen — nur, solange das Feld leer ist.

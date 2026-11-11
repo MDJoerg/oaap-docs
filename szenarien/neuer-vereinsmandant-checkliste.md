@@ -119,12 +119,21 @@ Gesicht, Adresse, Realm (mit dem Postfach des Knotens, deutsch), Verwaltergruppe
 erste Anmeldung (`role`/`user`, keine Selbstregistrierung), `hvp-test` und `hvp` (App `hbvp`),
 `vorgaenge-test` und `vorgaenge`, Haken „Rollen & Rechte“ (`rechte`, an), Rollen aus den Vorlagen,
 erster Verwalter (wartet), Sicherung. Hochladen unter Portal → **Aufbau** → „Profil hochladen“,
-dann „Aufbau starten“. Danach von Hand: Deploy-Token für `hvp-test`
-(`oaap app token create <kürzel>-hvp-test`), die Partner in den Vorgängen und die
-**Konfiguration der Vereinsapp** in beiden Instanzen (Portal → Instanzen → Konfiguration):
-`HIB_MODE` = `club` (sonst kommt jeder `admin`/`keyuser` ohne fachliche Rolle hinein),
-`HIB_OPERATOR_NAME`, `HIB_CONTACT`, und für Push je Instanz ein eigener
-`HIB_FAN_VAPID_PRIVATE` (FAQ F37). Das Profil kann das noch nicht mitgeben (I-42).
+dann „Aufbau starten“.
+
+**Ab Profil 1.1.0 (Knoten ab 0.1.251, RFC-0079)** setzt der Aufbau die **Konfiguration der
+Vereinsapp** in beiden Instanzen selbst: `HIB_MODE` = `club` (sonst kommt jeder
+`admin`/`keyuser` ohne fachliche Rolle hinein), `HIB_OPERATOR_NAME` = Name des Vereins,
+`HIB_CONTACT` = das Feld „Kontakt“ (leer = später im Portal). Mit dem Haken „Push für die
+Fan-App“ erzeugt der Knoten je Instanz einen eigenen `HIB_FAN_VAPID_PRIVATE` (FAQ F37) und
+ersetzt einen vorhandenen nie. Der Haken ist aus, bis die Vereinsapp in ihrem Manifest
+`generate: vapid` bei diesem Schlüssel erklärt; ohne diese Zeile hält der Schritt mit „die App
+erlaubt nicht, dass der Knoten … erzeugt“ an. Von Hand bleiben: Deploy-Token für `hvp-test`
+(`oaap app token create <kürzel>-hvp-test`) und die Partner in den Vorgängen.
+
+**Versionen:** Das Profil trägt eine `version`. Der Knoten hebt jede Fassung auf (Portal →
+Aufbau → „Verlauf“), nimmt eine höhere Version als Ersatz an und lehnt dieselbe Version mit
+anderem Inhalt oder eine ältere ab. Ein unterbrochener Aufbau läuft mit seiner Fassung weiter.
 Gelaufen am 2026-11-09 auf oaapx02 mit 0.1.246 für den zweiten Vereinsmandanten: alle 15
 Schritte grün, neuer Realm mit Postfach, erster Verwalter wie beschrieben. Voraussetzung:
 Keycloak-App ≥ 0.1.7 (FAQ F34).
