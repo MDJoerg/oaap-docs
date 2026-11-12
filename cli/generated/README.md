@@ -2,7 +2,7 @@
 id: cli/generated
 title: "OAAP CLI reference (generated)"
 audience: [server_admin, support]
-checked_against: "0.1.262"
+checked_against: "0.1.263"
 checked_on: 2026-11-12
 lang: en
 tags: [cli]
@@ -11,7 +11,7 @@ tags: [cli]
 
 # OAAP CLI reference (generated)
 
-Every command of reference 0.1.262, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
+Every command of reference 0.1.263, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
 
 ## Commands of the wrapper
 
@@ -40,6 +40,7 @@ Every command of reference 0.1.262, generated from the parser by `oaap help --ma
 | [`oaap external`](external.md) | yes | the node's public hostname and TLS, also behind an edge (RFC-0006) |
 | [`oaap files`](files.md) | yes | the byte store of RFC-0034 (Stufe 1, local) |
 | [`oaap fleet`](fleet.md) | yes | fleet keys: read-only /fleet/status access (RFC-0021) |
+| [`oaap guard`](guard.md) | yes | secret files: refused at the gateway, looked for in every instance (RFC-0084) |
 | [`oaap help`](help.md) | no | list the commands, or write the CLI reference as Markdown (RFC-0078 stage 0) |
 | [`oaap idp`](idp.md) | yes | identity providers this node manages (RFC-0041 K3) |
 | [`oaap key`](key.md) | yes | API keys (RFC-0027) -- issue, list, revoke |
@@ -101,6 +102,7 @@ Called by update, install, the portal or a timer; listed so they can be recognis
 | [`oaap app egress-sweep`](app-egress-sweep.md) | stop closed instances that are not closed in fact (RFC-0068) |
 | [`oaap app migrate-care-url`](app-migrate-care-url.md) | the care door listener and OAAP_CARE_URL for every instance (0.1.223, RFC-0069 stage 3) |
 | [`oaap app migrate-connect`](app-migrate-connect.md) | prepare the tunnel's directories and route (called by update) |
+| [`oaap app migrate-guard`](app-migrate-guard.md) | the secret-file guard into old instance sites (RFC-0084, called by update) |
 | [`oaap app migrate-identity-headers`](app-migrate-identity-headers.md) | carry RFC-0040's identity headers into sites written before 0.1.107 |
 | [`oaap app migrate-idp-dir`](app-migrate-idp-dir.md) | prepare the 0600 directory the identity service mounts for provider secrets (RFC-0041) |
 | [`oaap app migrate-instance-dirs`](app-migrate-instance-dirs.md) | move instance data under its tenant (RFC-0026) |

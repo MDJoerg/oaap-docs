@@ -2,7 +2,7 @@
 id: cli/notify
 title: "oaap notify"
 audience: [server_admin]
-checked_against: "0.1.262"
+checked_against: "0.1.263"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, notify]
@@ -55,4 +55,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `settings` | yes |
 | `run` | yes |
 
-Generated from the parser of reference 0.1.262. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.263. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

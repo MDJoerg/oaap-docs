@@ -2,7 +2,7 @@
 id: cli/app/address
 title: "oaap app address"
 audience: [server_admin]
-checked_against: "0.1.262"
+checked_against: "0.1.263"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, app]
@@ -44,4 +44,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `alias-add` | yes |
 | `alias-remove` | yes |
 
-Generated from the parser of reference 0.1.262. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.263. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
