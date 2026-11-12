@@ -2,7 +2,7 @@
 id: cli/notify
 title: "oaap notify"
 audience: [server_admin]
-checked_against: "0.1.260"
+checked_against: "0.1.262"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, notify]
@@ -33,7 +33,8 @@ oaap notify {show,list-set,list-remove,route,test,log,settings,run} [name] [opti
 | `--bcc BCC` | -- |
 | `--prefix PREFIX` | for list-set: a subject prefix |
 | `--lists LISTS` | for route: list names, comma separated; empty = the mandatory list |
-| `--subject SUBJECT` | for route: subject template ({knoten} {mandant} {instanz} {typ} {kurz}) |
+| `--subject SUBJECT` | for route: subject template ({knoten} {mandant} {instanz} {typ} {kurz} {ort}) |
+| `--delivery DELIVERY` | for route: mail at once (now) or only in the weekly report (RFC-0083); critical types are always now (one of `now`, `report`) |
 | `--disk-warn DISK_WARN` | -- |
 | `--disk-crit DISK_CRIT` | -- |
 | `--all` | for log: every tenant |
@@ -54,4 +55,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `settings` | yes |
 | `run` | yes |
 
-Generated from the parser of reference 0.1.260. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.262. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

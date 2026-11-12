@@ -2,7 +2,7 @@
 id: cli/app/bulk
 title: "oaap app bulk"
 audience: [server_admin]
-checked_against: "0.1.260"
+checked_against: "0.1.262"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, app]
@@ -29,4 +29,4 @@ oaap app bulk [--as USER] {plan,start,run,stop,list} [rest ...]
 | `rest` | -- |
 | `--as USER` | for start: the portal user (an active server_admin) in whose name every step runs -- the node takes a step only from a signed-in person, never from 'root' |
 
-Generated from the parser of reference 0.1.260. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.262. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

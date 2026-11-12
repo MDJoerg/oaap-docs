@@ -2,7 +2,7 @@
 id: cli/generated
 title: "OAAP CLI reference (generated)"
 audience: [server_admin, support]
-checked_against: "0.1.260"
+checked_against: "0.1.262"
 checked_on: 2026-11-12
 lang: en
 tags: [cli]
@@ -11,7 +11,7 @@ tags: [cli]
 
 # OAAP CLI reference (generated)
 
-Every command of reference 0.1.260, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
+Every command of reference 0.1.262, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
 
 ## Commands of the wrapper
 
@@ -48,6 +48,7 @@ Every command of reference 0.1.260, generated from the parser by `oaap help --ma
 | [`oaap metrics`](metrics.md) | per action | node history of CPU, memory and disk (RFC-0051) |
 | [`oaap node`](node.md) | per action | this node: profiles (RFC-0011) and host care (oaap.core.host) |
 | [`oaap notify`](notify.md) | yes | recipient lists and notifications (RFC-0080) |
+| [`oaap report`](report.md) | yes | the weekly report (RFC-0083) |
 | [`oaap store`](store.md) | per action | the app store: list apps, manage sources and catalogs |
 | [`oaap tenant`](tenant.md) | per action | accounts and tenants of this node (oaap.core.tenant) |
 | [`oaap user`](user.md) | yes | portal accounts of this node: list, add, delete, password |
