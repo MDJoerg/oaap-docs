@@ -2,7 +2,7 @@
 id: cli/backup
 title: "oaap backup"
 audience: [server_admin]
-checked_against: "0.1.258"
+checked_against: "0.1.259"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, backup]
@@ -18,10 +18,7 @@ platform backup: create, schedule, status, exclude or include a tenant.
 ## Usage
 
 ```sh
-oaap backup [--to TO] [--tenant TENANT] [--reason REASON]
-                   [--at AT] [--keep KEEP] [--on] [--off] [--refresh]
-                   {create,schedule,exclude,include,status,class,test-instances}
-                   [target]
+oaap backup {create,schedule,exclude,include,status,class,test-instances,tenant,tenant-run} [target] [options]
 ```
 
 ## Arguments
@@ -33,7 +30,9 @@ oaap backup [--to TO] [--tenant TENANT] [--reason REASON]
 | `--to TO` | target directory or .tar.gz file (outside the data dir) |
 | `--tenant TENANT` | create: archive ONE tenant instead of the node (RFC-0029 D5). Such an archive is not restorable by the installer — see the note it prints |
 | `--reason REASON` | exclude: why, in words the customer can read — it goes into THEIR audit log; class none: why this node has no backup |
-| `--at AT` | schedule: hour HH:MM (24h) |
+| `--at AT` | schedule / tenant: hour HH:MM (24h) |
+| `--class CLS` | tenant: in the node archive (node), its own archive on its own timer (own), or none (with --reason) -- RFC-0081 (one of `node`, `own`, `none`) |
+| `--keep-max KEEP_MAX` | tenant: the ceiling a tenant_admin may choose for --keep |
 | `--keep KEEP` | schedule: how many archives stay on this node |
 | `--on` | schedule: arm the timer |
 | `--off` | schedule: disarm it |
@@ -52,5 +51,7 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `status` | yes |
 | `class` | yes |
 | `test-instances` | yes |
+| `tenant` | yes |
+| `tenant-run` | yes |
 
-Generated from the parser of reference 0.1.258. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.259. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

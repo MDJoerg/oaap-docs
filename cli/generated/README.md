@@ -2,7 +2,7 @@
 id: cli/generated
 title: "OAAP CLI reference (generated)"
 audience: [server_admin, support]
-checked_against: "0.1.258"
+checked_against: "0.1.259"
 checked_on: 2026-11-12
 lang: en
 tags: [cli]
@@ -11,7 +11,7 @@ tags: [cli]
 
 # OAAP CLI reference (generated)
 
-Every command of reference 0.1.258, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
+Every command of reference 0.1.259, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
 
 ## Commands of the wrapper
 

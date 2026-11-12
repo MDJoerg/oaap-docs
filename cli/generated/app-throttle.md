@@ -2,7 +2,7 @@
 id: cli/app/throttle
 title: "oaap app throttle"
 audience: [server_admin]
-checked_against: "0.1.258"
+checked_against: "0.1.259"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, app]
@@ -43,4 +43,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `off` | yes |
 | `reset` | yes |
 
-Generated from the parser of reference 0.1.258. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.259. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

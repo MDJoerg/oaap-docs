@@ -2,7 +2,7 @@
 id: cli/data
 title: "oaap data"
 audience: [server_admin, support]
-checked_against: "0.1.258"
+checked_against: "0.1.259"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, data]
@@ -58,4 +58,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `add-reader` | yes |
 | `remove-reader` | yes |
 
-Generated from the parser of reference 0.1.258. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.259. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

@@ -2,7 +2,7 @@
 id: cli/app/migrate-stream-close
 title: "oaap app migrate-stream-close"
 audience: [server_admin]
-checked_against: "0.1.258"
+checked_against: "0.1.259"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, app, internal]
@@ -23,4 +23,4 @@ Internal: called by the platform itself (update, install, the portal or a timer)
 oaap app migrate-stream-close
 ```
 
-Generated from the parser of reference 0.1.258. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.259. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

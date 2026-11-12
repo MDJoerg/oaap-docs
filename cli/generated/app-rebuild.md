@@ -2,7 +2,7 @@
 id: cli/app/rebuild
 title: "oaap app rebuild"
 audience: [server_admin]
-checked_against: "0.1.258"
+checked_against: "0.1.259"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, app]
@@ -28,4 +28,4 @@ oaap app rebuild [--back] name
 | `name` | -- |
 | `--back` | go back to the image the last rebuild kept |
 
-Generated from the parser of reference 0.1.258. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.259. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
