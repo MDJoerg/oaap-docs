@@ -2,7 +2,7 @@
 id: cli/app/restart
 title: "oaap app restart"
 audience: [server_admin]
-checked_against: "0.1.256"
+checked_against: "0.1.258"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, app]
@@ -28,4 +28,4 @@ oaap app restart [--tenant INSTANCE_TENANT] name
 | `name` | -- |
 | `--tenant INSTANCE_TENANT` | tenant label: read the instance as a NAME inside this tenant (also: <tenant>/<name>) |
 
-Generated from the parser of reference 0.1.256. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.258. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

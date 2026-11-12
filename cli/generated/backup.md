@@ -2,7 +2,7 @@
 id: cli/backup
 title: "oaap backup"
 audience: [server_admin]
-checked_against: "0.1.256"
+checked_against: "0.1.258"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, backup]
@@ -20,7 +20,8 @@ platform backup: create, schedule, status, exclude or include a tenant.
 ```sh
 oaap backup [--to TO] [--tenant TENANT] [--reason REASON]
                    [--at AT] [--keep KEEP] [--on] [--off] [--refresh]
-                   {create,schedule,exclude,include,status} [target]
+                   {create,schedule,exclude,include,status,class,test-instances}
+                   [target]
 ```
 
 ## Arguments
@@ -28,10 +29,10 @@ oaap backup [--to TO] [--tenant TENANT] [--reason REASON]
 | Argument | Meaning |
 |---|---|
 | `action` | what to do -- see Actions below |
-| `target` | tenant label for exclude/include |
+| `target` | tenant label for exclude/include; offsite\|local\|none for class; on\|off for test-instances |
 | `--to TO` | target directory or .tar.gz file (outside the data dir) |
 | `--tenant TENANT` | create: archive ONE tenant instead of the node (RFC-0029 D5). Such an archive is not restorable by the installer — see the note it prints |
-| `--reason REASON` | exclude: why, in words the customer can read — it goes into THEIR audit log |
+| `--reason REASON` | exclude: why, in words the customer can read — it goes into THEIR audit log; class none: why this node has no backup |
 | `--at AT` | schedule: hour HH:MM (24h) |
 | `--keep KEEP` | schedule: how many archives stay on this node |
 | `--on` | schedule: arm the timer |
@@ -49,5 +50,7 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `exclude` | yes |
 | `include` | yes |
 | `status` | yes |
+| `class` | yes |
+| `test-instances` | yes |
 
-Generated from the parser of reference 0.1.256. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.258. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
