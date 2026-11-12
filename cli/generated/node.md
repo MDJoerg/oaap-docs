@@ -2,7 +2,7 @@
 id: cli/node
 title: "oaap node"
 audience: [server_admin, support]
-checked_against: "0.1.259"
+checked_against: "0.1.260"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, node]
@@ -20,7 +20,8 @@ this node: profiles (RFC-0011) and host care (oaap.core.host).
 ```sh
 oaap node [--reason CARE_REASON] [--until CARE_UNTIL]
                  [--critical] [--read]
-                 {show,add-profile,remove-profile,care} [profile] [rest ...]
+                 {show,add-profile,remove-profile,care,alias,place,tags}
+                 [profile] [rest ...]
 ```
 
 ## Arguments
@@ -28,7 +29,7 @@ oaap node [--reason CARE_REASON] [--until CARE_UNTIL]
 | Argument | Meaning |
 |---|---|
 | `action` | what to do -- see Actions below |
-| `profile` | node profile, e.g. dev (RFC-0011); for 'care': measure \| sample \| auto-updates \| reboot-window |
+| `profile` | node profile, e.g. dev (RFC-0011); for 'care': measure \| sample \| auto-updates \| reboot-window; for alias\|place\|tags: the value, '-' resets (RFC-0082) |
 | `rest` | care auto-updates on \| care reboot-window HH:MM\|off \| care reboot at <time>\|cancel \| care protect\|release <inst> |
 | `--reason CARE_REASON` | for care reboot/protect: why, in words every tenant can read |
 | `--until CARE_UNTIL` | for care protect: the last day (YYYY-MM-DD, default 7 days) |
@@ -45,5 +46,8 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `add-profile` | yes |
 | `remove-profile` | yes |
 | `care` | no |
+| `alias` | yes |
+| `place` | yes |
+| `tags` | yes |
 
-Generated from the parser of reference 0.1.259. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.260. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

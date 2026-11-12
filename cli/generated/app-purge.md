@@ -2,7 +2,7 @@
 id: cli/app/purge
 title: "oaap app purge"
 audience: [server_admin]
-checked_against: "0.1.259"
+checked_against: "0.1.260"
 checked_on: 2026-11-12
 lang: en
 tags: [cli, app]
@@ -28,4 +28,4 @@ oaap app purge [--yes] name
 | `name` | -- |
 | `--yes` | carry it out after reading what is deleted |
 
-Generated from the parser of reference 0.1.259. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.260. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
