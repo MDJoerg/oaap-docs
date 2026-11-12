@@ -2,8 +2,8 @@
 id: cli/app/migrate-instance-keys
 title: "oaap app migrate-instance-keys"
 audience: [server_admin]
-checked_against: "0.1.254"
-checked_on: 2026-11-11
+checked_against: "0.1.256"
+checked_on: 2026-11-12
 lang: en
 tags: [cli, app, internal]
 ---
@@ -23,4 +23,4 @@ Internal: called by the platform itself (update, install, the portal or a timer)
 oaap app migrate-instance-keys
 ```
 
-Generated from the parser of reference 0.1.254. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.256. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

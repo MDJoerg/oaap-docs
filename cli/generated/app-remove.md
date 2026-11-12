@@ -2,8 +2,8 @@
 id: cli/app/remove
 title: "oaap app remove"
 audience: [server_admin]
-checked_against: "0.1.254"
-checked_on: 2026-11-11
+checked_against: "0.1.256"
+checked_on: 2026-11-12
 lang: en
 tags: [cli, app]
 ---
@@ -29,4 +29,4 @@ oaap app remove [--purge] [--tenant INSTANCE_TENANT] name
 | `--purge` | -- |
 | `--tenant INSTANCE_TENANT` | tenant label: read the instance as a NAME inside this tenant (also: <tenant>/<name>) |
 
-Generated from the parser of reference 0.1.254. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.256. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
