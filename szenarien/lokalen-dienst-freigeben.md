@@ -160,6 +160,8 @@ sudo oaap connector unexpose werkstatt <ref>
 dauerhaft unter einem Namen an, damit eine App auf dem äußeren Knoten es
 als Destination nutzt. Ein Browser im Internet erreicht ein Angebot nicht.
 Für „im Internet zeigen“ ist `expose` richtig.
+Ein durchgespieltes Beispiel für ein Angebot steht in
+[Ein KI-Gateway im Internet nutzt Modelle aus dem eigenen Netz](ki-gateway-ueber-connector.md).
 
 Öffnen, Verlängern und Loslassen geht für `server_admin` auch im Portal
 auf der Gesundheitsseite des inneren Knotens.
