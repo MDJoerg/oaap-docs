@@ -34,6 +34,7 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
   — vom Laptop mit `oaap-expose.py` ohne eigenen Knoten, oder über einen
   inneren Knoten; Anmeldung, `--public`, beenden, Grenzen (RFC-0033)
 - [Ein KI-Gateway im Internet nutzt Modelle aus dem eigenen Netz](ki-gateway-ueber-connector.md)
+- [KI-Schlüssel auf Zeit für die Teilnehmer einer Schulung](ki-schluessel-fuer-schulung.md)
   — Connector im Portal, Angebot, Destination `via:`, Bezugsquelle im
   KI-Gateway; ohne offenen Port im Router (RFC-0033, RFC-0060)
 

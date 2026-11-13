@@ -158,7 +158,9 @@ Abschnitt **„Aus Destinationen der Plattform“** mit einem Formular für
 
 **„Als Bezugsquelle anlegen“** klicken. Danach unter **Modellnamen** einen
 Namen anlegen oder erweitern, der auf diese Quelle zeigt, etwa
-`intern:<modellname-des-inneren-gateways>`.
+`intern:<modellname-des-inneren-gateways>`. Ab KI-Gateway 0.6.0 geht das ohne Abtippen: Reiter **Modelle** →
+„Modellnamen aus einer Bezugsquelle anlegen“, Quelle `intern` wählen,
+Modelle anhaken, anlegen.
 
 **Prüfen:**
 - Die Bezugsquelle `intern` zeigt bei „Zugangsdaten“ den Satz „meldet die
