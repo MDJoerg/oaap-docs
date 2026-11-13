@@ -163,6 +163,11 @@ Namen anlegen oder erweitern, der auf diese Quelle zeigt, etwa
 **Prüfen:**
 - Die Bezugsquelle `intern` zeigt bei „Zugangsdaten“ den Satz „meldet die
   Plattform an (Destination intern)“.
+- Ab KI-Gateway 0.6.0: In ihrer Zeile auf **„testen“** klicken. Das Gateway
+  fragt die Modellliste ab, ein Ping durch die ganze Kette, der auch den
+  Schlüssel prüft. Grün heißt: Der Weg steht, mit den Modellen des inneren
+  Gateways. Im Reiter **Modelle** prüft „testen“ einen Modellnamen mit einer
+  Mini-Anfrage (höchstens 1 Token).
 - Eine Anfrage an das äußere Gateway mit diesem Modellnamen wird
   beantwortet, und unter „Letzte Anfragen“ steht `intern` als benutzte
   Quelle.
@@ -196,6 +201,18 @@ Bezugsquelle geschieht in jedem Fall auf der Seite des äußeren Gateways.
 
 ## Wenn es schiefgeht
 
+Der schnellste Weg zur Ursache ist der Knopf **„testen“** bei der
+Bezugsquelle im äußeren Gateway (ab 0.6.0, Reiter **Bezugsquellen**). Er
+nennt den Fall in Worten:
+
+| Ergebnis des Tests | bedeutet | weiter bei |
+| ------------------ | -------- | ---------- |
+| erreichbar, mit Modellen | die Kette steht | — |
+| Anmeldung abgelehnt (HTTP 403) | Weg steht, Schlüssel falsch | 403 unten |
+| Tunnel steht, Ziel wird nicht angeboten (HTTP 404) | Angebot fehlt | „trägt keinen Aufruf“ |
+| Tunnel ist nicht verbunden (HTTP 502) | Connector fehlt, pausiert, Schlüssel widerrufen | „nicht verbunden“ |
+| `…/models` unbekannt (HTTP 404) | Pfad falsch, oft `/v1` doppelt | 404 unten |
+
 ### Antwort 403 „Kein gültiger API-Schlüssel“ (`invalid_api_key`)
 
 Das ist eine **gute** Nachricht für den Weg: Die Anfrage ist durch den
@@ -222,7 +239,11 @@ Grund. Häufige Ursachen:
 `oaap connector list` sagt „offers nothing -- the tunnel carries no call“,
 `oaap connect list` auf dem äußeren Knoten „offers: none“. Es fehlt das
 Angebot aus Schritt 2. Ohne Angebot antwortet eine Destination
-`via:oaapi01/mg` nicht.
+`via:oaapi01/mg` mit 404 „The inner node does not offer 'mg' on this
+tunnel“.
+
+Das passiert auch, wenn der Connector **entfernt und neu angelegt** wurde:
+Mit dem Connector gehen seine Angebote. Das Angebot dann neu anlegen.
 
 ### Ein Angebot wird abgelehnt
 
