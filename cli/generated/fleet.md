@@ -2,8 +2,8 @@
 id: cli/fleet
 title: "oaap fleet"
 audience: [server_admin]
-checked_against: "0.1.263"
-checked_on: 2026-11-12
+checked_against: "0.1.290"
+checked_on: 2026-11-15
 lang: en
 tags: [cli, fleet]
 ---
@@ -11,23 +11,29 @@ tags: [cli, fleet]
 
 # `oaap fleet`
 
-fleet keys: read-only /fleet/status access (RFC-0021).
+the fleet: keys for /fleet/status (RFC-0021), the hub, disclosure, pairing (RFC-0085).
 
 **Root:** needs `sudo`.
 
 ## Usage
 
 ```sh
-oaap fleet {key} {issue,list,revoke} [label]
+oaap fleet {key,hub,disclose,pair} {issue,list,revoke,show,twin,count,pseudonym,names,default,code,offer,entry,apply,classes,unpair,remove} [label] [options]
 ```
 
 ## Arguments
 
 | Argument | Meaning |
 |---|---|
-| `object` | (one of `key`) |
+| `object` | (one of `key`, `hub`, `disclose`, `pair`) |
 | `action` | what to do -- see Actions below |
-| `label` | who watches, e.g. fleetview@oaap-demo |
+| `--via VIA` | for 'pair code': the entry the node sends through (default: this hub directly, RFC-0085 stage 3) |
+| `--lan` | for 'pair code' (direct): the node sits in this hub's LAN and connects to its LAN address |
+| `--replace` | for 'pair code': the node was reinstalled; its old key goes |
+| `--classes CLASSES` | for 'pair apply\|classes': what this node sends, e.g. alive,metrics,status,events (alive always) |
+| `--out OUT` | for 'pair code': write the code to this file (0600) |
+| `--tenant TENANT` | for 'disclose': set this tenant's level instead of the node's ceiling (RFC-0087 §4) |
+| `label` | who watches, e.g. fleetview@oaap-demo; for 'hub twin' the tenant whose twin the fleet writes (default oaap-ops) |
 
 ## Actions
 
@@ -38,5 +44,18 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `issue` | yes |
 | `list` | yes |
 | `revoke` | yes |
+| `show` | yes |
+| `twin` | yes |
+| `count` | yes |
+| `pseudonym` | yes |
+| `names` | yes |
+| `default` | yes |
+| `code` | yes |
+| `offer` | yes |
+| `entry` | yes |
+| `apply` | yes |
+| `classes` | yes |
+| `unpair` | yes |
+| `remove` | yes |
 
-Generated from the parser of reference 0.1.263. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.290. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

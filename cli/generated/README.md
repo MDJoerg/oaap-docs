@@ -39,7 +39,7 @@ Every command of reference 0.1.263, generated from the parser by `oaap help --ma
 | [`oaap edge`](edge.md) | yes | forward hostnames from this edge node to other nodes (RFC-0006) |
 | [`oaap external`](external.md) | yes | the node's public hostname and TLS, also behind an edge (RFC-0006) |
 | [`oaap files`](files.md) | yes | the byte store of RFC-0034 (Stufe 1, local) |
-| [`oaap fleet`](fleet.md) | yes | fleet keys: read-only /fleet/status access (RFC-0021) |
+| [`oaap fleet`](fleet.md) | yes | the fleet: keys for /fleet/status (RFC-0021), the hub, disclosure, pairing (RFC-0085) |
 | [`oaap guard`](guard.md) | yes | secret files: refused at the gateway, looked for in every instance (RFC-0084) |
 | [`oaap help`](help.md) | no | list the commands, or write the CLI reference as Markdown (RFC-0078 stage 0) |
 | [`oaap idp`](idp.md) | yes | identity providers this node manages (RFC-0041 K3) |
