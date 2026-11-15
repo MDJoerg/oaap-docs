@@ -27,6 +27,7 @@ Every command of reference 0.1.263, generated from the parser by `oaap help --ma
 
 | Command | Needs `sudo` | What it does |
 |---|---|---|
+| [`oaap assets`](assets.md) | yes | the tenant's own asset universe: what apps name of themselves, in the tenant's twin (RFC-0088) |
 | [`oaap authz`](authz.md) | yes | business authorization -- roles, collections, assignments (oaap.core.authorization) |
 | [`oaap backup`](backup.md) | yes | platform backup: create, schedule, status, exclude or include a tenant |
 | [`oaap broker`](broker.md) | yes | the MQTT broker's certificate (RFC-0054) |
