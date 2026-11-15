@@ -5,7 +5,7 @@
 | App | Zweck | Doku |
 | --- | ----- | ---- |
 | **OAAP Studio** | Entwicklungsvorhaben verwalten, KI-Briefings erzeugen, gelieferte Pakete prüfen und ausrollen | Seite folgt; bis dahin: [README im Quell-Repo](https://github.com/MDJoerg/oaap-apps/tree/main/apps/studio) |
-| **OAAP FleetView** | Die Flotte auf einen Blick: Knoten, Versionen, Instanzen, Auffälligkeiten — strikt lesend | Seite folgt; bis dahin: [README im Quell-Repo](https://github.com/MDJoerg/oaap-apps/tree/main/apps/fleetview) |
+| **OAAP FleetView** | Die Flotte auf einen Blick: Knoten, Versionen, Instanzen, Auffälligkeiten — aus dem Zwilling der Zentrale, strikt lesend; ab 1.0 im Mandanten oaap-ops der Zentrale | Seite folgt; bis dahin: [README im Quell-Repo](https://github.com/MDJoerg/oaap-apps/tree/main/apps/fleetview) |
 | **OAAP Store Editor** | Store-Listen pflegen, ohne Git zu kennen | Seite folgt |
 | **Vorgänge** | Melden und Klären im Mandanten: Feedback-Knopf jeder App, Bereiche, Übergabe an andere Mandanten | [Szenario](../szenarien/vorgaenge-im-mandanten.md), [README im Quell-Repo](https://github.com/MDJoerg/oaap-apps/tree/main/apps/vorgaenge) |
 

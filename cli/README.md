@@ -466,8 +466,11 @@ erst `user list` ansehen.
 ### `sudo oaap fleet key issue|list|revoke [<label>]`
 
 Flotten-Schlüssel (RFC-0021): erlaubt **ausschließlich** das Lesen der
-Status-Auskunft `GET /fleet/status` dieses Knotens — für die
-Flotten-Übersicht (FleetView) auf dem Verwaltungsknoten. Das Label
+Status-Auskunft `GET /fleet/status` dieses Knotens — für einen Beobachter
+von außen (Monitoring, FleetView bis 0.4). FleetView ab 1.0 braucht
+keine Flotten-Schlüssel mehr: Es liest die Flotte aus dem Zwilling der
+Zentrale (RFC-0085 §10). Nach dem Umstieg die alten Schlüssel
+`fleetview@…` auf jedem Knoten widerrufen. Das Label
 nennt den Beobachter; pro Beobachter ein eigener Schlüssel, dann bleibt
 ein Widerruf gezielt. Der Wert wird **einmal** gezeigt; `revoke` wirkt
 sofort.

@@ -46,7 +46,7 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
 - App-Projekt mit einer KI: Vorhaben im Studio, Briefing, Deploy-Hook,
   Paket-Weg (RFC-0019) — inkl. der Windows-Falle `git archive`/autocrlf
 - Einen externen Server anbinden (headless, Fernwartung)
-- Die Flotte im Blick: FleetView und Flotten-Schlüssel (RFC-0021)
+- Die Flotte im Blick: FleetView liest die Flotte aus dem Zwilling der Zentrale (RFC-0085 §10)
 - Einen Umzug durchspielen (Wiederherstellen auf einer frischen Maschine)
 - Internet-Zugang: externer Name, Edge-Knoten, DynDNS und
   DNS-Stolperfallen
