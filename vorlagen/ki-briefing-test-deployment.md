@@ -59,6 +59,10 @@ Was die Anwendung selbst einhalten muss (Auszug; der Contract ist maßgeblich):
 - **Persistent nur unter deklarierten Speicherpfaden**; sonst ist alles flüchtig.
 - **Konfiguration nur über deklarierte Umgebungsvariablen**; Geheimnisse mit `secret: true`.
 - **Protokoll nach stdout/stderr**, ein **Health-Pfad**, der ohne Nebenwirkung 200 liefert.
+  Den Pfad, der im Manifest unter `health.path` steht, muss die Anwendung auch wirklich
+  beantworten. Hat sie keinen eigenen Pfad (etwa eine statische Webseite), dann
+  `health: path: /` erklären. Antwortet der erklärte Pfad mit 404, weist schon die
+  Installation darauf hin.
 - **Keine festen Hostnamen oder absoluten Adressen**: Dieselbe Anwendung läuft unter
   mehreren Adressen (Test, Produktion, später eigene Domain). Verweise relativ.
 - **Nichts aus dem Internet nachladen, was zum Laufen nötig ist** (Skripte, Schriften).
