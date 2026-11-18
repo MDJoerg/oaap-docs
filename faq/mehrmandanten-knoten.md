@@ -755,3 +755,16 @@ Prüfen von außen: `curl -sI -H "Authorization: Bearer x" https://<anmeldediens
   Schlüssel, zeigt das Portal unter **Instanzen → Konfiguration** den Knopf
   „Push-Schlüssel (VAPID) erzeugen“, und ein Aufbauprofil kann ihn mit
   `"generate": true` je Instanz erzeugen lassen — nur, solange das Feld leer ist.
+
+### F38 – Wie mache ich eine App, deren Paket Routen öffentlich erklärt, nur mit Anmeldung erreichbar — ohne neues Paket?
+
+*Stichwörter: öffentlich, public, Anmeldung, verschärfen, login-required, Demo, Route, ohne Paket*
+
+**Kurzantwort:** Mit dem Schalter **„Anmeldung auf allen Routen“** je Instanz (ab 0.1.298, RFC-0092). Dann fragt jede Route die Anmeldung ab, auch die öffentlichen des Pakets; Routen mit Rollen bleiben, wie sie sind. Das Paket ändert sich nicht, ein Update lässt den Schalter stehen.
+
+- Portal: **Instanzen → Instanz → Diagnose**, unter dem Wartungsmodus. Das Portal nennt die Routen, die danach zugehen. Den Knopf hat, wer die Instanz verwalten darf.
+- Maschine: `sudo oaap app login-required <instanz> on --reason "<warum>"`, zurück mit `off`.
+- Achtung: Maschinen, die eine öffentliche Route ohne Anmeldung aufrufen (Webhooks, Hallenanzeigen, Statusseiten), werden danach abgewiesen.
+- Jede Änderung steht im Mandantenlog (`instance.login-required`). Gemessen auf `oaap-test`: vorher antwortet die App, mit Schalter kommt 303 zur Anmeldung (Browser) bzw. 401 (falscher Schlüssel).
+
+**Weiterführend:** F33, RFC-0092.

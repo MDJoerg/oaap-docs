@@ -2,7 +2,7 @@
 id: cli/generated
 title: "OAAP CLI reference (generated)"
 audience: [server_admin, support]
-checked_against: "0.1.297"
+checked_against: "0.1.298"
 checked_on: 2026-11-18
 lang: en
 tags: [cli]
@@ -11,7 +11,7 @@ tags: [cli]
 
 # OAAP CLI reference (generated)
 
-Every command of reference 0.1.297, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
+Every command of reference 0.1.298, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
 
 ## Commands of the wrapper
 
@@ -73,6 +73,7 @@ Every command of reference 0.1.297, generated from the parser by `oaap help --ma
 | [`oaap app instance-keys`](app-instance-keys.md) | yes | the platform's keys of each instance (RFC-0062): renew those that expire soon, or clear orphans |
 | [`oaap app link`](app-link.md) | yes | app-to-app links (RFC-0016) |
 | [`oaap app list`](app-list.md) | yes | list the app instances of this node |
+| [`oaap app login-required`](app-login-required.md) | yes | every route asks for a login, the package's public ones included (RFC-0092) |
 | [`oaap app logs`](app-logs.md) | yes | show an instance's container log (RFC-0038) |
 | [`oaap app maintenance`](app-maintenance.md) | yes | only administrators pass; everybody else sees a 'back soon' page (RFC-0059) |
 | [`oaap app promote`](app-promote.md) | yes | ship the tested artifact to production (RFC-0020) |

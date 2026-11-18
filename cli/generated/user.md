@@ -2,7 +2,7 @@
 id: cli/user
 title: "oaap user"
 audience: [server_admin]
-checked_against: "0.1.297"
+checked_against: "0.1.298"
 checked_on: 2026-11-18
 lang: en
 tags: [cli, user]
@@ -29,7 +29,11 @@ oaap user {list,add,delete,schedule,password,unbind} [username] [password] [opti
 | `--roles ROLES` | 'add': comma-separated, default 'user'; server_admin is refused at this door |
 | `--groups GROUPS` | 'add': comma-separated visibility groups (RFC-0007) |
 | `--display-name DISPLAY_NAME` | 'add': the name shown in the portal |
-| `--tenant TENANT` | 'add': tenant label or id; default is this node's default tenant |
+| `--tenant TENANT` | 'add': tenant label or id; default is this node's default tenant. 'list': only this tenant (I-55) |
+| `--search SEARCH` | 'list': part of user name, display name or e-mail |
+| `--state STATE` | 'list': active, inactive, scheduled, inbox (no role) or password (must change it) (one of ``, `active`, `inactive`, `scheduled`, `inbox`, `password`) |
+| `--role ROLE` | 'list': only users holding this role |
+| `--kind KIND` | 'list': people or machines (one of ``, `human`, `machine`) |
 | `--password-file PASSWORD_FILE` | 'add': read the initial password from this file |
 | `--generate` | 'add': make a password and print it ONCE |
 | `--keep-password` | 'add'/'password': do NOT force a new password at the first sign-in (RFC-0046 §6.2) |
@@ -55,4 +59,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `password` | yes |
 | `unbind` | yes |
 
-Generated from the parser of reference 0.1.297. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.298. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
