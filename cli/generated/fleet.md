@@ -2,8 +2,8 @@
 id: cli/fleet
 title: "oaap fleet"
 audience: [server_admin]
-checked_against: "0.1.290"
-checked_on: 2026-11-15
+checked_against: "0.1.297"
+checked_on: 2026-11-18
 lang: en
 tags: [cli, fleet]
 ---
@@ -58,4 +58,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `unpair` | yes |
 | `remove` | yes |
 
-Generated from the parser of reference 0.1.290. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.297. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

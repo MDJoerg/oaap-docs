@@ -2,8 +2,8 @@
 id: cli/app/list
 title: "oaap app list"
 audience: [server_admin]
-checked_against: "0.1.263"
-checked_on: 2026-11-12
+checked_against: "0.1.297"
+checked_on: 2026-11-18
 lang: en
 tags: [cli, app]
 ---
@@ -21,4 +21,4 @@ list the app instances of this node.
 oaap app list
 ```
 
-Generated from the parser of reference 0.1.263. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.297. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

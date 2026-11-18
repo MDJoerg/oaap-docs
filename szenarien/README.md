@@ -24,6 +24,9 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
 - [Fachliche Rollen einrichten — aus den Vorlagen einer App](fachliche-rollen-einrichten.md)
   — Rollen, Berechtigungspakete, Abbildungen und die Gruppen im Anmeldedienst
   mit einem Befehl, mit Probelauf (oaap.core.authorization 0.4)
+- [Partner und Kunden mit eigenem Anmeldedienst — Broker vor dem Realm](partner-mit-eigenem-anmeldedienst.md)
+  — Entra und Google vor dem Realm des Mandanten, offen oder geschlossen,
+  Erstanmelde-Richtlinie, Quittung, Warnungen (RFC-0091 Stufe 1)
 - [Vorgänge im Mandanten — melden, klären, übergeben](vorgaenge-im-mandanten.md)
   — Feedback-Knopf, Bereiche und Rechte, Übergabe an einen anderen Mandanten,
   Löschfrist (RFC-0061)

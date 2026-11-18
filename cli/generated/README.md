@@ -2,8 +2,8 @@
 id: cli/generated
 title: "OAAP CLI reference (generated)"
 audience: [server_admin, support]
-checked_against: "0.1.263"
-checked_on: 2026-11-12
+checked_against: "0.1.297"
+checked_on: 2026-11-18
 lang: en
 tags: [cli]
 ---
@@ -11,7 +11,7 @@ tags: [cli]
 
 # OAAP CLI reference (generated)
 
-Every command of reference 0.1.263, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
+Every command of reference 0.1.297, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
 
 ## Commands of the wrapper
 
@@ -63,6 +63,7 @@ Every command of reference 0.1.263, generated from the parser by `oaap help --ma
 | [`oaap app address`](app-address.md) | yes | an instance's own public hostname and its aliases (RFC-0009, RFC-0018) |
 | [`oaap app artifact`](app-artifact.md) | yes | uploaded packages (RFC-0019) |
 | [`oaap app bulk`](app-bulk.md) | yes | update, promote or rebuild everything that is due, one after another, stopping at the first failure |
+| [`oaap app catalog-put`](app-catalog-put.md) | yes | hand the tested package of an instance to the package catalog, not released (RFC-0050 §9) |
 | [`oaap app config`](app-config.md) | yes | list, set or unset the configuration values of an instance |
 | [`oaap app convert`](app-convert.md) | no | turn a docker-compose file into an OAAP package draft |
 | [`oaap app diagnose`](app-diagnose.md) | yes | the portal's diagnosis window, from the machine (RFC-0038 D2) |

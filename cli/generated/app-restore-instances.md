@@ -2,8 +2,8 @@
 id: cli/app/restore-instances
 title: "oaap app restore-instances"
 audience: [server_admin]
-checked_against: "0.1.263"
-checked_on: 2026-11-12
+checked_against: "0.1.297"
+checked_on: 2026-11-18
 lang: en
 tags: [cli, app, internal]
 ---
@@ -23,4 +23,4 @@ Internal: called by the platform itself (update, install, the portal or a timer)
 oaap app restore-instances
 ```
 
-Generated from the parser of reference 0.1.263. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.297. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

@@ -2,8 +2,8 @@
 id: cli/tenant
 title: "oaap tenant"
 audience: [server_admin, support]
-checked_against: "0.1.263"
-checked_on: 2026-11-12
+checked_against: "0.1.297"
+checked_on: 2026-11-18
 lang: en
 tags: [cli, tenant]
 ---
@@ -63,6 +63,8 @@ oaap tenant {list,show,check,log,create,rename,face,idp,policy,adopt,remove,buil
 | `--self-registration SELF_REGISTRATION` | whether the realm lets people register themselves -- written down here, MOVED by `oaap idp settings` (one of `on`, `off`) |
 | `--second-factor SECOND_FACTOR` | whether the realm asks for a second factor; OAAP never checks one itself (RFC-0041 K7) (one of `off`, `required`) |
 | `--group-map GROUP_MAP` | realm-group=oaap-group,... -- an explicit local mapping; an unmapped group grants nothing |
+| `--broker-closed BROKER_CLOSED` | alias=reason -- acknowledge a broker of the realm as closed (RFC-0091 §3.2) |
+| `--broker-open BROKER_OPEN` | alias -- withdraw that acknowledgement |
 | `--reason IDP_REASON` | why a dangerous combination is wanted, or for 'egress' why this is opened or excepted; goes into this tenant's log |
 
 ## Actions
@@ -87,4 +89,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `allow` | yes |
 | `disallow` | yes |
 
-Generated from the parser of reference 0.1.263. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.297. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

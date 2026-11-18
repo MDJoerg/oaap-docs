@@ -2,8 +2,8 @@
 id: cli/app/standby-after
 title: "oaap app standby-after"
 audience: [server_admin]
-checked_against: "0.1.263"
-checked_on: 2026-11-12
+checked_against: "0.1.297"
+checked_on: 2026-11-18
 lang: en
 tags: [cli, app]
 ---
@@ -28,4 +28,4 @@ oaap app standby-after name minutes
 | `name` | -- |
 | `minutes` | at least 5, or 'off' |
 
-Generated from the parser of reference 0.1.263. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.297. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

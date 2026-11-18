@@ -2,8 +2,8 @@
 id: cli/data
 title: "oaap data"
 audience: [server_admin, support]
-checked_against: "0.1.263"
-checked_on: 2026-11-12
+checked_against: "0.1.297"
+checked_on: 2026-11-18
 lang: en
 tags: [cli, data]
 ---
@@ -18,14 +18,14 @@ managed Postgres, type registry and other data-platform services (oaap.data.stor
 ## Usage
 
 ```sh
-oaap data {store,model,twin} {status,schemas,create,copy,drop,restore,migrate-twin,close,types,show,register,alias,bindings,readers,add-reader,remove-reader} [arg1] [arg2] [options]
+oaap data {store,model,twin,timeseries} {status,schemas,create,copy,drop,restore,migrate-twin,close,types,show,register,alias,bindings,readers,add-reader,remove-reader,enable,job} [arg1] [arg2] [options]
 ```
 
 ## Arguments
 
 | Argument | Meaning |
 |---|---|
-| `object` | (one of `store`, `model`, `twin`) |
+| `object` | (one of `store`, `model`, `twin`, `timeseries`) |
 | `action` | what to do -- see Actions below |
 | `arg1` | create: purpose; copy/drop: schema; restore: dump file; model show/register/alias: type key or definition file; model bindings: instance |
 | `arg2` | create: tenant-id; copy: new schema name; model alias: the alias word |
@@ -57,5 +57,7 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `readers` | no |
 | `add-reader` | yes |
 | `remove-reader` | yes |
+| `enable` | yes |
+| `job` | yes |
 
-Generated from the parser of reference 0.1.263. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.297. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

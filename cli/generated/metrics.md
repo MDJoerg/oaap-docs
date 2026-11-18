@@ -2,8 +2,8 @@
 id: cli/metrics
 title: "oaap metrics"
 audience: [server_admin, support]
-checked_against: "0.1.263"
-checked_on: 2026-11-12
+checked_against: "0.1.297"
+checked_on: 2026-11-18
 lang: en
 tags: [cli, metrics]
 ---
@@ -32,6 +32,7 @@ oaap metrics {sample,show,queue,queue-purge,sender} [{set,show,test,remove}] [op
 | `--node NODE` | for 'sender set': this node's name on the wire (default: the host name) |
 | `--root ROOT` | for 'sender set': topic root (default oaap-node) |
 | `--ca CA` | for 'sender set': a private CA file |
+| `--address ADDRESS` | for 'sender set': connect to this IP instead of the URL's name (same LAN, no hairpin NAT); TLS still checks the name |
 | `--allow-plain` | for 'sender set': allow mqtt:// to a private address |
 | `--yes` | for 'queue-purge': really delete |
 | `--window WINDOW` | for 'show': 4h, 24h (default), 1w or 1m |
@@ -48,4 +49,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `queue-purge` | yes |
 | `sender` | yes |
 
-Generated from the parser of reference 0.1.263. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.297. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
