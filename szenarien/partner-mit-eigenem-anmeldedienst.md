@@ -3,7 +3,7 @@ id: szenario/partner-mit-eigenem-anmeldedienst
 title: "Partner und Kunden mit eigenem Anmeldedienst — Broker vor dem Realm des Mandanten"
 audience: [server_admin, tenant_admin, support]
 applies_from: "0.1.297"
-checked_against: "0.1.299"
+checked_against: "0.1.301"
 checked_on: 2026-11-18
 lang: de
 tags: [anmeldung, keycloak, broker, entra, google, partner, erstanmeldung, idp, sso]
@@ -215,13 +215,58 @@ So wirkt es:
 `role map`. Nach einer Anmeldung zeigt `sudo oaap tenant log <mandant>`
 die Zeile `user.idp-role-sync`.
 
+### Schritt 8: Forgejo meldet über den Realm an (ab 0.1.301)
+
+Forgejo prüft `git push` über HTTPS selbst und sitzt deshalb nicht
+hinter der Portal-Anmeldung. Ab Paket 15.0.11 meldet es Personen über
+den Realm des Mandanten an, also auch Partner und Kunden, die über ihren
+eigenen Anmeldedienst kommen. Dafür bekommt die Forgejo-Instanz einen
+eigenen Client im Realm.
+
+1. Forgejo aus dem Store installieren. Die Installation nennt den
+   nächsten Befehl.
+2. **Zuerst den lokalen Administrator anlegen** (siehe Store-README).
+   Forgejo macht die erste Person, die sich registriert, zum
+   Administrator. Ohne lokalen Admin wäre das womöglich ein Partner.
+   Das Paket wartet deshalb mit der Anmeldequelle, bis es einen Admin
+   gibt; im Log der App steht dann `no administrator yet`.
+3. Den Client anlegen, erst zur Ansicht:
+
+   ```sh
+   sudo oaap idp app <connector> --instance <instanz> --dry-run
+   sudo oaap idp app <connector> --instance <instanz>
+   ```
+
+   OAAP legt einen vertraulichen Client `oaap-app-<name>` an und gibt
+   Forgejo Aussteller, Client-ID und Geheimnis. Forgejo legt daraus
+   seine Anmeldequelle `oaap` selbst an.
+4. Optional: Partner in Forgejo einschränken. Bei der App den Wert
+   `OAAP_FORGEJO_RESTRICTED_GROUP` auf `/partner` setzen. Der
+   „Hardcoded Group“-Mapper aus Schritt 7 legt jeden Partner in diese
+   Gruppe. Das ist ein Recht in Forgejo, keine Plattformrolle.
+
+So sieht es für die Person aus: Auf der Forgejo-Anmeldeseite steht
+„Anmelden mit oaap“, dahinter die Anmeldeseite des Realms mit dem Knopf
+für den Partner-Anmeldedienst. Beim ersten Mal bekommt die Person ein
+Forgejo-Konto mit ihrem Benutzernamen. Für Git legt sie in Forgejo ein
+Zugangstoken an (Einstellungen → Anwendungen).
+
+**Prüfen:** `sudo oaap tenant log <mandant>` zeigt `app.idp`.
+`sudo oaap tenant check` meldet einen Client, der im Realm fehlt oder
+deaktiviert ist.
+
+**Abschalten:** `sudo oaap idp app <connector> --instance <instanz>
+--off`. Der Client wird deaktiviert, nicht gelöscht; der Realm lehnt
+danach jede Anmeldung über ihn ab. Beim Entfernen der Instanz passiert
+dasselbe.
+
 ## 3. Was heute noch nicht geht
 
 - **Eine Rolle je Broker ohne Gruppe.** OAAP liest Gruppen, keine Broker:
   Der Weg führt über den „Hardcoded Group“-Mapper am Broker (Schritt 7).
-- **Forgejo mit Anmeldung über den Realm.** Das Forgejo-Paket hat heute
-  eigene Konten. Die Anmeldung über den Anmeldedienst des Mandanten,
-  auch für Git über HTTPS, bringt RFC-0091 Stufe 3.
+- **Ein neuer Name für Forgejo zieht nicht von selbst nach.** Bekommt
+  die Instanz einen weiteren Namen, `oaap idp app` noch einmal
+  ausführen. Alte Adressen nimmt OAAP nie aus dem Client.
 - **Ein Konto über mehrere Mandanten.** Das ist ein eigenes Thema
   (RFC-0047).
 

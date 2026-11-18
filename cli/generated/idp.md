@@ -2,7 +2,7 @@
 id: cli/idp
 title: "oaap idp"
 audience: [server_admin]
-checked_against: "0.1.299"
+checked_against: "0.1.301"
 checked_on: 2026-11-18
 lang: en
 tags: [cli, idp]
@@ -18,7 +18,7 @@ identity providers this node manages (RFC-0041 K3).
 ## Usage
 
 ```sh
-oaap idp {list,add,remove,check,provision,settings,export,admin-group,mail,mcp} [name] [options]
+oaap idp {list,add,remove,check,provision,settings,export,admin-group,mail,mcp,app} [name] [options]
 ```
 
 ## Arguments
@@ -64,5 +64,6 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `admin-group` | yes |
 | `mail` | yes |
 | `mcp` | yes |
+| `app` | yes |
 
-Generated from the parser of reference 0.1.299. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.301. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
