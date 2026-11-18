@@ -3,7 +3,7 @@ id: szenario/partner-mit-eigenem-anmeldedienst
 title: "Partner und Kunden mit eigenem Anmeldedienst — Broker vor dem Realm des Mandanten"
 audience: [server_admin, tenant_admin, support]
 applies_from: "0.1.297"
-checked_against: "0.1.297"
+checked_against: "0.1.299"
 checked_on: 2026-11-18
 lang: de
 tags: [anmeldung, keycloak, broker, entra, google, partner, erstanmeldung, idp, sso]
@@ -182,14 +182,43 @@ Zurücknehmen eine Begründung.
 **Prüfen:** In `oaap tenant policy <mandant>` steht der Broker als
 `closed` mit Ihrer Begründung.
 
+### Schritt 7: Eine Rolle je Gruppe im Realm (ab 0.1.299)
+
+Statt allen dieselbe Rolle zu geben, kann der Betreiber je Gruppe im
+Realm eine Plattformrolle festlegen. Erlaubt sind nur `guest`,
+`partner` und `user`: Die Verwaltung des Realms kann Leute zwischen
+Gruppen verschieben und soll damit keine Administratoren machen können.
+
+Im Realm sorgt ein Mapper am Broker dafür, dass jeder, der über
+*Partner-Entra* kommt, in der Gruppe `partner` landet (Keycloak:
+Identity Provider → Mappers → „Hardcoded Group“). Dann:
+
+```sh
+sudo oaap tenant policy <mandant> --role-map partner=partner,kunden=guest
+```
+
+Mit einem offenen Broker verlangt das wie `--first-login role` eine
+Begründung (`--reason`).
+
+So wirkt es:
+
+- **Bei jeder Anmeldung** gleicht OAAP ab. Wer in der Gruppe ist, bekommt
+  die Rolle. Wer die Gruppe verlassen hat, verliert sie bei der nächsten
+  Anmeldung. Jede Änderung steht als `user.idp-role-sync` im Mandantenlog.
+- **Eine Rolle, die jemand von Hand vergeben hat, bleibt unberührt.** In
+  der Benutzerverwaltung steht an einer Rolle aus der Abbildung „über
+  Gruppe …“.
+- Leeren: `--role-map ""`. Die Rollen aus der Abbildung enden dann bei
+  der nächsten Anmeldung der jeweiligen Person.
+
+**Prüfen:** `sudo oaap tenant policy <mandant>` zeigt die Zeilen
+`role map`. Nach einer Anmeldung zeigt `sudo oaap tenant log <mandant>`
+die Zeile `user.idp-role-sync`.
+
 ## 3. Was heute noch nicht geht
 
-- **Eine Plattformrolle je Gruppe oder je Broker.** Heute bekommt jede
-  erste Anmeldung dieselbe Rolle, egal über welchen Broker sie kam.
-  Fachliche Rechte je Realm-Gruppe gehen schon heute (siehe
-  [Fachliche Rollen einrichten](fachliche-rollen-einrichten.md)). Die
-  Plattformrolle je Gruppe (nur `guest`, `partner`, `user`) bringt
-  RFC-0091 Stufe 2.
+- **Eine Rolle je Broker ohne Gruppe.** OAAP liest Gruppen, keine Broker:
+  Der Weg führt über den „Hardcoded Group“-Mapper am Broker (Schritt 7).
 - **Forgejo mit Anmeldung über den Realm.** Das Forgejo-Paket hat heute
   eigene Konten. Die Anmeldung über den Anmeldedienst des Mandanten,
   auch für Git über HTTPS, bringt RFC-0091 Stufe 3.
