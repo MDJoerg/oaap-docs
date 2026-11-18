@@ -11,6 +11,7 @@ vorausgesetztes Spezialwissen.
 
 | Ordner | Inhalt |
 | ------ | ------ |
+| [anwender/](anwender/README.md) | Für alle, die mit den Apps arbeiten: was OAAP ist, erste Schritte, eigene Werkzeuge und Zugänge im MCP-Gateway |
 | [szenarien/](szenarien/README.md) | Schritt-für-Schritt-Anleitungen je Situation: Server aufsetzen, App installieren, App-Projekt mit KI, Produktivsetzung, … |
 | [apps/](apps/README.md) | Dokumentation der OAAP-eigenen Apps (Studio, FleetView, Store Editor, …) und der kuratierten Pakete |
 | [betrieb/](betrieb/architektur-kurz.md) | Für Betreiber und Prüfer: wie ein Knoten von innen aussieht — Ports, Netze, Datenfluss, Dateisystem, Geheimnisse, Backup, bekannte Grenzen |

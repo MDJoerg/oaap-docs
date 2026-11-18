@@ -27,6 +27,12 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
 - [Partner und Kunden mit eigenem Anmeldedienst — Broker vor dem Realm](partner-mit-eigenem-anmeldedienst.md)
   — Entra und Google vor dem Realm des Mandanten, offen oder geschlossen,
   Erstanmelde-Richtlinie, Quittung, Warnungen (RFC-0091 Stufe 1)
+- [Eine Destination im Portal anlegen und einer App zuordnen](destination-im-portal.md)
+  — wer was darf, anlegen als Mandanten-Verwaltung, Zuordnen im Reiter
+  Netz & Adressen, lösen und entfernen
+- [SAP-Benutzer im Anmeldedienst (Keycloak-Realm) pflegen](sap-benutzer-im-anmeldedienst.md)
+  — Attribut `sap_user` nur für Admin, Client Scope mit Mapper, an den
+  OAAP-Client hängen, Evaluate, Stolpersteine in Keycloak 26
 - [Vorgänge im Mandanten — melden, klären, übergeben](vorgaenge-im-mandanten.md)
   — Feedback-Knopf, Bereiche und Rechte, Übergabe an einen anderen Mandanten,
   Löschfrist (RFC-0061)
