@@ -136,6 +136,8 @@ Ganzen:
   und den Profilparameter `login/certificate_mapping_rulebased = 1`
   **dauerhaft in RZ10** setzen. Nur in RZ11 gesetzt ist er nach dem
   nächsten Neustart des SAP-Systems wieder weg, und SAP antwortet 401.
+  Die ganze Checkliste für die SAP-Basis:
+  [SAP-System für die Anmeldung als Person vorbereiten](sap-fuer-anmeldung-als-person.md).
 
 ## Wenn es schiefgeht
 

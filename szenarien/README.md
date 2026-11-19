@@ -30,6 +30,12 @@ Handgriffen und den Stellen, an denen etwas schiefgehen kann.
 - [Eine Destination im Portal anlegen und einer App zuordnen](destination-im-portal.md)
   — wer was darf, anlegen als Mandanten-Verwaltung, Zuordnen im Reiter
   Netz & Adressen, lösen und entfernen
+- [Eine Mandantenlandschaft einrichten](mandantenlandschaft-einrichten.md)
+  — Hilfe, MCP-Gateway, KI-Gateway und Chat in der richtigen Reihenfolge,
+  wie die Teile zusammenhängen, Fehlerbilder
+- [Ein SAP-System für die Anmeldung als Person vorbereiten](sap-fuer-anmeldung-als-person.md)
+  — Checkliste für die SAP-Basis: STRUST, CERTRULE, Profilparameter in RZ10,
+  Kettentest nach jedem Neustart
 - [SAP-Benutzer im Anmeldedienst (Keycloak-Realm) pflegen](sap-benutzer-im-anmeldedienst.md)
   — Attribut `sap_user` nur für Admin, Client Scope mit Mapper, an den
   OAAP-Client hängen, Evaluate, Stolpersteine in Keycloak 26
