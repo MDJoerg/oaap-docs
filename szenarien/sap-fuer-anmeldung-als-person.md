@@ -10,7 +10,7 @@ tags: [sap, abap, principal-propagation, zertifikat, strust, certrule, rz10, rz1
 ---
 # Ein SAP-System für die Anmeldung als Person vorbereiten
 
-> Geprüft gegen Referenz **0.1.311** (2026-11-19). Der Weg ist am
+> Geprüft gegen Referenz **0.1.312** (2026-11-19). Der Weg ist am
 > 27.10. und 18.11.2026 an einem SAP-ABAP-Testsystem gegangen worden
 > (Mandant bec, Verfahren P des MCP-Gateways). Spezifikation:
 > `oaap.net.destinations` (Principal Propagation), RFC-0066.
@@ -46,7 +46,8 @@ Checkliste für die **SAP-Basis**; die Plattformseite steht in
 | CA und Musterzertifikat ausgeben | Portal (Destinationen) oder `oaap destination ca` | Betreiber oder Verwaltung des Mandanten |
 | CA vertrauen, Regel anlegen, Profilparameter | SAP: STRUST, CERTRULE, RZ11 **und RZ10** | SAP-Basis |
 | SAP-Benutzer der Personen eintragen | Anmeldedienst (Keycloak) | Verwaltung des Mandanten |
-| Kettentest | Plattform und SAP | Betreiber und SAP-Basis zusammen |
+| Prüfbenutzer `OAAP_CHECK` ohne Rollen anlegen | SAP: SU01 | SAP-Basis |
+| Kettentest | Portal (Destinationen, „Kette prüfen“) oder `oaap destination check` | Betreiber oder Verwaltung des Mandanten |
 
 ## Voraussetzung: TLS endet beim SAP-System
 
@@ -169,6 +170,25 @@ Ein Aufruf, der den angemeldeten SAP-Benutzer zurückgibt, zeigt die
 ganze Kette: Anmeldedienst → Plattform → Zertifikat → STRUST → CERTRULE
 → Benutzer.
 
+- **Ohne Person, mit dem Prüfbenutzer (seit 0.1.312):** Die SAP-Basis legt
+  in SU01 einmal den Benutzer `OAAP_CHECK` an, **ohne jede Rolle**. Die
+  Regel aus Schritt 3 ordnet ihn ohne eigene Regel zu, weil sie auf den
+  CN abbildet. Dann im Portal unter Destinationen, Karte **„Kette
+  prüfen“**, oder an der Kommandozeile:
+
+  ```sh
+  sudo oaap destination check <name> --tenant <mandant>
+  ```
+
+  Die Plattform meldet sich als `OAAP_CHECK` an, mit einem Zertifikat der
+  CA des Mandanten (eine Minute gültig), ruft einmal den Prüfpfad auf
+  (Vorgabe `/sap/bc/ui2/start_up`; mit `--check-path` oder im Portal
+  änderbar, etwa um `?sap-client=<sap-mandant>` anzuhängen) und sagt je
+  Glied, ob es hält: Ziel erreichbar, Serverzertifikat = Pin, CA vertraut,
+  Zuordnung zu einem Benutzer, Benutzer. Beim ersten Bruch nennt sie die
+  wahrscheinliche Ursache. Die Antwort von SAP zeigt sie nicht. Nie meldet
+  sich der Test als eine Person an.
+
 - **Mit einer Person, über die Plattform:** eine App, der die
   Destination mit „trägt die angemeldete Person“ (`--propagate`) zugeordnet ist, ruft
   `/sap/bc/ui2/start_up?sap-client=<sap-mandant>` auf. Die SSO-Sonde aus
@@ -180,7 +200,7 @@ ganze Kette: Anmeldedienst → Plattform → Zertifikat → STRUST → CERTRULE
   bekommt eine lesbare Ablehnung der Plattform, nicht von SAP.
 
 Den Test nach jeder Wartung oder jedem Neustart des SAP-Systems
-wiederholen. Er bemerkt einen verlorenen Profilparameter, bevor es die
+wiederholen; mit dem Prüfbenutzer ist das ein Knopfdruck. Er bemerkt einen verlorenen Profilparameter, bevor es die
 Personen tun.
 
 ## Wenn es schiefgeht

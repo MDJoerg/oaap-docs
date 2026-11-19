@@ -2,8 +2,8 @@
 id: cli/destination
 title: "oaap destination"
 audience: [server_admin]
-checked_against: "0.1.301"
-checked_on: 2026-11-18
+checked_against: "0.1.312"
+checked_on: 2026-11-19
 lang: en
 tags: [cli, destination]
 ---
@@ -18,7 +18,7 @@ named targets an instance may be bound to (oaap.net.destinations 0.1, RFC-0033).
 ## Usage
 
 ```sh
-oaap destination {list,show,add,remove,set-secret,bind,unbind,bindings,ca} [name] [second] [options]
+oaap destination {list,show,add,remove,set-secret,bind,unbind,bindings,ca,check} [name] [second] [options]
 ```
 
 ## Arguments
@@ -38,6 +38,7 @@ oaap destination {list,show,add,remove,set-secret,bind,unbind,bindings,ca} [name
 | `--lifetime LIFETIME` | principal_propagation: certificate minutes, 1-60 (default `10`) |
 | `--unchecked-claim UNCHECKED_CLAIM` | principal_propagation: who checked by hand that only administrators edit the claim (recorded) |
 | `--sample SAMPLE` | ca: print a one-hour certificate of the tenant's CA for this user name, to make the target's mapping rule from (no key) |
+| `--check-path CHECK_PATH` | principal_propagation (add, check): the chain test's GET path below the target, "" for none (default for SAP name rules: /sap/bc/ui2/start_up; RFC-0096) |
 | `--propagate` | bind: grant that the app's calls carry the signed-in person (RFC-0066) |
 | `--user USER` | basic: the user name |
 | `--header HEADER` | header: the header name |
@@ -60,5 +61,6 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `unbind` | yes |
 | `bindings` | yes |
 | `ca` | yes |
+| `check` | yes |
 
-Generated from the parser of reference 0.1.301. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.312. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
