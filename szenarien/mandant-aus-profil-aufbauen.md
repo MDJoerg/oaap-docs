@@ -81,6 +81,7 @@ Argument wird es **ganz abgelehnt, bevor etwas läuft**.
 | `tenant.face` | `oaap tenant face` (Titel, Farben) | die gespeicherten Werte stimmen |
 | `app.install` | `oaap app install …` — mit `source` (Pfad oder Adresse) **oder** `app` (ID aus einer Katalogquelle) | die Instanz im Mandanten existiert |
 | `idp.admin_group` | `oaap idp admin-group <anbindung> --tenant <kürzel>` (ab 0.1.233) | die Gruppe `oaap-verwalter` steht mit ihren Rollen im Realm |
+| `destination.ensure` | eine http-Destination des Mandanten anlegen und einer Instanz zuordnen (ab 0.1.314, RFC-0104): `name`, `instance`, `target`, `auth` (`none`, `basic`, `bearer`, `header`), bei Bedarf `user`, `header`, `need` | die Destination so besteht und der Instanz zugeordnet ist. **Nie ein Geheimnis im Profil:** braucht sie eins, entsteht sie ohne („Geheimnis fehlt“, Aufrufe werden abgelehnt), und ein `manual` mit `destination.secret` wartet auf einen Menschen. Eine fremde Destination gleichen Namens, die anders aussieht, ist ein Konflikt. |
 | `manual` | nichts — **ein Mensch** | die Lesung `done_when` stimmt (siehe 3.) |
 | `backup.check` | nichts | der Mandant im Knotenarchiv enthalten ist (nicht ausgenommen) |
 
@@ -208,6 +209,7 @@ an (`WAITING`) und geht weiter, wenn die Lesung stimmt:
 | `user.exists` | es irgendein Konto in diesem Mandanten gibt |
 | `role.tenant_admin` | ein Konto des Mandanten `tenant_admin` trägt |
 | `confirmed` | ein Mensch es bestätigt hat |
+| `destination.secret` | die Destination `destination` ein Geheimnis hat (ab 0.1.314; dazu `"destination": "<name>", "instance": "<instanz>"`). Der Wert erscheint nirgends. |
 
 ```sh
 sudo oaap tenant build continue <id>                      # liest neu, geht weiter
