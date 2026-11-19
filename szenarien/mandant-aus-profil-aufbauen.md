@@ -82,6 +82,7 @@ Argument wird es **ganz abgelehnt, bevor etwas läuft**.
 | `app.install` | `oaap app install …` — mit `source` (Pfad oder Adresse) **oder** `app` (ID aus einer Katalogquelle) | die Instanz im Mandanten existiert |
 | `idp.admin_group` | `oaap idp admin-group <anbindung> --tenant <kürzel>` (ab 0.1.233) | die Gruppe `oaap-verwalter` steht mit ihren Rollen im Realm |
 | `destination.ensure` | eine http-Destination des Mandanten anlegen und einer Instanz zuordnen (ab 0.1.314, RFC-0104): `name`, `instance`, `target`, `auth` (`none`, `basic`, `bearer`, `header`), bei Bedarf `user`, `header`, `need` | die Destination so besteht und der Instanz zugeordnet ist. **Nie ein Geheimnis im Profil:** braucht sie eins, entsteht sie ohne („Geheimnis fehlt“, Aufrufe werden abgelehnt), und ein `manual` mit `destination.secret` wartet auf einen Menschen. Eine fremde Destination gleichen Namens, die anders aussieht, ist ein Konflikt. |
+| `app.setup` | einer App über ihre **Einrichtungstür** sagen, was sie haben soll (ab 0.1.315, RFC-0104): `name` (die Instanz), `items` (Liste von Elementen mit `kind`, `id` und den Feldern der App) | die Tür bei einem Probelauf für jedes Element „vorhanden“ sagt. Die App legt nach ihren eigenen Regeln an und **überschreibt nie**, was ein Mensch geändert hat (dann: Konflikt). Nie ein Geheimnis in einem Element. |
 | `manual` | nichts — **ein Mensch** | die Lesung `done_when` stimmt (siehe 3.) |
 | `backup.check` | nichts | der Mandant im Knotenarchiv enthalten ist (nicht ausgenommen) |
 
@@ -209,6 +210,7 @@ an (`WAITING`) und geht weiter, wenn die Lesung stimmt:
 | `user.exists` | es irgendein Konto in diesem Mandanten gibt |
 | `role.tenant_admin` | ein Konto des Mandanten `tenant_admin` trägt |
 | `confirmed` | ein Mensch es bestätigt hat |
+| `setup.ready` | die Einrichtungstür der Instanz sagt, das Element ist bereit (ab 0.1.315; dazu `"instance"`, `"kind"`, `"item"`), z. B. eine Bezugsquelle des KI-Gateways hat Zugangsdaten und antwortet |
 | `destination.secret` | die Destination `destination` ein Geheimnis hat (ab 0.1.314; dazu `"destination": "<name>", "instance": "<instanz>"`). Der Wert erscheint nirgends. |
 
 ```sh

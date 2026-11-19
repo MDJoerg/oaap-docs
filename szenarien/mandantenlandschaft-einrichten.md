@@ -60,11 +60,13 @@ Der Mandant steht, die Verwaltung kann sich anmelden:
 oder in einem Aufruf
 [aus einem Profil](mandant-aus-profil-aufbauen.md).
 
-**Schneller aus dem Profil** (ab 0.1.314): Das Profil
-[`ki-arbeitsplatz`](profile/ki-arbeitsplatz.json) legt Mandant, Hilfe,
-MCP-Gateway, KI-Gateway, Chat und Vorgänge an, dazu die Destinations
-`docs-origin` und `ki`, und hält für die Schritte 1–4 unten mit genau
-diesem Text an (RFC-0104, Fassung 1). Wie man ein Profil startet:
+**Schneller aus dem Profil** (ab 0.1.315): Das Profil
+[`ki-arbeitsplatz`](profile/ki-arbeitsplatz.json) (Fassung 2) legt Mandant,
+Hilfe, MCP-Gateway, KI-Gateway, Chat und Vorgänge an und richtet die
+Schritte 1–4 unten selbst ein, über die Einrichtungstüren der Apps.
+Der Chat erreicht das KI-Gateway dabei **ohne Schlüssel** (Freigabe für
+den Chat im KI-Gateway statt Destination `ki`). Angehalten wird nur für
+die erste Verwaltung und die Zugangsdaten der Bezugsquelle (RFC-0104). Wie man ein Profil startet:
 [Mandant aus Profil aufbauen](mandant-aus-profil-aufbauen.md).
 
 Ein eigener Anmeldedienst (Keycloak-Realm) ist für den Chat **nicht
