@@ -3,14 +3,14 @@ id: szenario/sap-fuer-anmeldung-als-person
 title: "Ein SAP-System für die Anmeldung als Person vorbereiten — Checkliste für die SAP-Basis"
 audience: [tenant_admin, server_admin, support]
 applies_from: "0.1.305"
-checked_against: "0.1.310"
+checked_against: "0.1.311"
 checked_on: 2026-11-19
 lang: de
 tags: [sap, abap, principal-propagation, zertifikat, strust, certrule, rz10, rz11, icm, sicf, basis, kettentest, http-401]
 ---
 # Ein SAP-System für die Anmeldung als Person vorbereiten
 
-> Geprüft gegen Referenz **0.1.310** (2026-11-19). Der Weg ist am
+> Geprüft gegen Referenz **0.1.311** (2026-11-19). Der Weg ist am
 > 27.10. und 18.11.2026 an einem SAP-ABAP-Testsystem gegangen worden
 > (Mandant bec, Verfahren P des MCP-Gateways). Spezifikation:
 > `oaap.net.destinations` (Principal Propagation), RFC-0066.
@@ -42,8 +42,8 @@ Checkliste für die **SAP-Basis**; die Plattformseite steht in
 
 | Schritt | Wo | Wer |
 |---|---|---|
-| Destination anlegen, Server pinnen | Knoten: `oaap destination add` | Betreiber (server_admin) |
-| CA und Musterzertifikat ausgeben | Knoten: `oaap destination ca` | Betreiber |
+| Destination anlegen, Server pinnen | Portal (Destinationen) oder `oaap destination add` | Betreiber, oder Verwaltung des Mandanten mit Erlaubnis |
+| CA und Musterzertifikat ausgeben | Portal (Destinationen) oder `oaap destination ca` | Betreiber oder Verwaltung des Mandanten |
 | CA vertrauen, Regel anlegen, Profilparameter | SAP: STRUST, CERTRULE, RZ11 **und RZ10** | SAP-Basis |
 | SAP-Benutzer der Personen eintragen | Anmeldedienst (Keycloak) | Verwaltung des Mandanten |
 | Kettentest | Plattform und SAP | Betreiber und SAP-Basis zusammen |
@@ -67,7 +67,19 @@ Der Profilparameter `icm/HTTPS/verify_client` steht im Auslieferungszustand
 auf **1** (Zertifikat erfragen, nicht verlangen). So lassen: mit 2 müsste
 jeder Aufrufer ein Zertifikat haben.
 
-## Schritt 1 (Betreiber): Destination anlegen und den Server pinnen
+## Schritt 1: Destination anlegen und den Server pinnen
+
+**Im Portal** (seit 0.1.311): Seite Destinationen, Karte „Destination mit
+Person durchreichen (Zertifikat)“. Name und Ziel eintragen, „1. Zertifikat
+des Ziels lesen“ — das speichert nichts und zeigt Fingerabdruck, Inhaber,
+Aussteller und Ablauf. Die SAP-Basis vergleicht den Fingerabdruck mit dem
+Zertifikat des SSL-Servers in STRUST. Stimmt er, das Kreuz „verglichen“
+setzen und „2. Anlegen und Zertifikat pinnen“. Zeigt das Ziel inzwischen
+ein anderes Zertifikat, wird nichts angelegt. Die Verwaltung des Mandanten
+darf das, wenn der Betreiber ihr das Anlegen von Destinationen erlaubt hat;
+das Ziel muss dann im Internet liegen.
+
+**An der Kommandozeile** (Betreiber):
 
 ```sh
 sudo oaap destination add <name> --tenant <mandant> \
@@ -90,7 +102,9 @@ ein anderer ein öffentlich gültiges Zertifikat für denselben Namen hätte.
 
 ## Schritt 2 (SAP-Basis): Der CA des Mandanten vertrauen
 
-1. Der Betreiber gibt das Zertifikat der CA aus (nur der öffentliche Teil):
+1. Das Zertifikat der CA holen (nur der öffentliche Teil): im Portal,
+   Seite Destinationen, „Zertifizierungsstelle laden“ (sobald der Mandant
+   eine solche Destination hat), oder der Betreiber mit
    `sudo oaap destination ca --tenant <mandant> > oaap-<mandant>-ca.cer`
 2. In **STRUST** das PSE **SSL-Server Standard** öffnen, das Zertifikat
    in die **Zertifikatsliste** importieren, sichern.
@@ -107,6 +121,8 @@ Darum braucht es ein Muster genau dieser CA:
 ```sh
 sudo oaap destination ca --tenant <mandant> --sample MUSTER > muster.cer
 ```
+
+Oder im Portal: Seite Destinationen, „Musterzertifikat laden“.
 
 Das Muster ist eine Stunde gültig und hat keinen privaten Schlüssel.
 In **CERTRULE**:
@@ -154,7 +170,7 @@ ganze Kette: Anmeldedienst → Plattform → Zertifikat → STRUST → CERTRULE
 → Benutzer.
 
 - **Mit einer Person, über die Plattform:** eine App, der die
-  Destination mit `--propagate` zugeordnet ist, ruft
+  Destination mit „trägt die angemeldete Person“ (`--propagate`) zugeordnet ist, ruft
   `/sap/bc/ui2/start_up?sap-client=<sap-mandant>` auf. Die SSO-Sonde aus
   `oaap-lab/sso-probe` tut genau das und zeigt den SAP-Benutzer. Im Chat
   geht es mit einem Assistenten, dessen Sicht ein Werkzeug „wer bin ich“
@@ -186,7 +202,7 @@ Personen tun.
 - **Die Plattform lehnt ab, bevor SAP gefragt wird.** Dann liegt es nicht
   an SAP: die Person hat keinen `sap_user`, hat sich seit dem Eintragen
   nicht neu angemeldet, oder die Zuordnung der Destination trägt die
-  Person nicht (`--propagate`). Siehe
+  Person nicht (Instanzseite: „Person durchreichen erlauben“, oder `--propagate`). Siehe
   [SAP-Benutzer im Anmeldedienst pflegen](sap-benutzer-im-anmeldedienst.md).
 - **Fingerabdruck stimmt nicht mehr.** Das Serverzertifikat in STRUST
   wurde erneuert. Neu vergleichen und pinnen (Schritt 1).

@@ -164,8 +164,9 @@ Gruppe des Anmeldedienstes oder `*`. Anwenderseite:
 1. [SAP-Benutzer im Anmeldedienst pflegen](sap-benutzer-im-anmeldedienst.md)
    (Verwaltung des Mandanten, Keycloak).
 2. [Ein SAP-System für die Anmeldung als Person vorbereiten](sap-fuer-anmeldung-als-person.md)
-   (Betreiber legt die Destination an — das Portal kann diese Art noch
-   nicht —, SAP-Basis richtet STRUST, CERTRULE und RZ10 ein).
+   (Destination im Portal mit Karte „Person durchreichen“, seit 0.1.311;
+   SAP-Basis richtet STRUST, CERTRULE und RZ10 ein). Beim Zuordnen an
+   das MCP-Gateway „trägt die angemeldete Person“ ankreuzen.
 3. Im MCP-Gateway einen Server mit Adresse `destination:<name>/<pfad>`
    und Zugang `propagate` (Verfahren P), eine eigene Sicht (zuerst nur lesen), die Sicht
    ins Profil `@<chat>`; im Chat einen Assistenten für diese Sicht.

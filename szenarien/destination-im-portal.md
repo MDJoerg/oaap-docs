@@ -142,9 +142,12 @@ das Ziel mit 401/403, stimmen Anmeldung oder Geheimnis nicht (Schritt 2,
   zugeordnete Destination wurde entfernt oder umbenannt. Neu anlegen
   oder eine andere zuordnen.
 - **Die App soll als die angemeldete Person ins Zielsystem**, etwa SAP
-  mit Zertifikat: Das Portal kann diese Art nicht anlegen. Der
-  Betreiber legt sie an der Kommandozeile an; die Seite
-  [SAP-Benutzer im Anmeldedienst pflegen](sap-benutzer-im-anmeldedienst.md)
-  beschreibt den Teil im Keycloak-Realm.
+  mit Zertifikat: Seit Referenz 0.1.311 hat die Seite Destinationen dafür
+  die Karte „Destination mit Person durchreichen (Zertifikat)“ — zwei
+  Schritte, Zertifikat lesen und nach dem Vergleich pinnen. Beim
+  Zuordnen „trägt die angemeldete Person“ ankreuzen. Ganzer Weg:
+  [Ein SAP-System für die Anmeldung als Person vorbereiten](sap-fuer-anmeldung-als-person.md);
+  den Teil im Keycloak-Realm beschreibt
+  [SAP-Benutzer im Anmeldedienst pflegen](sap-benutzer-im-anmeldedienst.md).
 - **Ein Testsystem (Generalprobe) lässt sich nicht zuordnen.** Absicht:
   eine Generalprobe spricht keine echten Ziele an (RFC-0030).

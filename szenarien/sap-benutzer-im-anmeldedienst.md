@@ -120,13 +120,15 @@ geht.
 Diese Schritte sind nicht Sache der Realm-Verwaltung, gehören aber zum
 Ganzen:
 
-- **Destination:** Der Betreiber legt sie mit
-  `oaap destination add <name> --auth principal_propagation …` an
+- **Destination:** im Portal, Seite Destinationen, Karte „Destination
+  mit Person durchreichen (Zertifikat)“ (seit Referenz 0.1.311; der
+  Betreiber oder die Verwaltung des Mandanten, wenn er es ihr erlaubt
+  hat), oder an der Kommandozeile mit
+  `oaap destination add <name> --auth principal_propagation …`
   (Claim `sap_user` ist die Vorgabe, `--accept-sha256` pinnt das
-  Serverzertifikat) und ordnet sie mit `oaap destination bind <instanz>
-  <name> --propagate` zu. Das Portal kann diese Art nicht anlegen
-  ([Destination im Portal](destination-im-portal.md) beschreibt die
-  anderen Arten).
+  Serverzertifikat). Zuordnen mit „trägt die angemeldete Person“ bzw.
+  `oaap destination bind <instanz> <name> --propagate`. Der ganze Weg:
+  [Ein SAP-System für die Anmeldung als Person vorbereiten](sap-fuer-anmeldung-als-person.md).
 - **Prüfung „nur Admin ändert“:** Die Plattform fragt beim Anlegen über
   den Konnektor des Anmeldedienstes nach, ob nur Administratoren
   `sap_user` ändern dürfen. Steht dort *User* bei *Who can edit*, lehnt
