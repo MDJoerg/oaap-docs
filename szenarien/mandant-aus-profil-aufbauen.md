@@ -151,8 +151,13 @@ Mit `n8n` und `forgejo` angehakt entstehen daraus vier Schritte (`test-n8n`,
 `test-forgejo`, `prod-n8n`, `prod-forgejo`) und die Instanzen
 `<kürzel>-n8n-test`, `<kürzel>-n8n` usw. Ohne `choices` bietet das Formular den
 ganzen Katalog des Knotens an (ohne Archiviertes); mit
-`"choices": ["n8n", "forgejo", "vaultwarden"]` nur diese. `max` begrenzt die Zahl
+`"choices": ["n8n", "forgejo", "vaultwarden"]` nur diese.
+`max` begrenzt die Zahl
 (Standard 12). An der Kommandozeile: `--param apps=n8n,forgejo`.
+
+Parameter, die verschieden sein müssen (etwa Instanznamen, die man im
+Formular ändern darf), tragen dieselbe Gruppe `"distinct": "instanz"`;
+zwei gleiche Werte lehnt der Start ab.
 
 - Der Knoten prüft **vor dem ersten Schritt**, dass jede gewählte App in einer
   Katalogquelle steht; sonst lehnt er ab und legt nichts an.
@@ -253,6 +258,11 @@ umgekehrter Reihenfolge:
   einer entfernten Instanz halten den Mandanten fest, deshalb stoppt der
   Rückbau dann beim Mandanten und sagt, warum. Wer die Daten bewusst
   mitlöschen will, sagt es: `--purge-instances`.
+- **Konten im Mandanten** (z. B. die erste Verwaltung) halten ihn ebenfalls
+  fest. Der Rückbau lehnt dann gleich zu Beginn ab und nennt sie. Wer sie
+  mitlöschen will, sagt es: `--purge-accounts` bzw. der Haken „Auch die
+  Konten im Mandanten löschen“. Nie ein server_admin, nie ein Konto mit
+  gültigem API-Schlüssel; Personen im Realm bleiben.
 - ein **leerer** Mandant wird entfernt (`oaap tenant remove`); ein Mandant mit
   Inhalt nie.
 - der **Anbieter** wird vom Mandanten gelöst; **der Realm und jede Person
