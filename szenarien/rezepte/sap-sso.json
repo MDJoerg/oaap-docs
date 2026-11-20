@@ -1,9 +1,9 @@
 {
   "recipe": "oaap.tenant-recipe/1",
   "id": "sap-sso",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "title": "SAP SSO einrichten",
-  "description": "Der Chat fragt ein SAP-System als die angemeldete Person (Principal Propagation, RFC-0066). Das Rezept legt an, was die Plattform kann (Attribut sap_user im Anmeldedienst, Destination mit gepinntem Zertifikat, Server, Sicht, Zugangsprofil, Assistent) und führt durch, was die SAP-Basis tut (STRUST, CERTRULE, RZ10, OAAP_CHECK) -- jedes Glied geprüft, am Ende mit dem Kettentest.",
+  "description": "Der Chat fragt ein SAP-System als die angemeldete Person (Principal Propagation, RFC-0066). Das Rezept legt an, was die Plattform kann (Attribut sap_user im Anmeldedienst, Destination mit gepinntem Zertifikat, Server, Sicht, Zugangsprofil, Assistent), und führt Schritt für Schritt durch, was die SAP-Basis tut (STRUST, CERTRULE, RZ10, SICF, OAAP_CHECK) – mit den Dateien zum Herunterladen –, am Ende geprüft mit dem Kettentest.",
   "needs": {
     "tools": {
       "app": "mcp-gateway",
@@ -79,7 +79,7 @@
       "type": "manual",
       "done_when": "server.compared",
       "target": "{sap_url}",
-      "text": "Sicherstellen, dass unter der Adresse wirklich Ihr SAP-System antwortet: Die Plattform liest das Serverzertifikat und zeigt seinen Fingerabdruck. Vergleichen Sie ihn mit dem des SAP-Systems (STRUST: „SSL Server Standard“, „Eigenes Zertifikat“ doppelklicken; oder im Browser aufs Schloss, „Zertifikat“). Stimmt er, den Haken setzen und „Stimmt überein – pinnen“ wählen. Danach spricht die Plattform nur noch mit genau diesem Server."
+      "text": "Sicherstellen, dass unter der Adresse wirklich Ihr SAP-System antwortet.\n\n1. Den Fingerabdruck unten mit dem des SAP-Systems vergleichen: in STRUST links „SSL Server Standard“ öffnen und oben auf „Eigenes Zertifikat“ doppelklicken – oder im Browser die Adresse öffnen, aufs Schloss und „Zertifikat“ klicken.\n2. Stimmt er Zeichen für Zeichen, den Haken setzen und „Stimmt überein – pinnen“ wählen.\n\nDanach spricht die Plattform nur noch mit genau diesem Server."
     },
     {
       "id": "ziel",
@@ -94,17 +94,43 @@
       "check_path": "/sap/bc/ui2/start_up?sap-client={sap_client}"
     },
     {
-      "id": "sap-basis",
+      "id": "sap-ca",
       "type": "manual",
       "done_when": "confirmed",
-      "text": "SAP-Basis: (1) Die CA des Mandanten (Portal, Destinationen, „Zertifizierungsstelle laden“) in STRUST ins PSE SSL-Server Standard importieren. (2) Musterzertifikat laden und in CERTRULE eine Regel anlegen: Subjekt, CN, als Benutzername, Inhaberfilter OU,O. (3) login/certificate_mapping_rulebased = 1 in RZ11 UND dauerhaft in RZ10. (4) Im ICF-Dienst des MCP-Servers Anmeldeverfahren Standard. (5) In SU01 den Benutzer OAAP_CHECK ohne jede Rolle anlegen. Anleitung: oaap-docs, „Ein SAP-System für die Anmeldung als Person vorbereiten“. Dann bestätigen."
+      "offer": "ca",
+      "text": "SAP-Basis, Teil 1 von 5: Das SAP-System soll den Zertifikaten der Plattform vertrauen.\n\n1. Unten „Zertifizierungsstelle des Mandanten herunterladen“ klicken (Datei .crt).\n2. Im SAP-System die Transaktion STRUST aufrufen und in den Änderungsmodus wechseln.\n3. Links „SSL Server Standard“ doppelklicken.\n4. Unten bei „Zertifikat“ auf „Importieren“ klicken und die Datei wählen.\n5. „In Zertifikatsliste aufnehmen“ klicken und sichern.\n\nDanach „Bestätigt“."
+    },
+    {
+      "id": "sap-regel",
+      "type": "manual",
+      "done_when": "confirmed",
+      "offer": "sample",
+      "text": "SAP-Basis, Teil 2 von 5: SAP soll aus dem Zertifikat der Plattform den SAP-Benutzer erkennen.\n\n1. Unten „Musterzertifikat für CERTRULE herunterladen“ klicken (gilt eine Stunde).\n2. Die Transaktion CERTRULE aufrufen und in den Änderungsmodus wechseln.\n3. „Zertifikat importieren“ und das Musterzertifikat wählen.\n4. Eine Regel anlegen: Zertifikatseintrag „Subject“, Attribut „CN“, Anmelden als „Benutzername“.\n5. Beim Inhaberfilter OU und O wählen – dann gilt die Regel nur für Zertifikate dieses Mandanten.\n6. Sichern.\n\nDanach „Bestätigt“."
+    },
+    {
+      "id": "sap-parameter",
+      "type": "manual",
+      "done_when": "confirmed",
+      "text": "SAP-Basis, Teil 3 von 5: Die regelbasierte Zuordnung einschalten – dauerhaft.\n\n1. Transaktion RZ11: den Parameter login/certificate_mapping_rulebased auf 1 setzen (wirkt sofort).\n2. Transaktion RZ10: im Default-Profil denselben Parameter mit dem Wert 1 eintragen und sichern (sonst ist er nach dem nächsten Neustart wieder 0).\n\nDanach „Bestätigt“."
+    },
+    {
+      "id": "sap-dienst",
+      "type": "manual",
+      "done_when": "confirmed",
+      "text": "SAP-Basis, Teil 4 von 5: Der MCP-Dienst nimmt die Anmeldung per Zertifikat an.\n\n1. Transaktion SICF aufrufen und den Dienst /{mcp_path} suchen.\n2. Den Dienst öffnen, Reiter „Anmeldedaten“.\n3. Anmeldeverfahren „Standard“ wählen (schließt das Client-Zertifikat ein) und keinen festen Benutzer eintragen.\n4. Sichern.\n\nDanach „Bestätigt“."
+    },
+    {
+      "id": "sap-pruefer",
+      "type": "manual",
+      "done_when": "confirmed",
+      "text": "SAP-Basis, Teil 5 von 5: ein Prüfbenutzer ohne Rechte für den Kettentest.\n\n1. Transaktion SU01: den Benutzer OAAP_CHECK anlegen (Benutzertyp „Dialog“ oder „Service“).\n2. Keine Rollen und keine Profile zuweisen.\n3. Sichern.\n\nDanach „Bestätigt“. Im nächsten Schritt prüft die Plattform die ganze Kette."
     },
     {
       "id": "kette",
       "type": "manual",
       "done_when": "destination.check",
       "destination": "{dest}",
-      "text": "Kettentest: der Knoten meldet sich als OAAP_CHECK am SAP-System an und prüft jedes Glied. Hält ein Glied nicht, steht hier, welches; nach der Korrektur „Weiter prüfen“."
+      "text": "Die Plattform meldet sich als OAAP_CHECK am SAP-System an und prüft jedes Glied der Kette.\n\nHält ein Glied nicht, steht hier, welches und warum. Nach der Korrektur im SAP-System „Weiter prüfen“."
     },
     {
       "id": "person",
@@ -131,7 +157,7 @@
       "id": "personen",
       "type": "manual",
       "done_when": "confirmed",
-      "text": "Im Anmeldedienst bei jeder Person, die SAP über den Chat nutzt, den SAP-Benutzer eintragen (Keycloak, Users, Feld SAP-Benutzer); die Person meldet sich danach einmal ab und wieder an. Dann bestätigen."
+      "text": "Jede Person, die SAP über den Chat nutzt, braucht ihren SAP-Benutzer im Anmeldedienst.\n\n1. Die Keycloak-Konsole öffnen und den Realm des Mandanten wählen.\n2. Users → die Person → im Feld „SAP-Benutzer“ ihren SAP-Benutzer eintragen (z. B. MUSTERMANN) und sichern.\n3. Die Person meldet sich in OAAP einmal ab und wieder an.\n\nDanach „Bestätigt“."
     },
     {
       "id": "katalog",
@@ -140,7 +166,7 @@
       "instance": "{tools}",
       "kind": "server",
       "item": "{server}",
-      "text": "Eine Person mit SAP-Benutzer öffnet die Seite des MCP-Gateways und klickt beim Server auf „Katalog jetzt lesen“ (Verfahren P liest als Person). Danach „Weiter prüfen“."
+      "text": "Eine Person mit SAP-Benutzer liest den Werkzeugkatalog des SAP-Servers (Verfahren P liest als Person).\n\n1. Die Seite des MCP-Gateways öffnen (App „Werkzeuge“).\n2. Beim Server {server} auf „Katalog jetzt lesen“ klicken.\n\nDanach „Weiter prüfen“."
     },
     {
       "id": "sicht",
