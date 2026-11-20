@@ -1,7 +1,7 @@
 {
   "recipe": "oaap.tenant-recipe/1",
   "id": "sap-sso",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "title": "SAP SSO einrichten",
   "description": "Der Chat fragt ein SAP-System als die angemeldete Person (Principal Propagation, RFC-0066). Das Rezept legt an, was die Plattform kann (Attribut sap_user im Anmeldedienst, Destination mit gepinntem Zertifikat, Server, Sicht, Zugangsprofil, Assistent), und führt Schritt für Schritt durch, was die SAP-Basis tut (STRUST, CERTRULE, RZ10, SICF, OAAP_CHECK) – mit den Dateien zum Herunterladen –, am Ende geprüft mit dem Kettentest.",
   "needs": {
@@ -166,7 +166,7 @@
       "instance": "{tools}",
       "kind": "server",
       "item": "{server}",
-      "text": "Eine Person mit SAP-Benutzer liest den Werkzeugkatalog des SAP-Servers (Verfahren P liest als Person).\n\n1. Die Seite des MCP-Gateways öffnen (App „Werkzeuge“).\n2. Beim Server {server} auf „Katalog jetzt lesen“ klicken.\n\nDanach „Weiter prüfen“."
+      "text": "Eine Person mit SAP-Benutzer liest einmal die Werkzeugliste des SAP-Servers -- als sie selbst, mit ihrem SAP-Benutzer. Eine Verwaltungsrolle im MCP-Gateway braucht sie dafür nicht (ab MCP-Gateway 0.33.0).\n\n1. Die Person meldet sich im Portal an und öffnet „Meine Werkzeuge“.\n2. Unter „Werkzeuglisten, die noch niemand gelesen hat“ beim Server {server} auf „Werkzeugliste für die Verwaltung lesen“ klicken.\n3. Steht dort ein Fehler, fehlt meist der SAP-Benutzer im Anmeldedienst (Schritt „personen“) -- abmelden, wieder anmelden, erneut lesen.\n\nHat die Verwaltung selbst einen SAP-Benutzer, geht es auch auf der Seite des MCP-Gateways mit „Katalog jetzt lesen“.\n\nDanach „Weiter prüfen“."
     },
     {
       "id": "sicht",
