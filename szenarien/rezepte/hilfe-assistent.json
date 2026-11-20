@@ -1,9 +1,9 @@
 {
   "recipe": "oaap.tenant-recipe/1",
   "id": "hilfe-assistent",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Hilfe-Assistent im Chat",
-  "description": "RFC-0109. Der Chat bekommt den Assistenten 'Hilfe', der in der Hilfe des Mandanten sucht. Für einen Mandanten, der Hilfe, MCP-Gateway, KI-Gateway und Chat schon hat (z. B. von Hand installiert). Holt die Doku in die Hilfe, gibt dem Chat am KI-Gateway einen Modellnamen frei, legt im MCP-Gateway die Sicht 'hilfe', das Zugangsprofil des Chats und den Assistenten an. Überschreibt nichts, was ein Mensch angelegt hat. Voraussetzung: die Apps in Fassungen mit Einrichtungstür (help ab 0.7.0, mcp-gateway ab 0.27.0, ai-gateway ab 0.10.0).",
+  "description": "RFC-0109. Der Chat bekommt den Assistenten 'Hilfe', der in der Hilfe des Mandanten sucht. Für einen Mandanten, der Hilfe, MCP-Gateway, KI-Gateway und Chat schon hat (z. B. von Hand installiert). Holt die Doku in die Hilfe, gibt dem Chat am KI-Gateway einen Modellnamen frei, legt im MCP-Gateway die Sicht 'hilfe', das Zugangsprofil des Chats und den Assistenten an. Überschreibt nichts, was ein Mensch angelegt hat. Voraussetzung: die Apps in Fassungen mit Einrichtungstür (help ab 0.7.0, mcp-gateway ab 0.27.0, ai-gateway ab 0.10.0). Ab ai-gateway 0.12.0 wird der Modellname aus einer Liste gewählt und die Ampel folgt ihm; ältere Fassungen nehmen den eingegebenen Namen.",
   "needs": {
     "help":   {"app": "help",        "label": "Hilfe"},
     "tools":  {"app": "mcp-gateway", "label": "Werkzeuge (MCP-Gateway)"},
@@ -11,10 +11,10 @@
     "chat":   {"app": "chat",        "label": "Chat"}
   },
   "params": {
-    "model": {"kind": "text", "max": 100, "default": "standard",
-              "label": "Modellname des KI-Gateways für den Assistenten (muss dort schon bestehen)"},
-    "ceiling": {"kind": "word", "default": "yellow",
-                "label": "Höchste Ampel für den Chat: green, yellow oder red (muss zur Bezugsquelle des Modells passen)"}
+    "model": {"kind": "setup_item", "need": "models", "item_kind": "alias", "default": "standard",
+              "label": "Modellname des KI-Gateways für den Assistenten"},
+    "ceiling": {"kind": "light", "from": "model", "default": "yellow",
+                "label": "Höchste Ampel für den Chat (vorgeschlagen: die Ampel des Modells)"}
   },
   "steps": [
     {"id": "docs-origin", "type": "destination.ensure", "name": "docs-origin",
