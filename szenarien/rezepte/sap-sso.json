@@ -1,57 +1,182 @@
 {
   "recipe": "oaap.tenant-recipe/1",
   "id": "sap-sso",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "title": "SAP SSO einrichten",
   "description": "Der Chat fragt ein SAP-System als die angemeldete Person (Principal Propagation, RFC-0066). Das Rezept legt an, was die Plattform kann (Attribut sap_user im Anmeldedienst, Destination mit gepinntem Zertifikat, Server, Sicht, Zugangsprofil, Assistent) und führt durch, was die SAP-Basis tut (STRUST, CERTRULE, RZ10, OAAP_CHECK) -- jedes Glied geprüft, am Ende mit dem Kettentest.",
   "needs": {
-    "tools": {"app": "mcp-gateway", "label": "Werkzeuge (MCP-Gateway)"},
-    "chat": {"app": "chat", "label": "Chat"},
-    "models": {"app": "ai-gateway", "label": "Modelle (KI-Gateway)"}
+    "tools": {
+      "app": "mcp-gateway",
+      "label": "Werkzeuge (MCP-Gateway)"
+    },
+    "chat": {
+      "app": "chat",
+      "label": "Chat"
+    },
+    "models": {
+      "app": "ai-gateway",
+      "label": "Modelle (KI-Gateway)"
+    }
   },
   "params": {
-    "sap_url": {"kind": "text", "required": true,
-                "label": "Adresse des SAP-Systems, https://host:port (TLS muss beim SAP-System enden)"},
-    "sap_client": {"kind": "text", "default": "001", "label": "SAP-Mandant (sap-client)"},
-    "dest": {"kind": "word", "default": "sap", "label": "Name der Destination"},
-    "server": {"kind": "word", "default": "sap", "label": "Name des Servers im MCP-Gateway"},
-    "mcp_path": {"kind": "text", "required": true,
-                 "label": "Pfad des MCP-Dienstes im SAP-System, ohne / vorn (z. B. zmcp2/bc/access-support)"},
-    "sap_light": {"kind": "light", "default": "yellow", "label": "Ampel des SAP-Servers"},
-    "view": {"kind": "word", "default": "sap", "label": "Name der Sicht und des Assistenten"},
-    "model": {"kind": "setup_item", "need": "models", "item_kind": "alias", "default": "standard",
-              "label": "Modellname für den SAP-Assistenten"},
-    "ceiling": {"kind": "light", "default": "yellow",
-                "label": "Höchste Ampel für den Chat in dieser Sicht (mindestens die des SAP-Servers)"}
+    "sap_url": {
+      "kind": "text",
+      "required": true,
+      "label": "Adresse des SAP-Systems, https://host:port (TLS muss beim SAP-System enden)"
+    },
+    "sap_client": {
+      "kind": "text",
+      "default": "001",
+      "label": "SAP-Mandant (sap-client)"
+    },
+    "dest": {
+      "kind": "word",
+      "default": "sap",
+      "label": "Name der Destination"
+    },
+    "server": {
+      "kind": "word",
+      "default": "sap",
+      "label": "Name des Servers im MCP-Gateway"
+    },
+    "mcp_path": {
+      "kind": "text",
+      "required": true,
+      "label": "Pfad des MCP-Dienstes im SAP-System, ohne / vorn (z. B. zmcp2/bc/access-support)"
+    },
+    "sap_light": {
+      "kind": "light",
+      "default": "yellow",
+      "label": "Ampel des SAP-Servers"
+    },
+    "view": {
+      "kind": "word",
+      "default": "sap",
+      "label": "Name der Sicht und des Assistenten"
+    },
+    "model": {
+      "kind": "setup_item",
+      "need": "models",
+      "item_kind": "alias",
+      "default": "standard",
+      "label": "Modellname für den SAP-Assistenten"
+    },
+    "ceiling": {
+      "kind": "light",
+      "default": "yellow",
+      "label": "Höchste Ampel für den Chat in dieser Sicht (mindestens die des SAP-Servers)"
+    }
   },
   "steps": [
-    {"id": "attribut", "type": "idp.claim", "claim": "sap_user", "scope": "sap"},
-    {"id": "zertifikat", "type": "manual", "done_when": "server.compared", "target": "{sap_url}",
-     "text": "Der Knoten liest das Serverzertifikat des SAP-Systems. Die SAP-Basis vergleicht den Fingerabdruck mit dem eigenen Zertifikat des SSL-Server-PSE in STRUST; stimmt er, bestätigen. Gepinnt wird genau dieser Fingerabdruck."},
-    {"id": "ziel", "type": "destination.ensure", "name": "{dest}", "instance": "{tools}",
-     "target": "{sap_url}", "auth": "principal_propagation", "pin_step": "zertifikat",
-     "claim": "sap_user", "name_check": "sap",
-     "check_path": "/sap/bc/ui2/start_up?sap-client={sap_client}"},
-    {"id": "sap-basis", "type": "manual", "done_when": "confirmed",
-     "text": "SAP-Basis: (1) Die CA des Mandanten (Portal, Destinationen, „Zertifizierungsstelle laden“) in STRUST ins PSE SSL-Server Standard importieren. (2) Musterzertifikat laden und in CERTRULE eine Regel anlegen: Subjekt, CN, als Benutzername, Inhaberfilter OU,O. (3) login/certificate_mapping_rulebased = 1 in RZ11 UND dauerhaft in RZ10. (4) Im ICF-Dienst des MCP-Servers Anmeldeverfahren Standard. (5) In SU01 den Benutzer OAAP_CHECK ohne jede Rolle anlegen. Anleitung: oaap-docs, „Ein SAP-System für die Anmeldung als Person vorbereiten“. Dann bestätigen."},
-    {"id": "kette", "type": "manual", "done_when": "destination.check", "destination": "{dest}",
-     "text": "Kettentest: der Knoten meldet sich als OAAP_CHECK am SAP-System an und prüft jedes Glied. Hält ein Glied nicht, steht hier, welches; nach der Korrektur „Weiter prüfen“."},
-    {"id": "person", "type": "destination.bind", "name": "{tools}", "destination": "{dest}",
-     "propagate": "true"},
-    {"id": "server", "type": "app.setup", "name": "{tools}",
-     "items": [{"kind": "server", "id": "{server}", "address": "destination:{dest}/{mcp_path}",
-                "auth": "propagate", "light": "{sap_light}"}]},
-    {"id": "personen", "type": "manual", "done_when": "confirmed",
-     "text": "Im Anmeldedienst bei jeder Person, die SAP über den Chat nutzt, den SAP-Benutzer eintragen (Keycloak, Users, Feld SAP-Benutzer); die Person meldet sich danach einmal ab und wieder an. Dann bestätigen."},
-    {"id": "katalog", "type": "manual", "done_when": "setup.ready", "instance": "{tools}",
-     "kind": "server", "item": "{server}",
-     "text": "Eine Person mit SAP-Benutzer öffnet die Seite des MCP-Gateways und klickt beim Server auf „Katalog jetzt lesen“ (Verfahren P liest als Person). Danach „Weiter prüfen“."},
-    {"id": "sicht", "type": "app.setup", "name": "{tools}",
-     "items": [{"kind": "view", "id": "{view}", "accesses": ["platform"],
-                "tools": {"server": "{server}", "effect": "read"}},
-               {"kind": "profile", "id": "{tenant}-{chat}-{view}", "group": "@{tenant}-{chat}",
-                "views": ["{view}"], "ceiling": "{ceiling}"},
-               {"kind": "assistant", "id": "{view}", "title": "SAP", "view": "{view}",
-                "gateway": "{tenant}-{tools}", "model": "{model}", "visibility": "tenant"}]}
+    {
+      "id": "attribut",
+      "type": "idp.claim",
+      "claim": "sap_user",
+      "scope": "sap"
+    },
+    {
+      "id": "zertifikat",
+      "type": "manual",
+      "done_when": "server.compared",
+      "target": "{sap_url}",
+      "text": "Sicherstellen, dass unter der Adresse wirklich Ihr SAP-System antwortet: Die Plattform liest das Serverzertifikat und zeigt seinen Fingerabdruck. Vergleichen Sie ihn mit dem des SAP-Systems (STRUST: „SSL Server Standard“, „Eigenes Zertifikat“ doppelklicken; oder im Browser aufs Schloss, „Zertifikat“). Stimmt er, den Haken setzen und „Stimmt überein – pinnen“ wählen. Danach spricht die Plattform nur noch mit genau diesem Server."
+    },
+    {
+      "id": "ziel",
+      "type": "destination.ensure",
+      "name": "{dest}",
+      "instance": "{tools}",
+      "target": "{sap_url}",
+      "auth": "principal_propagation",
+      "pin_step": "zertifikat",
+      "claim": "sap_user",
+      "name_check": "sap",
+      "check_path": "/sap/bc/ui2/start_up?sap-client={sap_client}"
+    },
+    {
+      "id": "sap-basis",
+      "type": "manual",
+      "done_when": "confirmed",
+      "text": "SAP-Basis: (1) Die CA des Mandanten (Portal, Destinationen, „Zertifizierungsstelle laden“) in STRUST ins PSE SSL-Server Standard importieren. (2) Musterzertifikat laden und in CERTRULE eine Regel anlegen: Subjekt, CN, als Benutzername, Inhaberfilter OU,O. (3) login/certificate_mapping_rulebased = 1 in RZ11 UND dauerhaft in RZ10. (4) Im ICF-Dienst des MCP-Servers Anmeldeverfahren Standard. (5) In SU01 den Benutzer OAAP_CHECK ohne jede Rolle anlegen. Anleitung: oaap-docs, „Ein SAP-System für die Anmeldung als Person vorbereiten“. Dann bestätigen."
+    },
+    {
+      "id": "kette",
+      "type": "manual",
+      "done_when": "destination.check",
+      "destination": "{dest}",
+      "text": "Kettentest: der Knoten meldet sich als OAAP_CHECK am SAP-System an und prüft jedes Glied. Hält ein Glied nicht, steht hier, welches; nach der Korrektur „Weiter prüfen“."
+    },
+    {
+      "id": "person",
+      "type": "destination.bind",
+      "name": "{tools}",
+      "destination": "{dest}",
+      "propagate": "true"
+    },
+    {
+      "id": "server",
+      "type": "app.setup",
+      "name": "{tools}",
+      "items": [
+        {
+          "kind": "server",
+          "id": "{server}",
+          "address": "destination:{dest}/{mcp_path}",
+          "auth": "propagate",
+          "light": "{sap_light}"
+        }
+      ]
+    },
+    {
+      "id": "personen",
+      "type": "manual",
+      "done_when": "confirmed",
+      "text": "Im Anmeldedienst bei jeder Person, die SAP über den Chat nutzt, den SAP-Benutzer eintragen (Keycloak, Users, Feld SAP-Benutzer); die Person meldet sich danach einmal ab und wieder an. Dann bestätigen."
+    },
+    {
+      "id": "katalog",
+      "type": "manual",
+      "done_when": "setup.ready",
+      "instance": "{tools}",
+      "kind": "server",
+      "item": "{server}",
+      "text": "Eine Person mit SAP-Benutzer öffnet die Seite des MCP-Gateways und klickt beim Server auf „Katalog jetzt lesen“ (Verfahren P liest als Person). Danach „Weiter prüfen“."
+    },
+    {
+      "id": "sicht",
+      "type": "app.setup",
+      "name": "{tools}",
+      "items": [
+        {
+          "kind": "view",
+          "id": "{view}",
+          "accesses": [
+            "platform"
+          ],
+          "tools": {
+            "server": "{server}",
+            "effect": "read"
+          }
+        },
+        {
+          "kind": "profile",
+          "id": "{tenant}-{chat}-{view}",
+          "group": "@{tenant}-{chat}",
+          "views": [
+            "{view}"
+          ],
+          "ceiling": "{ceiling}"
+        },
+        {
+          "kind": "assistant",
+          "id": "{view}",
+          "title": "SAP",
+          "view": "{view}",
+          "gateway": "{tenant}-{tools}",
+          "model": "{model}",
+          "visibility": "tenant"
+        }
+      ]
+    }
   ]
 }
