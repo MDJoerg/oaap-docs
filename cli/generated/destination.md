@@ -2,8 +2,8 @@
 id: cli/destination
 title: "oaap destination"
 audience: [server_admin]
-checked_against: "0.1.312"
-checked_on: 2026-11-19
+checked_against: "0.1.325"
+checked_on: 2026-11-20
 lang: en
 tags: [cli, destination]
 ---
@@ -63,4 +63,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `ca` | yes |
 | `check` | yes |
 
-Generated from the parser of reference 0.1.312. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.325. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

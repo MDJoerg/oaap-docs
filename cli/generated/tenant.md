@@ -2,8 +2,8 @@
 id: cli/tenant
 title: "oaap tenant"
 audience: [server_admin, support]
-checked_against: "0.1.301"
-checked_on: 2026-11-18
+checked_against: "0.1.325"
+checked_on: 2026-11-20
 lang: en
 tags: [cli, tenant]
 ---
@@ -18,7 +18,7 @@ accounts and tenants of this node (oaap.core.tenant).
 ## Usage
 
 ```sh
-oaap tenant {list,show,check,log,create,rename,face,idp,policy,adopt,remove,build,egress,allow,disallow} [name] [target] [options]
+oaap tenant {list,show,check,log,create,rename,face,idp,policy,adopt,remove,build,recipe,egress,allow,disallow} [name] [target] [options]
 ```
 
 ## Arguments
@@ -47,8 +47,13 @@ oaap tenant {list,show,check,log,create,rename,face,idp,policy,adopt,remove,buil
 | `--idp-label IDP_LABEL` | what the button on the login page says |
 | `--idp-version IDP_VERSION` | the provider version this was built against (Keycloak 26.7.4 is pinned) |
 | `--dry-run` | for 'adopt': say what would happen, write nothing |
+| `--tenant RECIPE_TENANT` | for 'recipe preview\|run': the existing tenant the recipe works in |
+| `--fingerprint FINGERPRINT` | for 'build\|recipe confirm': the SHA-256 a human compared (a step with done_when server.compared, RFC-0109) |
+| `--text RECIPE_TEXT` | for 'recipe request': what the tenant needs, in words |
+| `--refresh` | for 'recipe requests': read the cases back now |
 | `--param KEY=VALUE` | for 'build start': a parameter of the profile -- repeatable |
 | `--purge-instances` | for 'build rollback': delete the data of the instances this build installed, too |
+| `--purge-accounts` | for 'build rollback': delete the tenant's local accounts with it (never a server_admin, never one with a working API key; realm persons stay) |
 | `--step STEP` | for 'build confirm': the waiting step |
 | `--json` | for 'build': the state as JSON |
 | `--close` | for 'egress': close this tenant; its instances start no connection of their own |
@@ -86,8 +91,9 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `adopt` | yes |
 | `remove` | yes |
 | `build` | yes |
+| `recipe` | yes |
 | `egress` | yes |
 | `allow` | yes |
 | `disallow` | yes |
 
-Generated from the parser of reference 0.1.301. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.325. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

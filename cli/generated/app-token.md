@@ -2,8 +2,8 @@
 id: cli/app/token
 title: "oaap app token"
 audience: [server_admin]
-checked_against: "0.1.301"
-checked_on: 2026-11-18
+checked_against: "0.1.325"
+checked_on: 2026-11-20
 lang: en
 tags: [cli, app]
 ---
@@ -38,4 +38,4 @@ Whether an action needs `sudo` is read from the rule the node enforces, with the
 | `revoke` | yes |
 | `list` | yes |
 
-Generated from the parser of reference 0.1.301. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).
+Generated from the parser of reference 0.1.325. Examples and the reasons behind a command: [hand-written CLI reference](../README.md).

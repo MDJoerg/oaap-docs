@@ -2,8 +2,8 @@
 id: cli/generated
 title: "OAAP CLI reference (generated)"
 audience: [server_admin, support]
-checked_against: "0.1.301"
-checked_on: 2026-11-18
+checked_against: "0.1.325"
+checked_on: 2026-11-20
 lang: en
 tags: [cli]
 ---
@@ -11,7 +11,7 @@ tags: [cli]
 
 # OAAP CLI reference (generated)
 
-Every command of reference 0.1.301, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
+Every command of reference 0.1.325, generated from the parser by `oaap help --markdown`. Examples, warnings and the reasons behind a command are in the [hand-written CLI reference](../README.md).
 
 ## Commands of the wrapper
 
@@ -100,9 +100,11 @@ Called by update, install, the portal or a timer; listed so they can be recognis
 | Command | What it does |
 |---|---|
 | [`oaap app artifact-index`](app-artifact-index.md) | list retained packages where the portal can read them (oaap.apps.runtime 2.14) |
+| [`oaap app assertion-key-state`](app-assertion-key-state.md) | print present, MISSING or unknown (for 'oaap status') |
 | [`oaap app config-index`](app-config-index.md) | write non-secret config values where the portal can read them (portal 2.4) |
 | [`oaap app egress-faults`](app-egress-faults.md) | the line of closed egress for 'oaap status' |
 | [`oaap app egress-sweep`](app-egress-sweep.md) | stop closed instances that are not closed in fact (RFC-0068) |
+| [`oaap app migrate-assertion-key`](app-migrate-assertion-key.md) | make the node's assertion key if it is missing (0.1.302, oaap.core.identity 2.11) |
 | [`oaap app migrate-care-url`](app-migrate-care-url.md) | the care door listener and OAAP_CARE_URL for every instance (0.1.223, RFC-0069 stage 3) |
 | [`oaap app migrate-connect`](app-migrate-connect.md) | prepare the tunnel's directories and route (called by update) |
 | [`oaap app migrate-guard`](app-migrate-guard.md) | the secret-file guard into old instance sites (RFC-0084, called by update) |
