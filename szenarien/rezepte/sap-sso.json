@@ -1,9 +1,9 @@
 {
   "recipe": "oaap.tenant-recipe/1",
   "id": "sap-sso",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "title": "SAP SSO einrichten",
-  "description": "Der Chat fragt ein SAP-System als die angemeldete Person (Principal Propagation, RFC-0066). Das Rezept legt an, was die Plattform kann (Attribut sap_user im Anmeldedienst, Destination mit gepinntem Zertifikat, Server, Sicht, Zugangsprofil, Assistent), und führt Schritt für Schritt durch, was die SAP-Basis tut (STRUST, CERTRULE, RZ10, SICF, OAAP_CHECK) – mit den Dateien zum Herunterladen –, am Ende geprüft mit dem Kettentest.",
+  "description": "Der Chat fragt ein SAP-System als die angemeldete Person (Principal Propagation, RFC-0066). Das Rezept legt an, was die Plattform kann (Attribut sap_user im Anmeldedienst, Destination mit gepinntem Zertifikat, Server, Zielsystem in der Systemlandschaft, Sicht, Zugangsprofil, Assistent), und führt Schritt für Schritt durch, was die SAP-Basis tut (STRUST, CERTRULE, RZ10, SICF, OAAP_CHECK) – mit den Dateien zum Herunterladen –, am Ende geprüft mit dem Kettentest.",
   "needs": {
     "tools": {
       "app": "mcp-gateway",
@@ -43,6 +43,25 @@
       "kind": "text",
       "required": true,
       "label": "Pfad des MCP-Dienstes im SAP-System, ohne / vorn (z. B. zmcp2/bc/access-support)"
+    },
+    "system": {
+      "kind": "word",
+      "default": "sap",
+      "label": "Kennung des Zielsystems in der Systemlandschaft des MCP-Gateways (z. B. a4h)"
+    },
+    "system_title": {
+      "kind": "text",
+      "default": "SAP-System",
+      "label": "Titel des Zielsystems, wie Menschen und der Chat es sehen (z. B. A4H Entwicklung)"
+    },
+    "system_role": {
+      "kind": "word",
+      "default": "other",
+      "label": "Rolle des Zielsystems: development, quality, production, sandbox, training oder other (production stellt die Ampel auf mindestens gelb)"
+    },
+    "sap_sid": {
+      "kind": "text",
+      "label": "SID des SAP-Systems (für den Chat, optional)"
     },
     "sap_light": {
       "kind": "light",
@@ -150,6 +169,20 @@
           "address": "destination:{dest}/{mcp_path}",
           "auth": "propagate",
           "light": "{sap_light}"
+        },
+        {
+          "kind": "system",
+          "id": "{system}",
+          "title": "{system_title}",
+          "role": "{system_role}",
+          "type": "sap",
+          "facts": {
+            "sid": "{sap_sid}",
+            "client": "{sap_client}"
+          },
+          "servers": [
+            "{server}"
+          ]
         }
       ]
     },
