@@ -1,9 +1,9 @@
 {
   "profile": "oaap.tenant-profile/1",
   "id": "ki-arbeitsplatz",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "title": "KI-Arbeitsplatz: Chat mit Hilfe, Werkzeugen, Modellen und Vorgängen",
-  "description": "RFC-0104, Fassung 2.2 (ab Referenz 0.1.318 und ai-gateway 0.10.1; Instanznamen wählbar). Legt an: Mandant mit Gesicht und Adresse, die Apps help, mcp-gateway, ai-gateway, chat und vorgaenge aus dem Store (Instanzen mit wählbaren Namen, Vorschlag hilfe, werkzeuge, modelle, chat, vorgaenge; ihre Schlüssel auf dem Knoten heißen <kürzel>-hilfe usw., und unter diesen Schlüsseln kennen die Apps einander), und richtet sie über ihre Einrichtungstüren ein: Hilfe holt die Doku, KI-Gateway mit Bezugsquelle, Modellname 'standard' und einer Freigabe für den Chat (kein Schlüssel zwischen Chat und KI-Gateway), MCP-Gateway mit Sicht 'hilfe', Zugangsprofil für den Chat und dem Assistenten 'Hilfe' für den ganzen Mandanten. Hält zweimal für einen Menschen an: die erste Verwaltung und die Zugangsdaten der Bezugsquelle. Ein eigener Anmeldedienst ist nicht nötig. Voraussetzung: die fünf Apps stehen in einer Katalogquelle des Knotens, in Fassungen mit Einrichtungstür.",
+  "description": "RFC-0104, Fassung 2.3 (ab Referenz 0.1.375, mcp-gateway 0.46.0 und bookstack 0.2.1; Haken 'mit Wiki'). Legt an: Mandant mit Gesicht und Adresse, die Apps help, mcp-gateway, ai-gateway, chat und vorgaenge aus dem Store (Instanzen mit wählbaren Namen, Vorschlag hilfe, werkzeuge, modelle, chat, vorgaenge; ihre Schlüssel auf dem Knoten heißen <kürzel>-hilfe usw., und unter diesen Schlüsseln kennen die Apps einander), und richtet sie über ihre Einrichtungstüren ein: Hilfe holt die Doku, KI-Gateway mit Bezugsquelle, Modellname 'standard' und einer Freigabe für den Chat (kein Schlüssel zwischen Chat und KI-Gateway), MCP-Gateway mit Sicht 'hilfe', Zugangsprofil für den Chat und dem Assistenten 'Hilfe' für den ganzen Mandanten. Hält zweimal für einen Menschen an: die erste Verwaltung und die Zugangsdaten der Bezugsquelle. Ein eigener Anmeldedienst ist nicht nötig. Mit den Haken 'mit eigenem Anmeldedienst' und 'mit Wiki' kommt ein Wiki (BookStack) dazu: es meldet über den Realm an (die Verwaltergruppe ist im Wiki Administrator, Rollen für /wiki-redaktion und /wiki-lesen), und das MCP-Gateway kennt es als Ablage für die Arbeitsräume des Chats. Voraussetzung: die fünf Apps stehen in einer Katalogquelle des Knotens, in Fassungen mit Einrichtungstür.",
   "params": {
     "label": {"kind": "label", "required": true, "label": "Kürzel des Mandanten"},
     "title": {"kind": "text", "required": true, "max": 60, "label": "Name des Mandanten"},
@@ -16,7 +16,9 @@
     "model": {"kind": "text", "required": true, "max": 100, "default": "claude-sonnet-5-5",
               "label": "Modell der Bezugsquelle hinter dem Modellnamen 'standard'"},
     "with_realm": {"kind": "bool", "default": false,
-                   "label": "Mit eigenem Anmeldedienst (Realm im Keycloak 'auth'; für den Chat nicht nötig)"}
+                   "label": "Mit eigenem Anmeldedienst (Realm im Keycloak 'auth'; für den Chat nicht nötig, für das Wiki schon)"},
+    "with_wiki": {"kind": "bool", "default": false,
+                  "label": "Mit Wiki (BookStack) als Ablage für den Chat -- nur zusammen mit eigenem Anmeldedienst"}
 ,
     "name_help": {"kind": "word", "required": true, "default": "hilfe", "distinct": "instanz",
                "label": "Instanzname der Hilfe (App help)"},
@@ -27,7 +29,9 @@
     "name_chat": {"kind": "word", "required": true, "default": "chat", "distinct": "instanz",
                "label": "Instanzname des Chats (App chat)"},
     "name_cases": {"kind": "word", "required": true, "default": "vorgaenge", "distinct": "instanz",
-               "label": "Instanzname der Vorgänge (App vorgaenge)"}
+               "label": "Instanzname der Vorgänge (App vorgaenge)"},
+    "name_wiki": {"kind": "word", "required": true, "default": "wiki", "distinct": "instanz",
+               "label": "Instanzname des Wikis (App bookstack; nur mit Wiki)"}
   },
   "steps": [
     {"id": "tenant", "type": "tenant.create", "label": "{label}", "title": "{title}"},
@@ -81,6 +85,30 @@
                 "gateway": "{label}-{name_tools}", "model": "standard",
                 "greeting": "Ich beantworte Fragen zur Plattform aus ihrer Dokumentation und nenne die Seite, aus der die Antwort stammt.",
                 "visibility": "tenant"}]},
+
+    {"id": "wiki", "type": "app.install", "app": "bookstack", "name": "{name_wiki}",
+     "when": ["with_wiki", "with_realm"]},
+    {"id": "wiki-schluessel", "type": "app.config", "name": "{name_wiki}",
+     "key": "OAAP_WIKI_APP_SECRET", "generate": true, "when": ["with_wiki", "with_realm"]},
+    {"id": "wiki-datenbank", "type": "app.config", "name": "{name_wiki}",
+     "key": "MARIADB_PASSWORD", "generate": true, "when": ["with_wiki", "with_realm"]},
+    {"id": "wiki-admin", "type": "app.config", "name": "{name_wiki}",
+     "key": "OAAP_WIKI_ADMIN_PASSWORD", "generate": true, "when": ["with_wiki", "with_realm"]},
+    {"id": "wiki-verwalter", "type": "app.config", "name": "{name_wiki}",
+     "key": "OAAP_WIKI_ADMIN_GROUP", "value": "/oaap-verwalter", "when": ["with_wiki", "with_realm"]},
+    {"id": "wiki-anmeldung", "type": "idp.app", "name": "{name_wiki}",
+     "when": ["with_wiki", "with_realm"]},
+    {"id": "wiki-rollen", "type": "app.setup", "name": "{name_wiki}",
+     "items": [{"kind": "role", "id": "/wiki-redaktion", "title": "Redaktion", "like": "editor"},
+               {"kind": "role", "id": "/wiki-lesen", "title": "Lesen", "like": "viewer"}],
+     "when": ["with_wiki", "with_realm"]},
+    {"id": "wiki-ablage", "type": "app.setup", "name": "{name_tools}",
+     "items": [{"kind": "refresh", "id": "{label}-{name_wiki}"},
+               {"kind": "server_light", "id": "{label}-{name_wiki}", "light": "yellow"},
+               {"kind": "store", "id": "{name_wiki}", "title": "Wiki", "type": "bookstack",
+                "server": "{label}-{name_wiki}", "light": "yellow",
+                "doors": ["{label}-{name_chat}"]}],
+     "when": ["with_wiki", "with_realm"]},
     {"id": "sicherung", "type": "backup.check"}
   ]
 }
