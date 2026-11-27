@@ -593,9 +593,9 @@ falsch sind. Vor dem Livegang einer öffentlichen Anwendung:
 | Prüfpunkt | Wie |
 |---|---|
 | Welche Pfade sind `public`? Bewusst? | Manifest (`routes:`), Instanzseite im Portal |
-| Suchmaschinen-Sperre (falls die Anwendung einen Schalter hat) | `sudo oaap app config list <mandant>-<name>`: In der Test-Instanz **an**, in Produktion **je nach Absicht**. Zeigt eine Seite unter der echten Domain des Kunden, soll sie meist **aus** sein, sonst taucht sie in Suchmaschinen nicht auf. Umgekehrt gilt: eine Test-Instanz bleibt gesperrt. |
+| Suchmaschinen-Sperre | Seit 0.1.395 macht das die Plattform: Jede Test-Instanz und jede Generalprobe schickt vom Gateway `X-Robots-Tag: noindex`, eine Produktivinstanz nie. Prüfen: `curl -sI https://<adresse> \| grep -i x-robots` — in Test vorhanden, in Produktion leer. Hat eine ältere Anwendung noch einen **eigenen** Schalter (z. B. `WEB_NOINDEX` aus dem alten Startpaket), steht er in `sudo oaap app config list <mandant>-<name>` und muss in Produktion **aus** sein, sonst sperrt die Seite Google selbst aus. |
 | Titel und Anzeigename ohne „Test" | Der Titel kommt aus dem Manifest der Anwendung und geht mit dem Paket in Produktion. Steht dort „Test", muss die nächste Version das ändern. |
-| Adressen | Die dynamisch erzeugte Plattform-Adresse bleibt gültig; eine eigene Domain des Kunden kommt als Alias dazu (F27). |
+| Adressen | Die dynamisch erzeugte Plattform-Adresse bleibt gültig; eine eigene Domain des Kunden kommt als Hauptname oder Alias dazu (F27). Die Anwendung erfährt ihre Adressen aus `OAAP_INSTANCE_NAMES` (die erste ist die Hauptadresse) — eine Seite, die volle Adressen braucht (Canonical-Link, Vorschaubild `og:image`, Sitemap), nimmt sie von dort statt aus einem eigenen Schalter wie `SITE_URL`. Hat sie doch einen, muss er in Produktion auf die echte Domain stehen. |
 | Kontaktangaben und Pflichtseiten | Impressum, Datenschutz, Kontakt sind Inhalt der Anwendung; die Plattform prüft sie nicht. |
 
 Eine Suchmaschinen-Sperre ist **keine Zugriffskontrolle**: Wer die Adresse
